@@ -1,5 +1,7 @@
 package ru.handh.school.igor.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +33,13 @@ fun AppTextField(
     var mail by remember {
         mutableStateOf("")
     }
+    val isFocused = remember { mutableStateOf(true) }
+
+    val borderColor by animateColorAsState(
+        targetValue = if (!isFocused.value) AppTheme.colors.unfocus else AppTheme.colors.primary,
+        label = "",
+    )
+
     BasicTextField(
         value = mail,
         onValueChange = { newText ->
@@ -37,15 +47,20 @@ fun AppTextField(
         },
         textStyle = AppTheme.textStyles.textHint
             .copy(color = AppTheme.colors.primaryBrand),
+        maxLines = 1,
         decorationBox = { innerTextField ->
             Box(
                 modifier = modifier
                     .focusable()
-                    .height(DefaultContainerHeight)
-                    .padding(horizontal = AppTheme.offsets.medium),
+                    .onFocusChanged { focusState ->
+                        isFocused.value = focusState.isFocused
+                    }
+                    .border(1.dp, borderColor, AppTheme.roundings.large)
+                    .padding(horizontal = AppTheme.offsets.medium)
+                    .height(DefaultContainerHeight),
                 contentAlignment = Alignment.CenterStart
             ) {
-                if (mail.isEmpty()) {
+                if (mail.isEmpty() && !isFocused.value) {
                     BasicText(
                         text = hint,
                         modifier = Modifier.fillMaxWidth(),
