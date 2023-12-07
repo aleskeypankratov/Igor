@@ -8,7 +8,8 @@ import ru.handh.school.igor.R
 
 data class AppTextStyles(
     val text1: TextStyle,
-    val textEnter: TextStyle
+    val textEnter: TextStyle,
+    val textHint: TextStyle
 )
 
 val defaultTextStyles = AppTextStyles(
@@ -19,8 +20,14 @@ val defaultTextStyles = AppTextStyles(
     textEnter = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 32.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 1.sp,
+        lineHeight = 20.sp
+    ),
 
+    textHint = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontSize = 16.sp,
+        lineHeight = 20.sp
     )
+
+
 )
