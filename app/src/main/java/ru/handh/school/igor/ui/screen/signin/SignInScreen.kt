@@ -46,11 +46,11 @@ private fun SignInContent(
 
             Column {
                 BasicText(text = "Вход", style = AppTheme.textStyles.textEnter)
-                Spacer(modifier = Modifier.height(30.dp))
-                AppTextField("Электронная почта", modifier = Modifier.fillMaxWidth()
+                Spacer(modifier = Modifier.height(24.dp))
+                AppTextField(modifier = Modifier.fillMaxWidth(),"Электронная почта"
                 )
 
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 AppButton(modifier = Modifier.fillMaxWidth(),
                     label = "Войти",
                     loading = state.signInLoading,

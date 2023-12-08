@@ -1,8 +1,10 @@
-package ru.handh.school.igor.ui.data
+package ru.handh.school.igor.data
+
+import ru.handh.school.igor.domain.model.PostSignInRequest
 
 interface IgorRepositoryInterface
 {
-    suspend fun signIn(email: String)
+    suspend fun signIn(emailRequest: PostSignInRequest): String
 
     suspend fun getSession(refreshToken:String, lifeTime: Int)
 
