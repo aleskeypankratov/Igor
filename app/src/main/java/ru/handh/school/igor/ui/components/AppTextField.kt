@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +47,7 @@ fun AppTextField(
         .border(
             width = 1.dp,
             color = if (isFocused) AppTheme.colors.primary
-                    else AppTheme.colors.unfocus,
+            else AppTheme.colors.unfocus,
             shape = AppTheme.roundings.large
         ),
         contentAlignment = Alignment.CenterStart

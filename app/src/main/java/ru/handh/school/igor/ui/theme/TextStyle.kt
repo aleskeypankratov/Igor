@@ -14,6 +14,7 @@ data class AppTextStyles(
 
 val defaultTextStyles = AppTextStyles(
     text1 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_bold)),
         fontSize = 14.sp,
         lineHeight = 22.sp
     ),
