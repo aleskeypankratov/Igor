@@ -47,7 +47,8 @@ private fun SignInContent(
             Column {
                 BasicText(text = "Вход", style = AppTheme.textStyles.textEnter)
                 Spacer(modifier = Modifier.height(24.dp))
-                AppTextField(modifier = Modifier.fillMaxWidth(),"Электронная почта"
+                AppTextField(
+                    modifier = Modifier.fillMaxWidth(), "Электронная почта"
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))

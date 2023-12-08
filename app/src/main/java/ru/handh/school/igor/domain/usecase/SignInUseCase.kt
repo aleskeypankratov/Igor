@@ -1,5 +1,6 @@
 package ru.handh.school.igor.domain.usecase
 
-class SignInUseCase {
+import ru.handh.school.igor.data.IgorRepositoryImp
 
+class SignInUseCase {
 }
