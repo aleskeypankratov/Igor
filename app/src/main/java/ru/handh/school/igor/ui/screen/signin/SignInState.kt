@@ -7,6 +7,6 @@ val InitialSignInState = SignInState(
 )
 
 data class SignInState(
-    val mail: String,
+    var mail: String,
     val signInLoading: Boolean
 )

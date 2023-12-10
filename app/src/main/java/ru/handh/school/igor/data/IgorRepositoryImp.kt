@@ -36,14 +36,12 @@ class IgorRepositoryImp: IgorRepository {
     }
 
     override suspend fun signIn(emailRequest: PostSignInRequest): String {
-
-        return try {
-            client.request {  }
-        }
-            catch (e: Exception) {
-                "Error"
-            }
-    }
+    return "null"
+//        return try ("2")
+//            catch (e: Exception) {
+//                "Error"
+//            }
+  }
 
     override suspend fun getSession(refreshToken: String, lifeTime: Int) {
         TODO("Not yet implemented")

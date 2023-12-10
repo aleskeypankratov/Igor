@@ -14,18 +14,18 @@ data class AppTextStyles(
 
 val defaultTextStyles = AppTextStyles(
     text1 = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
         fontSize = 14.sp,
         lineHeight = 22.sp
     ),
     textEnter = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
         fontSize = 32.sp,
         lineHeight = 20.sp
     ),
 
     textHint = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_bold)),
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
         fontSize = 16.sp,
         lineHeight = 20.sp
     )
