@@ -13,9 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -49,11 +46,12 @@ private fun SignInContent(
             modifier = Modifier
                 .fillMaxHeight(0.7f)
                 .padding(containerPadding)
-                .padding(AppTheme.offsets.medium), contentAlignment = Alignment.Center
+                .padding(AppTheme.offsets.medium),
+            contentAlignment = Alignment.Center
         ) {
             Column {
                 BasicText(
-                    text = stringResource(R.string.enter), style = AppTheme.textStyles.textEnter
+                    text = stringResource(R.string.enter), style = AppTheme.textStyles.maxText
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 AppTextField(

@@ -17,6 +17,6 @@ val defaultColors = AppColors(
     primary = Color(0xFF0D6EFD),
     unfocus = Color(0xFFC2C2C2),
     textOnControl = Color(0xFFFFFFFF),
-    background = Color(0xFF747775),
+    background = Color(0xFFFEF7FF),
     button = Color(0xFFDC3545)
 )

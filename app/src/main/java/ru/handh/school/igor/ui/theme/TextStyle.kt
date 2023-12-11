@@ -7,28 +7,20 @@ import androidx.compose.ui.unit.sp
 import ru.handh.school.igor.R
 
 data class AppTextStyles(
-    val text1: TextStyle,
-    val textEnter: TextStyle,
-    val textHint: TextStyle
+    val smallText: TextStyle,
+    val mediumText: TextStyle,
+    val normalText: TextStyle,
+    val maxText: TextStyle,
 )
 
 val defaultTextStyles = AppTextStyles(
-    text1 = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_medium)),
-        fontSize = 14.sp,
-        lineHeight = 22.sp
-    ),
-    textEnter = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_medium)),
-        fontSize = 32.sp,
-        lineHeight = 20.sp
-    ),
-
-    textHint = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_medium)),
-        fontSize = 16.sp,
-        lineHeight = 20.sp
+    smallText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 14.sp, lineHeight = 22.sp
+    ), mediumText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 16.sp, lineHeight = 20.sp
+    ), normalText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 24.sp, lineHeight = 20.sp
+    ), maxText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 32.sp, lineHeight = 20.sp
     )
-
-
 )
