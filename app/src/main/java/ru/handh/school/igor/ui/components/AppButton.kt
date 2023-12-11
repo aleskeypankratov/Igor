@@ -41,9 +41,7 @@ fun AppButton(
             .clip(AppTheme.roundings.large)
             .background(AppTheme.colors.primary)
             .height(DefaultContainerHeight)
-            .padding(horizontal = AppTheme.offsets.medium)
-        ,
-
+            .padding(horizontal = AppTheme.offsets.medium),
         contentAlignment = Alignment.Center
     ) {
         if (loading && enabled) {

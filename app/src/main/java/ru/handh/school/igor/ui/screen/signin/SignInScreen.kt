@@ -39,13 +39,10 @@ fun SignInScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-
 private fun SignInContent(
 
     state: SignInState, onAction: (SignInViewAction) -> Unit = {}
 ) {
-
-    var email by remember { mutableStateOf(String()) }
 
     Scaffold { containerPadding ->
         Box(
@@ -61,9 +58,9 @@ private fun SignInContent(
                 Spacer(modifier = Modifier.height(24.dp))
                 AppTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { email = it },
+                    onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
                     hint = stringResource(R.string.email),
-                    value = email,
+                    value = state.email,
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 AppButton(modifier = Modifier.fillMaxWidth(),

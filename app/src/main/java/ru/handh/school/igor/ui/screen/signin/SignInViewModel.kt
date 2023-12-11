@@ -6,10 +6,13 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
 
     override fun onAction(action: SignInViewAction) =
         when (action) {
-            SignInViewAction.SubmitClicked -> onSubmitClicked()
+            is SignInViewAction.SubmitClicked -> onSubmitClicked()
+            is SignInViewAction.UpdateEmail -> onUpdateEmail(action.email)
         }
-
     private fun onSubmitClicked() = reduceState {
         it.copy(signInLoading = !it.signInLoading)
+    }
+    private fun onUpdateEmail(email: String) = reduceState {
+        it.copy(email = email)
     }
 }

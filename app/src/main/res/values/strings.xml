@@ -3,4 +3,5 @@
     <string name="enter">Вход</string>
     <string name="email">Электронная почта</string>
     <string name="button_enter">Войти</string>
+    <string name="about">О приложении</string>
 </resources>

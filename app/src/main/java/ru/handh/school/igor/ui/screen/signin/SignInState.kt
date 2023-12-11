@@ -1,12 +1,11 @@
 package ru.handh.school.igor.ui.screen.signin
 
 val InitialSignInState = SignInState(
-    mail = "",
+    email = "",
     signInLoading = false,
-
 )
 
 data class SignInState(
-    var mail: String,
+    var email: String,
     val signInLoading: Boolean
 )
