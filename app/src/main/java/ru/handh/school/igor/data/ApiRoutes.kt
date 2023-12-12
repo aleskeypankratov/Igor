@@ -1,7 +1,7 @@
 package ru.handh.school.igor.data
 
 object ApiRoutes {
-    private const val BASE_URL = "http://45.144.64.179/swagger/"
+    private const val BASE_URL = "http://45.144.64.179/"
 
     const val SIGNIN = "$BASE_URL/project/api/auth/signin"
 

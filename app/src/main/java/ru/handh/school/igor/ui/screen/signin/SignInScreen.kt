@@ -23,6 +23,9 @@ import ru.handh.school.igor.ui.components.AppButton
 import ru.handh.school.igor.ui.components.AppTextField
 import ru.handh.school.igor.ui.theme.AppTheme
 
+private val mediumHeight = 24.dp
+private val weightOfBox = 0.7f
+
 @Composable
 fun SignInScreen(
     vm: SignInViewModel
@@ -35,33 +38,33 @@ fun SignInScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
 private fun SignInContent(
 
     state: SignInState, onAction: (SignInViewAction) -> Unit = {}
 ) {
-
     Scaffold { containerPadding ->
         Box(
             modifier = Modifier
-                .fillMaxHeight(0.7f)
+                .fillMaxHeight(weightOfBox)
                 .padding(containerPadding)
                 .padding(AppTheme.offsets.medium),
             contentAlignment = Alignment.Center
         ) {
             Column {
                 BasicText(
-                    text = stringResource(R.string.enter), style = AppTheme.textStyles.maxText
+                    text = stringResource(R.string.enter),
+                    style = AppTheme.textStyles.maxText
                 )
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(mediumHeight))
                 AppTextField(
                     modifier = Modifier.fillMaxWidth(),
                     onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
                     hint = stringResource(R.string.email),
                     value = state.email,
                 )
-                Spacer(modifier = Modifier.height(24.dp))
-                AppButton(modifier = Modifier.fillMaxWidth(),
+                Spacer(modifier = Modifier.height(mediumHeight))
+                AppButton(
+                    modifier = Modifier.fillMaxWidth(),
                     label = stringResource(R.string.button_enter),
                     loading = state.signInLoading,
                     enabled = true,

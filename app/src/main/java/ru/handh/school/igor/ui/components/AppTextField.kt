@@ -37,7 +37,8 @@ fun AppTextField(
             isFocused = focusState.isFocused
         }
         .border(
-            width = DefaultBorderWidth, color = if (isFocused) {
+            width = DefaultBorderWidth,
+            color = if (isFocused) {
                 AppTheme.colors.primary
             } else {
                 AppTheme.colors.unfocus
@@ -45,9 +46,9 @@ fun AppTextField(
         ), contentAlignment = Alignment.CenterStart) {
 
         BasicTextField(
+            modifier = modifier.padding(horizontal = AppTheme.offsets.medium),
             value = value,
             onValueChange = onValueChange,
-            modifier = modifier.padding(horizontal = AppTheme.offsets.medium),
             textStyle = AppTheme.textStyles.mediumText.copy(
                 if (isFocused) {
                     AppTheme.colors.primaryBrand
@@ -60,8 +61,8 @@ fun AppTextField(
 
         if (value.isEmpty() && !isFocused) {
             BasicText(
-                text = hint,
                 modifier = Modifier.padding(horizontal = AppTheme.offsets.medium),
+                text = hint,
                 style = AppTheme.textStyles.mediumText.copy(color = AppTheme.colors.unfocus),
                 maxLines = 1
             )
@@ -74,9 +75,9 @@ fun AppTextField(
 private fun Preview1() {
     AppTextField(
         //modifier = Modifier.fillMaxWidth(),
-        hint = "1333333333333333333222222222222222222233333333333333",
+        hint = "1333333333333333333333",
         onValueChange = { s: String -> s },
-        value = "2122222222222222315555555555555552123"
+        value = "2122222215555555555555552123"
     )
 }
 

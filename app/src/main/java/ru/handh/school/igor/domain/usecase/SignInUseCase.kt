@@ -1,15 +1,15 @@
 package ru.handh.school.igor.domain.usecase
 
-import ru.handh.school.igor.data.IgorRepositoryImp
+import io.ktor.http.HttpStatusCode
+import ru.handh.school.igor.data.IgorRepository
 import ru.handh.school.igor.domain.model.PostSignInRequest
-import ru.handh.school.igor.ui.screen.signin.SignInState
+import java.util.UUID
 
-class SignInUseCase {
-
-    private var igorRepositoryImp: IgorRepositoryImp = IgorRepositoryImp()
-
-    suspend fun getResponse(postSignInRequest: PostSignInRequest) {
-        igorRepositoryImp.signIn(postSignInRequest)
+class SignInUseCase(private val repository: IgorRepository) {
+    suspend fun signIn(email: String): HttpStatusCode {
+        return repository.signIn(getDeviceUUID(), PostSignInRequest(email))
     }
-
+    private fun getDeviceUUID():String {
+        return UUID.randomUUID().toString()
+    }
 }
