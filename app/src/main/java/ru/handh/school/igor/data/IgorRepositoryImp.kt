@@ -2,6 +2,7 @@ package ru.handh.school.igor.data
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
@@ -27,6 +28,11 @@ class IgorRepositoryImp : IgorRepository {
                 ignoreUnknownKeys = true
                 encodeDefaults = false
             })
+        }
+        install(HttpTimeout) {
+            requestTimeoutMillis = 20000L
+            connectTimeoutMillis = 20000L
+            socketTimeoutMillis = 20000L
         }
         install(Logging) {
             level = LogLevel.ALL

@@ -5,11 +5,9 @@ import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.domain.model.PostSignInRequest
 import java.util.UUID
 
-class SignInUseCase(
+class SignInUseCase() {
 
-) {
-
-    private val repository =  IgorRepositoryImp()
+    private val repository = IgorRepositoryImp()
     suspend fun signIn(email: String): Boolean {
         return repository.signIn(getDeviceUUID(), PostSignInRequest(email)) == HttpStatusCode.OK
     }
