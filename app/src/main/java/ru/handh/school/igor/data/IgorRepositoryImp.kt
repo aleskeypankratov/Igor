@@ -32,7 +32,6 @@ class IgorRepositoryImp : IgorRepository {
             level = LogLevel.ALL
         }
     }
-
     override suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpStatusCode {
         val res = client.post(ApiRoutes.SIGNIN) {
             header(XRequestId, uuid)

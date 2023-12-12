@@ -24,7 +24,7 @@ import ru.handh.school.igor.ui.components.AppTextField
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private val mediumHeight = 24.dp
-private val weightOfBox = 0.7f
+private const val weightOfBox = 0.7f
 
 @Composable
 fun SignInScreen(
@@ -53,7 +53,7 @@ private fun SignInContent(
             Column {
                 BasicText(
                     text = stringResource(R.string.enter),
-                    style = AppTheme.textStyles.maxText
+                    style = AppTheme.textStyles.maxMediumText
                 )
                 Spacer(modifier = Modifier.height(mediumHeight))
                 AppTextField(

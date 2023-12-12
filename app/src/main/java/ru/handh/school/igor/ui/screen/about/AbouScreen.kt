@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.screen.about
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,6 +32,59 @@ private val build = 42
 private val iconSize = 82.dp
 private val weightOfBox = 0.9f
 
+//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+//@Preview
+//@Composable
+//fun About() {
+//    Scaffold(
+//        topBar = {
+//            Text(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(AppTheme.offsets.medium),
+//                textAlign = TextAlign.Center,
+//                text = stringResource(R.string.about),
+//                style = AppTheme.textStyles.normalText
+//            )
+//        },
+//        content = {
+//            Spacer(modifier = Modifier.height(AppTheme.offsets.medium))
+//            Row (modifier = Modifier.fillMaxHeight(0.3f)) {
+//
+//                Image(
+//                    modifier = Modifier.size(iconSize),
+//                    painter = painterResource(id = R.drawable.logo),
+//                    contentDescription = null
+//                )
+//                Column {
+//                    Text(
+//                        text = stringResource(R.string.name),
+//                        style = AppTheme.textStyles.mediumText,
+//                        modifier = Modifier.padding(AppTheme.offsets.medium, AppTheme.offsets.tiny)
+//                    )
+//                    Text(
+//                        text = stringResource(R.string.version, version),
+//                        modifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
+//                    )
+//                    Text(
+//                        text = stringResource(R.string.build, build),
+//                        modifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
+//                    )
+//                }
+//            }
+//        },
+//        bottomBar = {
+//            Button(modifier = Modifier
+//                .fillMaxWidth()
+//                .height(DefaultContainerHeight),
+//                content = { Text(text = stringResource(R.string.out)) },
+//                colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
+//                onClick = { /*TODO*/ })
+//        }
+//
+//}
+
+
 @Composable
 fun AboutContent() {
     Column {
@@ -39,7 +94,7 @@ fun AboutContent() {
                 .padding(AppTheme.offsets.medium),
             textAlign = TextAlign.Center,
             text = stringResource(R.string.about),
-            style = AppTheme.textStyles.normalText
+            style = AppTheme.textStyles.normalMediumText
         )
         Spacer(modifier = Modifier.height(AppTheme.offsets.medium))
         Box(
@@ -58,15 +113,17 @@ fun AboutContent() {
                 Column {
                     Text(
                         text = stringResource(R.string.name),
-                        style = AppTheme.textStyles.mediumText,
+                        style = AppTheme.textStyles.mediumMediumText,
                         modifier = Modifier.padding(AppTheme.offsets.medium, AppTheme.offsets.tiny)
                     )
                     Text(
                         text = stringResource(R.string.version, version),
+                        style = AppTheme.textStyles.smallLightText,
                         modifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
                     )
                     Text(
                         text = stringResource(R.string.build, build),
+                        style = AppTheme.textStyles.smallLightText,
                         modifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
                     )
                 }

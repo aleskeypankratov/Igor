@@ -2,5 +2,5 @@ package ru.handh.school.igor.domain.model
 import kotlinx.serialization.Serializable
 @Serializable
 data class PostSignInRequest (
-    var Email : String? = null
+    var email : String
 )
