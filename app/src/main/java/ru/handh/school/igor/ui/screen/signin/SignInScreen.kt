@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,29 +50,26 @@ fun SignInScreen(
             when (result) {
                 is Result.LoggedIn -> {
                     Toast.makeText(
-                        context,
-                        "Email's sent",
-                        Toast.LENGTH_LONG
+                        context, "Email's sent", Toast.LENGTH_LONG
                     ).show()
                     showAddField = true
                 }
 
                 is Result.UnknownError -> {
                     Toast.makeText(
-                        context,
-                        "Error's occurred ",
-                        Toast.LENGTH_LONG
+                        context, "Error's occurred", Toast.LENGTH_LONG
                     ).show()
                 }
             }
         }
     }
     if (showAddField) {
-        TextField(
+        AppTextField(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
             value = "",
-            onValueChange = {},
-            label = { Text("dddddddd ") }
-        )
+            hint = "Enter code",
+            onValueChange = {})
     }
 }
 
@@ -88,13 +83,11 @@ private fun SignInContent(
             modifier = Modifier
                 .fillMaxHeight(weightOfBox)
                 .padding(containerPadding)
-                .padding(AppTheme.offsets.medium),
-            contentAlignment = Alignment.Center
+                .padding(AppTheme.offsets.medium), contentAlignment = Alignment.Center
         ) {
             Column {
                 BasicText(
-                    text = stringResource(R.string.enter),
-                    style = AppTheme.textStyles.maxMediumText
+                    text = stringResource(R.string.enter), style = AppTheme.textStyles.maxMediumText
                 )
                 Spacer(modifier = Modifier.height(mediumHeight))
                 AppTextField(
@@ -104,8 +97,7 @@ private fun SignInContent(
                     value = state.email,
                 )
                 Spacer(modifier = Modifier.height(mediumHeight))
-                AppButton(
-                    modifier = Modifier.fillMaxWidth(),
+                AppButton(modifier = Modifier.fillMaxWidth(),
                     label = stringResource(R.string.button_enter),
                     loading = state.signInLoading,
                     enabled = true,

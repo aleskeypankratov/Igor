@@ -1,6 +1,9 @@
 package ru.handh.school.igor.domain.model
+
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 @Serializable
-data class PostSignInRequest (
-    var Email : String
+data class PostSignInRequest(
+    @SerialName("Email") var email: String
 )
