@@ -9,8 +9,8 @@ class SignInUseCase() {
 
     suspend fun signIn(email: String): Result<Unit> {
         return try {
-            repository.signIn(getDeviceUUID(), PostSignInRequest(email))
-            Result.Login()
+            val response = repository.signIn(getDeviceUUID(), PostSignInRequest(email))
+            Result.LoggedIn()
         } catch (e: Exception) {
             Result.UnknownError()
         }

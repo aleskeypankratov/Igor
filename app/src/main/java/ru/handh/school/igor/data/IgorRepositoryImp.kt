@@ -1,5 +1,6 @@
 package ru.handh.school.igor.data
 
+import android.annotation.SuppressLint
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
@@ -37,15 +38,19 @@ class IgorRepositoryImp : IgorRepository {
         install(Logging) {
             level = LogLevel.ALL
         }
+        engine {
+            connectTimeout = 2_000_000
+            socketTimeout = 2_000_000
+        }
     }
 
+    @SuppressLint("LongLogTag")
     override suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpResponse {
-
         return client.post(ApiRoutes.SIGNIN) {
             header(XRequestId, uuid)
             contentType(ContentType.Application.Json)
             setBody(emailRequest)
-            accept(ContentType.Application.Json)
+           // accept(ContentType.Application.Json)
         }
     }
 
