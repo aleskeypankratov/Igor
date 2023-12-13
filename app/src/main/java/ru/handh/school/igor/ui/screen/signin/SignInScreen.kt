@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.screen.signin
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,14 +12,17 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.handh.school.igor.R
+import ru.handh.school.igor.domain.usecase.Result
 import ru.handh.school.igor.ui.components.AppButton
 import ru.handh.school.igor.ui.components.AppTextField
 import ru.handh.school.igor.ui.theme.AppTheme
@@ -31,15 +35,37 @@ fun SignInScreen(
     vm: SignInViewModel
 ) {
     val state by vm.state.collectAsState()
+    val context = LocalContext.current
+
     SignInContent(
         state = state, onAction = vm::onAction
     )
+
+    LaunchedEffect(vm, context) {
+        vm.logResult.collect { result ->
+            when (result) {
+                is Result.Login -> {
+                    Toast.makeText(
+                        context,
+                        "Email's sent",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is Result.UnknownError -> {
+                    Toast.makeText(
+                        context,
+                        "Error's occurred ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SignInContent(
-
     state: SignInState, onAction: (SignInViewAction) -> Unit = {}
 ) {
     Scaffold { containerPadding ->

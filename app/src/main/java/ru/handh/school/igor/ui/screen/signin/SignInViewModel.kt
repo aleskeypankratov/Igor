@@ -1,24 +1,30 @@
 package ru.handh.school.igor.ui.screen.signin
 
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import ru.handh.school.igor.domain.usecase.Result
 import ru.handh.school.igor.domain.usecase.SignInUseCase
 import ru.handh.school.igor.ui.base.BaseViewModel
 
 class SignInViewModel() : BaseViewModel<SignInState, SignInViewAction>(InitialSignInState) {
+
+    private val signInUseCase = SignInUseCase()
+    private val resultChannel = Channel<Result<Unit>>()
+    val logResult = resultChannel.receiveAsFlow()
+
     override fun onAction(action: SignInViewAction) = when (action) {
-        SignInViewAction.SubmitClicked -> onSubmitClicked()
+        is SignInViewAction.SubmitClicked -> onSubmitClicked()
         is SignInViewAction.UpdateEmail -> onUpdateEmail(action.email)
     }
 
     private fun onSubmitClicked() {
-        val signInUseCase = SignInUseCase()
         viewModelScope.launch {
             reduceState { it.copy(signInLoading = true) }
             val signInResult = signInUseCase.signIn(state.value.email)
-            if (signInResult) {
-            } else {
-            }
+            resultChannel.send(signInResult)
             reduceState { it.copy(signInLoading = false) }
         }
     }

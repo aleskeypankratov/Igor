@@ -1,10 +1,11 @@
 package ru.handh.school.igor.data
 
-import io.ktor.http.HttpStatusCode
+import io.ktor.client.statement.HttpResponse
 import ru.handh.school.igor.domain.model.PostSignInRequest
+import ru.handh.school.igor.domain.usecase.Result
 
 interface IgorRepository {
-    suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpStatusCode
+    suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpResponse
 
     suspend fun getSession(refreshToken: String, lifeTime: Int)
 
