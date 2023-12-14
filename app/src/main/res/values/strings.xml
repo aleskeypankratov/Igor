@@ -8,4 +8,5 @@
     <string name="version">Версия %1$s</string>
     <string name="build">Номер сборки %1$s</string>
     <string name="out">Выйти</string>
+    <string name="enter_code">Код из письма</string>
 </resources>

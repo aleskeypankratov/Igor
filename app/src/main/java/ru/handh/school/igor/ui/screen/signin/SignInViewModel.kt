@@ -1,9 +1,7 @@
 package ru.handh.school.igor.ui.screen.signin
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ru.handh.school.igor.domain.usecase.Result
@@ -19,6 +17,7 @@ class SignInViewModel() : BaseViewModel<SignInState, SignInViewAction>(InitialSi
     override fun onAction(action: SignInViewAction) = when (action) {
         is SignInViewAction.SubmitClicked -> onSubmitClicked()
         is SignInViewAction.UpdateEmail -> onUpdateEmail(action.email)
+        is SignInViewAction.AddCode -> onAddCode(action.code)
     }
 
     private fun onSubmitClicked() {
@@ -31,6 +30,12 @@ class SignInViewModel() : BaseViewModel<SignInState, SignInViewAction>(InitialSi
     }
 
     private fun onUpdateEmail(email: String) {
+        reduceState {
+            it.copy(email = email)
+        }
+    }
+
+    private fun onAddCode(email: String) {
         reduceState {
             it.copy(email = email)
         }

@@ -42,7 +42,7 @@ fun SignInScreen(
     var showAddField by remember { mutableStateOf(false) }
 
     SignInContent(
-        state = state, onAction = vm::onAction
+        state = state, onAction = vm::onAction, showAddField = showAddField
     )
 
     LaunchedEffect(vm, context) {
@@ -63,27 +63,20 @@ fun SignInScreen(
             }
         }
     }
-    if (showAddField) {
-        AppTextField(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-            value = "",
-            hint = "Enter code",
-            onValueChange = {})
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SignInContent(
-    state: SignInState, onAction: (SignInViewAction) -> Unit = {}
+    state: SignInState, onAction: (SignInViewAction) -> Unit = {}, showAddField: Boolean = false
 ) {
     Scaffold { containerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxHeight(weightOfBox)
                 .padding(containerPadding)
-                .padding(AppTheme.offsets.medium), contentAlignment = Alignment.Center
+                .padding(AppTheme.offsets.medium),
+            contentAlignment = Alignment.Center
         ) {
             Column {
                 BasicText(
@@ -96,6 +89,13 @@ private fun SignInContent(
                     hint = stringResource(R.string.email),
                     value = state.email,
                 )
+                AppTextField(modifier = Modifier
+                    .fillMaxWidth()
+                    .height((if (showAddField) 68.dp else 0.dp))
+                    .padding(top = 16.dp),
+                    value = "",
+                    hint = stringResource(R.string.enter_code),
+                    onValueChange = {newCode -> onAction(SignInViewAction.AddCode(newCode))})
                 Spacer(modifier = Modifier.height(mediumHeight))
                 AppButton(modifier = Modifier.fillMaxWidth(),
                     label = stringResource(R.string.button_enter),
@@ -113,6 +113,6 @@ private fun SignInContent(
 @Composable
 private fun SignInContentPreview() {
     SignInContent(
-        state = InitialSignInState
+        state = InitialSignInState, showAddField = true
     )
 }
