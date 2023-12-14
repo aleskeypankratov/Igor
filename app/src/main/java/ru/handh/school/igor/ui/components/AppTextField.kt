@@ -74,7 +74,6 @@ fun AppTextField(
 @Composable
 private fun Preview1() {
     AppTextField(
-        //modifier = Modifier.fillMaxWidth(),
         hint = "1333333333333333333333",
         onValueChange = { s: String -> s },
         value = "2122222215555555555555552123"

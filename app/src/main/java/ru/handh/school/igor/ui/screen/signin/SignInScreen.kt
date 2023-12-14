@@ -41,8 +41,8 @@ fun SignInScreen(
 ) {
     val state by vm.state.collectAsState()
     val context = LocalContext.current
-    var showAddField by remember { mutableStateOf(false) }
 
+    var showAddField by remember { mutableStateOf(false) }
     SignInContent(
         state = state, onAction = vm::onAction, showAddField = showAddField
     )
@@ -56,7 +56,8 @@ fun SignInScreen(
                     ).show()
                     showAddField = true
                 }
-
+                is Result.GetSession -> {
+                }
                 is Result.UnknownError -> {
                     Toast.makeText(
                         context, "Error's occurred", Toast.LENGTH_LONG
@@ -95,7 +96,7 @@ private fun SignInContent(
                 AppTextField(modifier = Modifier
                     .fillMaxWidth()
                     .height((if (showAddField) 68.dp else 0.dp))
-                    .padding(top = 16.dp),
+                    .padding(top = AppTheme.offsets.medium),
                     onValueChange = {newCode -> onAction(SignInViewAction.AddCode(newCode))},
                     value = state.code,
                     hint = stringResource(R.string.enter_code))

@@ -7,7 +7,7 @@ import ru.handh.school.igor.domain.usecase.Result
 interface IgorRepository {
     suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpResponse
 
-    suspend fun getSession(refreshToken: String, lifeTime: Int)
+    suspend fun getSession(uuid: String, incomingCode: String, lifeTime: Int)
 
     suspend fun signOut()
 

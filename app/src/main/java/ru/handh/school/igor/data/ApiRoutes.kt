@@ -5,6 +5,8 @@ object ApiRoutes {
 
     const val SIGNIN = "$BASE_URL/project/api/auth/signin"
 
+    const val SESSION = "$BASE_URL/project/api/auth/session"
+
     const val REFRESH = "$BASE_URL/project/api/auth/refresh"
 
     const val SIGNOUT = "$BASE_URL/project/api/auth/signout"
