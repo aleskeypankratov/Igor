@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,8 +38,7 @@ fun AppTextField(
             isFocused = focusState.isFocused
         }
         .border(
-            width = DefaultBorderWidth,
-            color = if (isFocused) {
+            width = DefaultBorderWidth, color = if (isFocused) {
                 AppTheme.colors.primary
             } else {
                 AppTheme.colors.unfocus
@@ -59,14 +59,14 @@ fun AppTextField(
             maxLines = 1
         )
 
-        if (value.isEmpty() && !isFocused) {
-            BasicText(
-                modifier = Modifier.padding(horizontal = AppTheme.offsets.medium),
-                text = hint,
-                style = AppTheme.textStyles.mediumMediumText.copy(color = AppTheme.colors.unfocus),
-                maxLines = 1
-            )
-        }
+        BasicText(
+            modifier = Modifier
+                .padding(horizontal = AppTheme.offsets.medium)
+                .alpha(if (value.isEmpty()) 1f else 0f),
+            text = hint,
+            style = AppTheme.textStyles.mediumMediumText.copy(color = AppTheme.colors.unfocus),
+            maxLines = 1
+        )
     }
 }
 

@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -75,6 +77,7 @@ private fun SignInContent(
             modifier = Modifier
                 .fillMaxHeight(weightOfBox)
                 .padding(containerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(AppTheme.offsets.medium),
             contentAlignment = Alignment.Center
         ) {
@@ -93,9 +96,9 @@ private fun SignInContent(
                     .fillMaxWidth()
                     .height((if (showAddField) 68.dp else 0.dp))
                     .padding(top = 16.dp),
-                    value = "",
-                    hint = stringResource(R.string.enter_code),
-                    onValueChange = {newCode -> onAction(SignInViewAction.AddCode(newCode))})
+                    onValueChange = {newCode -> onAction(SignInViewAction.AddCode(newCode))},
+                    value = state.code,
+                    hint = stringResource(R.string.enter_code))
                 Spacer(modifier = Modifier.height(mediumHeight))
                 AppButton(modifier = Modifier.fillMaxWidth(),
                     label = stringResource(R.string.button_enter),

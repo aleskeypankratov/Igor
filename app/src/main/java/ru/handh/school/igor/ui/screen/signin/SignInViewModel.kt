@@ -35,9 +35,9 @@ class SignInViewModel() : BaseViewModel<SignInState, SignInViewAction>(InitialSi
         }
     }
 
-    private fun onAddCode(email: String) {
+    private fun onAddCode(code: String) {
         reduceState {
-            it.copy(email = email)
+            it.copy(code = code)
         }
     }
 }
