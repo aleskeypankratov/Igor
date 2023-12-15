@@ -24,7 +24,6 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
         is SignInViewAction.UpdateEmail -> onUpdateEmail(action.email)
         is SignInViewAction.AddCode -> onAddCode(action.code)
     }
-
     private fun onSubmitClicked() {
         viewModelScope.launch {
             if (!isPasswordGot) {
@@ -38,9 +37,6 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
             } else {
                 val getSession = getSessionUseCase.getSession(state.value.code)
                 resultChannel.send(getSession)
-                if (getSession is Result.GotSession) {
-
-                }
             }
         }
     }

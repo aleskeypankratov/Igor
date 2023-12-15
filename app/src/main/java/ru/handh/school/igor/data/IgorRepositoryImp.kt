@@ -63,7 +63,10 @@ class IgorRepositoryImp : IgorRepository {
             }
         }
     }
-
+    override suspend fun refresh() {
+        client.post(ApiRoutes.REFRESH) {
+        }
+    }
     override suspend fun signOut() {
         TODO("Not yet implemented")
     }
