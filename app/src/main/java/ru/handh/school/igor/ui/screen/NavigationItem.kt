@@ -1,4 +1,4 @@
-package ru.handh.school.igor.ui.screen.signin
+package ru.handh.school.igor.ui.screen
 
 sealed class NavigationItem(
     val route: String

@@ -27,16 +27,18 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
 
     private fun onSubmitClicked() {
         viewModelScope.launch {
-            if (!isPasswordGot) {
+            val email = state.value.email
+            val code = state.value.code
+            if (!isPasswordGot && validEmail(email)) {
                 reduceState { it.copy(signInLoading = true) }
-                val signInResult = signInUseCase.signIn(state.value.email)
+                val signInResult = signInUseCase.signIn(email)
                 resultChannel.send(signInResult)
                 if (signInResult is Result.LoggedIn) {
                     isPasswordGot = true
                 }
                 reduceState { it.copy(signInLoading = false) }
-            } else {
-                val getSession = getSessionUseCase.getSession(state.value.code)
+            } else if (validCode(code)) {
+                val getSession = getSessionUseCase.getSession(code)
                 if (getSession is Result.GotSession) {
                     resultChannel.send(getSession)
                 }
@@ -55,4 +57,13 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
             it.copy(code = code)
         }
     }
+}
+fun validEmail(email: String): Boolean {
+    val regex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$".toRegex()
+    return regex.matches(email)
+}
+
+fun validCode(code: String): Boolean {
+    val regex = "^\\d{6}\$".toRegex()
+    return regex.matches(code)
 }
