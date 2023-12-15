@@ -1,13 +1,13 @@
 package ru.handh.school.igor.data
 
-import android.annotation.SuppressLint
+import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.accept
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -17,8 +17,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.contentType
-import io.ktor.http.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostSignInRequest
@@ -35,6 +33,11 @@ class IgorRepositoryImp : IgorRepository {
             })
         }
         install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    Log.v("Logger Ktor =>", message)
+                }
+            }
             level = LogLevel.ALL
         }
         install(DefaultRequest) {
@@ -49,7 +52,6 @@ class IgorRepositoryImp : IgorRepository {
                 append("X-Device-Id", uuid)
             }
             setBody(emailRequest)
-
         }
     }
 

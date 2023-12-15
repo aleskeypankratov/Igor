@@ -56,7 +56,10 @@ fun SignInScreen(
                     ).show()
                     showAddField = true
                 }
-                is Result.GetSession -> {
+                is Result.GotSession -> {
+                    Toast.makeText(
+                        context, "You're loggedIn", Toast.LENGTH_LONG
+                    ).show()
                 }
                 is Result.UnknownError -> {
                     Toast.makeText(
