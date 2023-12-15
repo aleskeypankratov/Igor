@@ -8,7 +8,7 @@ class GetSessionUseCase(private val repository: IgorRepositoryImp) {
     private var lifeTime: Int = 300_000
     suspend fun getSession(code: String): Result<Unit> {
         return try {
-            repository.getSession(uuid, code, lifeTime)
+            val response = repository.getSession(uuid, code, lifeTime)
             Result.GotSession()
         } catch (e: Exception) {
             Result.UnknownError()
