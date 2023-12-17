@@ -11,7 +11,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.koinViewModel
 import ru.handh.school.igor.R
+import ru.handh.school.igor.data.KeyValueStorage
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
 import ru.handh.school.igor.ui.screen.signin.SignInViewModel
 import ru.handh.school.igor.ui.theme.AppTheme
@@ -35,6 +38,8 @@ class MainActivity : ComponentActivity() {
 
     private val shouldSplashScreenDismiss: Boolean
         get() = true
+
+    private val storage: KeyValueStorage by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +74,11 @@ class MainActivity : ComponentActivity() {
     private fun setupRootComponent() {
         setContent {
             AppTheme {
-                SignInScreen(vm = viewModel())
+                if (storage.accessToken != null) {
+                    // ProfileScreen(...)
+                } else {
+                    SignInScreen(vm = koinViewModel())
+                }
             }
         }
         keepSplashScreenUntilAllComplete()

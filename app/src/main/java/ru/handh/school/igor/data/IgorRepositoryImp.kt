@@ -3,6 +3,7 @@ package ru.handh.school.igor.data
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -21,9 +22,11 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostSignInRequest
 
-class IgorRepositoryImp : IgorRepository {
+class IgorRepositoryImp (
+    private val keyValueStorage: KeyValueStorage
+) : IgorRepository {
 
-    private val client = HttpClient(Android) {
+    private val client  = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {
                 prettyPrint = true

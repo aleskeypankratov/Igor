@@ -1,20 +1,21 @@
 package ru.handh.school.igor.ui.screen.signin
 
+import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.domain.usecase.GetSessionUseCase
 import ru.handh.school.igor.domain.usecase.Result
 import ru.handh.school.igor.domain.usecase.SignInUseCase
 import ru.handh.school.igor.ui.base.BaseViewModel
 
-class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSignInState) {
+//
+class SignInViewModel(
+    private val signInUseCase: SignInUseCase,
+    private val getSessionUseCase: GetSessionUseCase
+) : BaseViewModel<SignInState, SignInViewAction>(InitialSignInState) {
 
-    private val igorRepository = IgorRepositoryImp()
-    private val signInUseCase = SignInUseCase(igorRepository)
-    private val getSessionUseCase = GetSessionUseCase(igorRepository)
     private val resultChannel = Channel<Result<Unit>>()
     val logResult = resultChannel.receiveAsFlow()
     private var isPasswordGot = false
@@ -23,12 +24,12 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
         is SignInViewAction.SubmitClicked -> onSubmitClicked()
         is SignInViewAction.UpdateEmail -> onUpdateEmail(action.email)
         is SignInViewAction.AddCode -> onAddCode(action.code)
+        is SignInViewAction.ResponseResult -> TODO()
     }
 
     private fun onSubmitClicked() {
         viewModelScope.launch {
             val email = state.value.email
-            val code = state.value.code
             if (!isPasswordGot && validEmail(email)) {
                 reduceState { it.copy(signInLoading = true) }
                 val signInResult = signInUseCase.signIn(email)
@@ -37,8 +38,8 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
                     isPasswordGot = true
                 }
                 reduceState { it.copy(signInLoading = false) }
-            } else if (validCode(code)) {
-                val getSession = getSessionUseCase.getSession(code)
+            } else {
+                val getSession = getSessionUseCase.getSession(state.value.code)
                 if (getSession is Result.GotSession) {
                     resultChannel.send(getSession)
                 }
@@ -57,13 +58,19 @@ class SignInViewModel : BaseViewModel<SignInState, SignInViewAction>(InitialSign
             it.copy(code = code)
         }
     }
+    private fun onAddResult(result: Result<Unit>) {
+        reduceState {
+            it.copy(result = result)
+        }
+    }
 }
+
 fun validEmail(email: String): Boolean {
-    val regex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$".toRegex()
-    return regex.matches(email)
+    return Patterns.EMAIL_ADDRESS.matcher(email).matches();
 }
 
 fun validCode(code: String): Boolean {
     val regex = "^\\d{6}\$".toRegex()
     return regex.matches(code)
 }
+
