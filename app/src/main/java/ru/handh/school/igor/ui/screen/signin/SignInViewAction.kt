@@ -6,5 +6,4 @@ sealed interface SignInViewAction {
     data object SubmitClicked : SignInViewAction
     data class UpdateEmail(val email: String) : SignInViewAction
     data class AddCode(val code: String) : SignInViewAction
-    data class ResponseResult(val result: Result<Unit>) : SignInViewAction
 }

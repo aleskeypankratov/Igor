@@ -5,7 +5,7 @@ import ru.handh.school.igor.domain.usecase.Result
 val InitialSignInState = SignInState(
     email = "",
     code = "",
-    result = Result.UnknownError(),
+    result = Result.Default(),
     signInLoading = false,
 )
 

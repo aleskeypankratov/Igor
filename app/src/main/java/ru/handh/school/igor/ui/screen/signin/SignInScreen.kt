@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.screen.signin
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,10 +42,10 @@ private const val weightOfBox = 0.7f
 
 @Composable
 fun SignInScreen(
-    vm: SignInViewModel
+    vm: SignInViewModel,
+    context: Context
 ) {
     val state by vm.state.collectAsState()
-    val context = LocalContext.current
     var showAddField by remember { mutableStateOf(false) }
 
     val navController = rememberNavController()
@@ -60,31 +60,34 @@ fun SignInScreen(
         }
     }
 
-    LaunchedEffect(vm, context) {
-        vm.logResult.collect { result ->
-            when (result) {
-                is Result.LoggedIn -> {
-                    Toast.makeText(
-                        context, "Email's sent", Toast.LENGTH_LONG
-                    ).show()
-                    showAddField = true
-                }
-                is Result.GotSession -> {
-                    Toast.makeText(
-                        context, "You're loggedIn", Toast.LENGTH_LONG
-                    ).show()
-                    navController.navigate(NavigationItem.About.route)
-                }
-                is Result.UnknownError -> {
-                    Toast.makeText(
-                        context, "Error's occurred", Toast.LENGTH_LONG
-                    ).show()
-                }
+    LaunchedEffect(state.result) {
+        when (state.result) {
+            is Result.LoggedIn -> {
+                Toast.makeText(
+                    context, "Email's sent", Toast.LENGTH_LONG
+                ).show()
+                showAddField = true
+            }
+            is Result.GotSession -> {
+                Toast.makeText(
+                    context, "You're loggedIn", Toast.LENGTH_LONG
+                ).show()
+                navController.navigate(NavigationItem.About.route)
+            }
+
+            is Result.UnknownError -> {
+                Toast.makeText(
+                    context, "Error's occurred", Toast.LENGTH_LONG
+                ).show()
+            }
+            is Result.Default -> {
+                Toast.makeText(
+                    context, "1", Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SignInContent(
@@ -138,6 +141,6 @@ private fun SignInContent(
 @Composable
 private fun SignInContentPreview() {
     SignInContent(
-        state = InitialSignInState, showAddField = true
+        state = InitialSignInState
     )
 }

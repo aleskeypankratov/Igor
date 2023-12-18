@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                 if (storage.accessToken != null) {
                     // ProfileScreen(...)
                 } else {
-                    SignInScreen(vm = koinViewModel())
+                    SignInScreen(vm = koinViewModel(), context = applicationContext)
                 }
             }
         }
