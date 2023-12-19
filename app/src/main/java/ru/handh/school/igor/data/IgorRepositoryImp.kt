@@ -5,6 +5,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -51,31 +54,41 @@ class IgorRepositoryImp(
         }
     }
 
-    override suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpResponse {
+    override suspend fun signIn(
+        id: String, emailRequest: PostSignInRequest
+    ): HttpResponse {
         return client.post(ApiRoutes.SIGNIN) {
             headers {
-                append("X-Device-Id", uuid)
+                append("X-Device-Id", id)
             }
             setBody(emailRequest)
         }
     }
 
     override suspend fun getSession(
-        uuid: String,
-        incomingCode: String,
-        lifeTime: Int
+        id: String, incomingCode: String, lifeTime: Int
     ): GetSessionResponse {
         return client.get(ApiRoutes.SESSION) {
             headers {
-                append("X-Device-Id", uuid)
+                append("X-Device-Id", id)
                 append("X-OTP", incomingCode)
             }
         }.body<GetSessionResponse>()
     }
 
-    override suspend fun refresh() {
-        client.post(ApiRoutes.REFRESH) {
+    override suspend fun refresh(refreshToken: String): GetSessionResponse {
+
+        val clientBearer = HttpClient(CIO) {
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        BearerTokens(keyValueStorage.accessToken!!, keyValueStorage.refreshToken!!)
+                    }
+                }
+            }
         }
+        return clientBearer.post(ApiRoutes.REFRESH) {
+        }.body<GetSessionResponse>()
     }
 
     override suspend fun signOut() {

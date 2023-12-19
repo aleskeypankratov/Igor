@@ -6,9 +6,9 @@ import ru.handh.school.igor.domain.model.getSessionResponse.GetSessionResponse
 
 interface IgorRepository {
 
-    suspend fun signIn(uuid: String, emailRequest: PostSignInRequest): HttpResponse
-    suspend fun getSession(uuid: String, incomingCode: String, lifeTime: Int): GetSessionResponse
-    suspend fun refresh()
+    suspend fun signIn(id: String, emailRequest: PostSignInRequest): HttpResponse
+    suspend fun getSession(id: String, incomingCode: String, lifeTime: Int): GetSessionResponse
+    suspend fun refresh(refreshToken: String): GetSessionResponse
     suspend fun signOut()
     suspend fun getProfile()
     suspend fun getProjects()
