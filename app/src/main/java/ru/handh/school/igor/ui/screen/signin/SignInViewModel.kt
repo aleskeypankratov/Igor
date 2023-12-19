@@ -40,25 +40,17 @@ class SignInViewModel(
             }
         }
     }
-
     private fun onUpdateEmail(email: String) {
         reduceState {
             it.copy(email = email)
         }
     }
-
     private fun onAddCode(code: String) {
         reduceState {
             it.copy(code = code)
         }
     }
-
     private fun validEmail(email: String): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    fun validCode(code: String): Boolean {
-        val regex = "^\\d{6}\$".toRegex()
-        return regex.matches(code)
     }
 }
