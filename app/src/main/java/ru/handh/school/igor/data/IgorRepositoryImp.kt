@@ -13,7 +13,6 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.accept
-import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
@@ -24,7 +23,6 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import io.ktor.http.parameters
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostSignInRequest
@@ -88,7 +86,7 @@ class IgorRepositoryImp(
                     refreshTokens {
                         val token = client.get {
                             markAsRefreshTokenRequest()
-                            url(ApiRoutes.SESSION)
+                            url(ApiRoutes.REFRESH)
                             parameter("refreshToken", keyValueStorage.refreshToken)
                         }.body<GetSessionResponse>()
                         BearerTokens(
@@ -96,11 +94,6 @@ class IgorRepositoryImp(
                             refreshToken = token.data.session.refreshToken
                         )
                     }
-                    refreshToken {
-                        val refreshTokenInfo = client.submitForm(url = ApiRoutes.REFRESH,
-                            formParameters = parameters {}).body<GetSessionResponse>()
-                    }
-
                 }
             }
         }

@@ -10,8 +10,8 @@ val InitialSignInState = SignInState(
 )
 
 data class SignInState(
-    val email: String,
-    val code: String,
+    var email: String,
+    var code: String,
     val result: Result<Unit>,
     val signInLoading: Boolean
 )

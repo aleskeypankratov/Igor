@@ -33,12 +33,14 @@ private val maxWeight = 1f
 fun SignInContent(
     state: SignInState,
     onAction: (SignInViewAction) -> Unit = {},
-    showAddField: Boolean = false,
+    isShowAddField: Boolean = false,
 ) {
     Scaffold { containerPadding ->
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -59,16 +61,16 @@ fun SignInContent(
                     Spacer(modifier = Modifier.height(mediumHeight))
                     AppTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail))},
+                        onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
                         hint = stringResource(R.string.email),
                         value = state.email,
                     )
                     AppTextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height((if (showAddField) maxSize else minSize))
+                            .height((if (isShowAddField) maxSize else minSize))
                             .padding(top = AppTheme.offsets.medium),
-                        onValueChange = { newCode -> onAction(SignInViewAction.AddCode(newCode))},
+                        onValueChange = { newCode -> onAction(SignInViewAction.AddCode(newCode)) },
                         value = state.code,
                         hint = stringResource(R.string.enter_code)
                     )
@@ -90,6 +92,6 @@ fun SignInContent(
 @Composable
 private fun SignInContentPreview() {
     SignInContent(
-        state = InitialSignInState, showAddField = true
+        state = InitialSignInState, isShowAddField = true
     )
 }
