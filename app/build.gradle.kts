@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -60,6 +58,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
     implementation("io.ktor:ktor-client-serialization:2.3.7")
+    implementation("io.ktor:ktor-client-auth:2.3.7")
 
     implementation("io.insert-koin:koin-core:3.4.3")
     implementation("io.insert-koin:koin-android:3.4.3")

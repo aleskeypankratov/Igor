@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.koinViewModel
 import ru.handh.school.igor.R
+import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.ui.screen.profile.ProfileScreen
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
-import ru.handh.school.igor.ui.screen.signin.SignInViewModel
 import ru.handh.school.igor.ui.theme.AppTheme
 
 /**
@@ -40,6 +39,7 @@ class MainActivity : ComponentActivity() {
         get() = true
 
     private val storage: KeyValueStorage by inject()
+    private val deviceIdProvider: DeviceIdProvider by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,10 +74,11 @@ class MainActivity : ComponentActivity() {
     private fun setupRootComponent() {
         setContent {
             AppTheme {
+                deviceIdProvider.deviceId
                 if (storage.accessToken != null) {
-                    // ProfileScreen(...)
+                    ProfileScreen()
                 } else {
-                    SignInScreen(vm = koinViewModel())
+                    SignInScreen(vm = koinViewModel(), context = applicationContext)
                 }
             }
         }
