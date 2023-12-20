@@ -34,7 +34,7 @@ fun SignInScreen(
             )
         }
         composable(route = NavigationItem.About.route) {
-            AboutContent()
+            AboutContent(navController = navController)
         }
     }
 
