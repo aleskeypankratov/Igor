@@ -2,7 +2,6 @@ package ru.handh.school.igor.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +14,7 @@ import org.koin.androidx.compose.koinViewModel
 import ru.handh.school.igor.R
 import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.ui.screen.profile.ProfileScreen
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
             AppTheme {
                 deviceIdProvider.deviceId
                 if (storage.accessToken != null) {
-                    // ProfileScreen(...)
+                    ProfileScreen()
                 } else {
                     SignInScreen(vm = koinViewModel(), context = applicationContext)
                 }

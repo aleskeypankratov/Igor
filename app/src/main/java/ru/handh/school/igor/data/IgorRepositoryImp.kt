@@ -17,8 +17,10 @@ import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -83,8 +85,16 @@ class IgorRepositoryImp(
         val clientBearer = HttpClient(CIO) {
             install(Auth) {
                 bearer {
-                    loadTokens {
-                        BearerTokens(keyValueStorage.accessToken!!, keyValueStorage.refreshToken!!)
+                    refreshTokens {
+                        val token = client.get {
+                            markAsRefreshTokenRequest()
+                            url(ApiRoutes.SESSION)
+                            parameter("refreshToken", keyValueStorage.refreshToken)
+                        }.body<GetSessionResponse>()
+                        BearerTokens(
+                            accessToken = token.data.session.accessToken,
+                            refreshToken = token.data.session.refreshToken
+                        )
                     }
                     refreshToken {
                         val refreshTokenInfo = client.submitForm(url = ApiRoutes.REFRESH,
@@ -97,7 +107,7 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        TODO("Not yet implemented")
+        client.post(ApiRoutes.SIGNOUT)
     }
 
     override suspend fun getProfile() {

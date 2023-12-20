@@ -34,7 +34,7 @@ fun SignInScreen(
             )
         }
         composable(route = NavigationItem.About.route) {
-            AboutContent()
+            AboutContent(navController = navController)
         }
     }
 
@@ -59,7 +59,7 @@ fun SignInScreen(
 
             is Result.Default -> {
                 Toast.makeText(
-                    context, "1", Toast.LENGTH_LONG
+                    context, "Loaded", Toast.LENGTH_LONG
                 ).show()
             }
         }
