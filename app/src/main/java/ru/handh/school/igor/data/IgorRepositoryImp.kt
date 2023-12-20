@@ -86,7 +86,7 @@ class IgorRepositoryImp(
                     refreshTokens {
                         val token = client.get {
                             markAsRefreshTokenRequest()
-                            url(ApiRoutes.SESSION)
+                            url(ApiRoutes.REFRESH)
                             parameter("refreshToken", keyValueStorage.refreshToken)
                         }.body<GetSessionResponse>()
                         BearerTokens(

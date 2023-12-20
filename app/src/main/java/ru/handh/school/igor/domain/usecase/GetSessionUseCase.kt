@@ -1,5 +1,6 @@
 package ru.handh.school.igor.domain.usecase
 
+import android.util.Log
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
 
@@ -14,7 +15,7 @@ class GetSessionUseCase(
             val response = repository.getSession(keyValueStorage.deviceId?: "", code, lifeTime)
             keyValueStorage.accessToken = response.data.session.accessToken
             keyValueStorage.refreshToken = response.data.session.refreshToken
-            //Log.v("token", "${keyValueStorage.accessToken} ${keyValueStorage.refreshToken}")
+            Log.v("token", "${keyValueStorage.accessToken} ${keyValueStorage.refreshToken}")
             Result.GotSession()
         } catch (e: Exception) {
             Result.UnknownError()

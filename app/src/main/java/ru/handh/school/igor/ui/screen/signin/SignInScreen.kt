@@ -19,18 +19,17 @@ import ru.handh.school.igor.ui.screen.about.AboutContent
 
 @Composable
 fun SignInScreen(
-    vm: SignInViewModel,
-    context: Context
+    vm: SignInViewModel, context: Context
 ) {
     val state by vm.state.collectAsState()
-    var showAddField by remember { mutableStateOf(false) }
+    var isShowAddField by remember { mutableStateOf(false) }
 
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = NavigationItem.SignIn.route) {
         composable(route = NavigationItem.SignIn.route) {
             SignInContent(
-                state = state, onAction = vm::onAction, showAddField = showAddField
+                state = state, onAction = vm::onAction, isShowAddField = isShowAddField
             )
         }
         composable(route = NavigationItem.About.route) {
@@ -44,7 +43,7 @@ fun SignInScreen(
                 Toast.makeText(
                     context, "Email's sent", Toast.LENGTH_LONG
                 ).show()
-                showAddField = true
+                isShowAddField = true
             }
 
             is Result.GotSession -> {
@@ -58,9 +57,9 @@ fun SignInScreen(
             }
 
             is Result.Default -> {
-                Toast.makeText(
-                    context, "Loaded", Toast.LENGTH_LONG
-                ).show()
+                state.code = ""
+                state.email = ""
+                isShowAddField = false
             }
         }
     }
