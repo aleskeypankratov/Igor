@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -32,7 +33,7 @@ private val bottomPadding = 40.dp
 private val weightOfBox = 1f
 
 @Composable
-fun AboutContent() {
+fun AboutContent(navController: NavHostController) {
     Column {
         Text(
             modifier = Modifier
@@ -88,7 +89,7 @@ fun AboutContent() {
                 content = { Text(text = stringResource(R.string.out)) },
                 shape = (AppTheme.roundings.large),
                 colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
-                onClick = { /*TODO*/ })
+                onClick = { navController.popBackStack() })
         }
     }
 }
@@ -96,5 +97,4 @@ fun AboutContent() {
 @Preview
 @Composable
 fun Preview() {
-    AboutContent()
 }

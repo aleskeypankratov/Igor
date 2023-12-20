@@ -10,7 +10,7 @@ class SignInUseCase(
 ) {
     suspend fun signIn(email: String): Result<Unit> {
         return try {
-            repository.signIn(keyValueStorage.deviceId!!, PostSignInRequest(email))
+            repository.signIn(keyValueStorage.deviceId?: "", PostSignInRequest(email))
             Result.LoggedIn()
         } catch (e: Exception) {
             Result.UnknownError()

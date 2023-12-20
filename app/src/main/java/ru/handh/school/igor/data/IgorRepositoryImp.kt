@@ -100,7 +100,7 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        TODO("Not yet implemented")
+        client.post(ApiRoutes.SIGNOUT)
     }
 
     override suspend fun getProfile() {
