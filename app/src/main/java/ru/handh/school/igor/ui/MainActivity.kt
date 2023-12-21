@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
                         AboutContent(navController = navController)
                     }
                     composable(route = NavigationItem.Profile.route) {
-                        ProfileScreen()
+                        ProfileScreen(navController = navController)
                     }
                 }
             }
