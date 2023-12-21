@@ -1,5 +1,6 @@
 package ru.handh.school.igor.domain.usecase
 
+import android.util.Log
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
 
@@ -9,9 +10,10 @@ class SignOutUseCase(
 ) {
     suspend fun signOut(): Result<Unit> {
         return try {
-            repository.signOut()
             keyValueStorage.refreshToken = null
             keyValueStorage.accessToken = null
+            Log.v("token", "${keyValueStorage.refreshToken} ${keyValueStorage.accessToken}")
+            repository.signOut()
             Result.Default()
         } catch (e: Exception) {
             Result.UnknownError()

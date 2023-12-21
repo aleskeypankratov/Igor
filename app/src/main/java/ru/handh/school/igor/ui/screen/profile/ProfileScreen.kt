@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,8 +23,15 @@ private var fontSize = 100.sp
 
 @Composable
 fun ProfileScreen(
-    onAction: (ProfileAction) -> Unit = {},
-    navController: NavHostController
+    vm: ProfileViewModel, navController: NavHostController
+) {
+    val state by vm.state.collectAsState()
+    ProfileContent(state = state, navController = navController, onAction = vm::onAction)
+}
+
+@Composable
+fun ProfileContent(
+    state: ProfileState, navController: NavHostController, onAction: (ProfileAction) -> Unit = {},
 ) {
     Column(modifier = Modifier.padding((AppTheme.offsets.medium))) {
         Text(
@@ -45,7 +54,11 @@ fun ProfileScreen(
             shape = (AppTheme.roundings.large),
             onClick = {
                 onAction(ProfileAction.SubmitClicked)
-                navController.navigate(NavigationItem.SignIn.route)
+                navController.navigate(NavigationItem.SignIn.route) {
+                    popUpTo(NavigationItem.Profile.route) {
+                        inclusive = true
+                    }
+                }
             })
     }
 }

@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.screen.profile
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.handh.school.igor.domain.usecase.SignOutUseCase

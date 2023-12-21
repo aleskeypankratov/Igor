@@ -21,6 +21,7 @@ import ru.handh.school.igor.ui.screen.NavigationItem
 import ru.handh.school.igor.ui.screen.about.AboutContent
 import ru.handh.school.igor.ui.screen.profile.ProfileScreen
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
+import ru.handh.school.igor.ui.screen.signin.SignInViewModel
 import ru.handh.school.igor.ui.theme.AppTheme
 
 /**
@@ -104,7 +105,8 @@ class MainActivity : ComponentActivity() {
                         AboutContent(navController = navController)
                     }
                     composable(route = NavigationItem.Profile.route) {
-                        ProfileScreen(navController = navController)
+
+                        ProfileScreen(vm = koinViewModel(), navController = navController)
                     }
                 }
             }

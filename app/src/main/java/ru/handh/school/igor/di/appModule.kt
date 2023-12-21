@@ -8,6 +8,7 @@ import ru.handh.school.igor.data.KeyValueStorage
 import ru.handh.school.igor.domain.usecase.GetSessionUseCase
 import ru.handh.school.igor.domain.usecase.SignInUseCase
 import ru.handh.school.igor.domain.usecase.SignOutUseCase
+import ru.handh.school.igor.ui.screen.profile.ProfileViewModel
 import ru.handh.school.igor.ui.screen.signin.SignInViewModel
 
 val appModule = module {
@@ -31,5 +32,8 @@ val appModule = module {
     }
     viewModel {
         SignInViewModel(get(), get())
+    }
+    viewModel {
+        ProfileViewModel(get())
     }
 }
