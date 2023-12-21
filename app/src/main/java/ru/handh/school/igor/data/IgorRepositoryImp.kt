@@ -84,7 +84,7 @@ class IgorRepositoryImp(
             install(Auth) {
                 bearer {
                     refreshTokens {
-                        val token = client.get {
+                        val token = client.post {
                             markAsRefreshTokenRequest()
                             url(ApiRoutes.REFRESH)
                             parameter("refreshToken", keyValueStorage.refreshToken)
@@ -95,6 +95,14 @@ class IgorRepositoryImp(
                         )
                     }
                 }
+            }
+            install(Logging) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Log.v("Logger Ktor =>", message)
+                    }
+                }
+                level = LogLevel.ALL
             }
         }
     }

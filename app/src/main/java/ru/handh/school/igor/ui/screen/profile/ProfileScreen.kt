@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.handh.school.igor.R
@@ -19,7 +18,6 @@ private var DefaultContainerHeight = 56.dp
 private var fontSize = 100.sp
 
 
-@Preview
 @Composable
 fun ProfileScreen(
     onAction: (ProfileAction) -> Unit = {},
@@ -34,6 +32,8 @@ fun ProfileScreen(
             .height(DefaultContainerHeight),
             content = { Text(text = stringResource(R.string.out)) },
             shape = (AppTheme.roundings.large),
-            onClick = { onAction(ProfileAction.SubmitClicked) })
+            onClick = {
+                onAction(ProfileAction.SubmitClicked)
+            })
     }
 }

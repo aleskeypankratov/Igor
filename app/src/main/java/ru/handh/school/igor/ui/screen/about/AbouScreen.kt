@@ -89,7 +89,8 @@ fun AboutContent(navController: NavHostController) {
                 content = { Text(text = stringResource(R.string.out)) },
                 shape = (AppTheme.roundings.large),
                 colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
-                onClick = { navController.popBackStack() })
+                onClick = { navController.popBackStack()
+                })
         }
     }
 }

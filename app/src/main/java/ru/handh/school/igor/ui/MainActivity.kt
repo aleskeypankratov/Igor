@@ -9,11 +9,16 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.koinViewModel
 import ru.handh.school.igor.R
 import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.ui.screen.NavigationItem
+import ru.handh.school.igor.ui.screen.about.AboutContent
 import ru.handh.school.igor.ui.screen.profile.ProfileScreen
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
 import ru.handh.school.igor.ui.theme.AppTheme
@@ -73,12 +78,34 @@ class MainActivity : ComponentActivity() {
      */
     private fun setupRootComponent() {
         setContent {
+
+            deviceIdProvider.deviceId
+            val navController = rememberNavController()
+
+            val startScreen = if (storage.accessToken != null) {
+                NavigationItem.Profile.route
+            } else {
+                NavigationItem.SignIn.route
+            }
+
             AppTheme {
-                deviceIdProvider.deviceId
-                if (storage.accessToken != null) {
-                    ProfileScreen()
-                } else {
-                    SignInScreen(vm = koinViewModel(), context = applicationContext)
+                NavHost(
+                    navController = navController,
+                    startDestination = startScreen
+                ) {
+                    composable(route = NavigationItem.SignIn.route) {
+                        SignInScreen(
+                            vm = koinViewModel(),
+                            navController = navController,
+                            context = applicationContext
+                        )
+                    }
+                    composable(route = NavigationItem.About.route) {
+                        AboutContent(navController = navController)
+                    }
+                    composable(route = NavigationItem.Profile.route) {
+                        ProfileScreen()
+                    }
                 }
             }
         }

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.components.AppButton
 import ru.handh.school.igor.ui.components.AppTextField
@@ -32,6 +33,7 @@ private val maxWeight = 1f
 @Composable
 fun SignInContent(
     state: SignInState,
+    navController: NavHostController,
     onAction: (SignInViewAction) -> Unit = {},
     isShowAddField: Boolean = false,
 ) {
@@ -91,7 +93,4 @@ fun SignInContent(
 @Preview
 @Composable
 private fun SignInContentPreview() {
-    SignInContent(
-        state = InitialSignInState, isShowAddField = true
-    )
 }

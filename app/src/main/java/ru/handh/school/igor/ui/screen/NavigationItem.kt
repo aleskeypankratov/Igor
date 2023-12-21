@@ -3,6 +3,7 @@ package ru.handh.school.igor.ui.screen
 sealed class NavigationItem(
     val route: String
 ) {
-    object SignIn : NavigationItem("SignInContent")
-    object About : NavigationItem("AboutContent")
+    data object SignIn : NavigationItem("SignInContent")
+    data object About : NavigationItem("AboutContent")
+    data object Profile : NavigationItem("ProfileScreen")
 }
