@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
-import ru.handh.school.igor.ui.screen.NavigationItem
+import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private var DefaultContainerHeight = 56.dp

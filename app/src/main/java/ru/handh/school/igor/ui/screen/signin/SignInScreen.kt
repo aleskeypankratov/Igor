@@ -28,7 +28,7 @@ import ru.handh.school.igor.R
 import ru.handh.school.igor.domain.usecase.Result
 import ru.handh.school.igor.ui.components.AppButton
 import ru.handh.school.igor.ui.components.AppTextField
-import ru.handh.school.igor.ui.screen.NavigationItem
+import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private val mediumHeight = 24.dp

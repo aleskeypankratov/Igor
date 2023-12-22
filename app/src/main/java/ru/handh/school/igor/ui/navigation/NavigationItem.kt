@@ -1,4 +1,4 @@
-package ru.handh.school.igor.ui.screen
+package ru.handh.school.igor.ui.navigation
 
 sealed class NavigationItem(
     val route: String
