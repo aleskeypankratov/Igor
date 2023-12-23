@@ -1,11 +1,10 @@
 package ru.handh.school.igor.ui.screen.signin
 
-import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.handh.school.igor.domain.usecase.GetSessionUseCase
-import ru.handh.school.igor.domain.usecase.Result
 import ru.handh.school.igor.domain.usecase.SignInUseCase
+import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 import ru.handh.school.igor.ui.base.BaseViewModel
 
 //
@@ -24,17 +23,17 @@ class SignInViewModel(
     private fun onSubmitClicked() {
         viewModelScope.launch {
             val email = state.value.email
-            if (!isPasswordGot && validEmail(email)) {
+            if (!isPasswordGot) {
                 reduceState { it.copy(signInLoading = true) }
                 val signInResult = signInUseCase.signIn(email)
                 reduceState { it.copy(result = signInResult, signInLoading = false) }
-                if (signInResult is Result.LoggedIn) {
+                if (signInResult is ResultSignIn.LoggedIn) {
                     isPasswordGot = true
                 }
             } else {
                 val code = state.value.code
                 val getSession = getSessionUseCase.getSession(code)
-                if (getSession is Result.GotSession) {
+                if (getSession is ResultSignIn.GotSession) {
                     reduceState { it.copy(result = getSession) }
                 }
             }
@@ -50,7 +49,5 @@ class SignInViewModel(
             it.copy(code = code)
         }
     }
-    private fun validEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
+
 }

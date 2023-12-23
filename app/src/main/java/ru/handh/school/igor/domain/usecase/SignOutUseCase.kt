@@ -1,22 +1,29 @@
 package ru.handh.school.igor.domain.usecase
 
 import android.util.Log
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.ServerResponseException
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.domain.usecase.result.ResultProfile
 
 class SignOutUseCase(
     private val repository: IgorRepositoryImp,
     private val keyValueStorage: KeyValueStorage
 ) {
-    suspend fun signOut(): Result<Unit> {
+    suspend fun signOut(): ResultProfile<Unit> {
         return try {
+            val response = repository.signOut()
             keyValueStorage.refreshToken = null
             keyValueStorage.accessToken = null
             Log.v("token", "${keyValueStorage.refreshToken} ${keyValueStorage.accessToken}")
-            repository.signOut()
-            Result.Default()
+            ResultProfile.LogOut()
+        } catch (e: ClientRequestException) {
+            ResultProfile.RequestError()
+        } catch (e: ServerResponseException) {
+            ResultProfile.ServerError()
         } catch (e: Exception) {
-            Result.UnknownError()
+            ResultProfile.UnknownError()
         }
     }
 }

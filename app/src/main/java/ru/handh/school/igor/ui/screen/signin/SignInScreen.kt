@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
-import ru.handh.school.igor.domain.usecase.Result
+import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 import ru.handh.school.igor.ui.components.AppButton
 import ru.handh.school.igor.ui.components.AppTextField
 import ru.handh.school.igor.ui.navigation.NavigationItem
@@ -48,32 +48,43 @@ fun SignInScreen(
         state = state,
         onAction = vm::onAction,
         isShowAddField = isShowAddField,
-        navController = navController
     )
 
     LaunchedEffect(state.result) {
         when (state.result) {
-            is Result.LoggedIn -> {
+            is ResultSignIn.LoggedIn -> {
                 Toast.makeText(
                     context, "Email's sent", Toast.LENGTH_LONG
                 ).show()
                 isShowAddField = true
             }
 
-            is Result.GotSession -> {
+            is ResultSignIn.GotSession -> {
                 navController.navigate(NavigationItem.Profile.route)
             }
 
-            is Result.UnknownError -> {
+            is ResultSignIn.UnknownError -> {
                 Toast.makeText(
                     context, "Error's occurred", Toast.LENGTH_LONG
                 ).show()
             }
 
-            is Result.Default -> {
+            is ResultSignIn.Default -> {
                 state.code = ""
                 state.email = ""
                 isShowAddField = false
+            }
+
+            is ResultSignIn.RequestError -> {
+                Toast.makeText(
+                    context, "Enter valid value", Toast.LENGTH_LONG
+                ).show()
+            }
+
+            is ResultSignIn.ServerError -> {
+                Toast.makeText(
+                    context, "Server didn't respond", Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -82,7 +93,6 @@ fun SignInScreen(
 @Composable
 fun SignInContent(
     state: SignInState,
-    navController: NavHostController,
     onAction: (SignInViewAction) -> Unit = {},
     isShowAddField: Boolean = false,
 ) {
@@ -126,7 +136,9 @@ fun SignInContent(
                         hint = stringResource(R.string.enter_code)
                     )
                     Spacer(modifier = Modifier.height(mediumHeight))
-                    AppButton(modifier = Modifier.fillMaxWidth(),
+                    AppButton(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = AppTheme.offsets.large),
                         label = stringResource(R.string.button_enter),
                         loading = state.signInLoading,
                         enabled = true,

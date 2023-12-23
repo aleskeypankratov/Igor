@@ -93,7 +93,8 @@ class MainActivity : ComponentActivity() {
                     profileContent = {
                         ProfileScreen(
                             vm = koinViewModel(),
-                            navController = navController
+                            navController = navController,
+                            context = applicationContext
                         )
                     })
                 if (storage.accessToken != null) {

@@ -49,7 +49,7 @@ class IgorRepositoryImp(
             }
             level = LogLevel.ALL
         }
-        expectSuccess = true
+        //expectSuccess = true
         install(DefaultRequest) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             accept(ContentType.Application.Json)

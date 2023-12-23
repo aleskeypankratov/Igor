@@ -1,7 +1,5 @@
 package ru.handh.school.igor.ui.screen.signin
 
-import ru.handh.school.igor.domain.usecase.Result
-
 sealed interface SignInViewAction {
     data object SubmitClicked : SignInViewAction
     data class UpdateEmail(val email: String) : SignInViewAction
