@@ -2,7 +2,6 @@ package ru.handh.school.igor.ui.screen.signin
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -77,7 +76,7 @@ fun SignInScreen(
 
             is ResultSignIn.RequestError -> {
                 Toast.makeText(
-                    context, "Enter valid value", Toast.LENGTH_LONG
+                    context, "Enter valid email", Toast.LENGTH_LONG
                 ).show()
             }
 
@@ -101,53 +100,41 @@ fun SignInContent(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .padding(containerPadding)
+                .padding(AppTheme.offsets.medium)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(minWeight)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(maxWeight)
-                    .padding(containerPadding)
-                    .padding(AppTheme.offsets.medium)
-            ) {
-                Column {
-                    BasicText(
-                        text = stringResource(R.string.enter),
-                        style = AppTheme.textStyles.maxMediumText
-                    )
-                    Spacer(modifier = Modifier.height(mediumHeight))
-                    AppTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
-                        hint = stringResource(R.string.email),
-                        value = state.email,
-                    )
-                    AppTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height((if (isShowAddField) maxSize else minSize))
-                            .padding(top = AppTheme.offsets.medium),
-                        onValueChange = { newCode -> onAction(SignInViewAction.AddCode(newCode)) },
-                        value = state.code,
-                        hint = stringResource(R.string.enter_code)
-                    )
-                    Spacer(modifier = Modifier.height(mediumHeight))
-                    AppButton(modifier = Modifier
+            Spacer(modifier = Modifier.weight(minWeight))
+            Column(modifier = Modifier.weight(maxWeight)) {
+                BasicText(
+                    text = stringResource(R.string.enter), style = AppTheme.textStyles.maxMediumText
+                )
+                Spacer(modifier = Modifier.height(mediumHeight))
+                AppTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
+                    hint = stringResource(R.string.email),
+                    value = state.email,
+                )
+                AppTextField(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = AppTheme.offsets.large),
-                        label = stringResource(R.string.button_enter),
-                        loading = state.signInLoading,
-                        enabled = true,
-                        onClick = {
-                            onAction(SignInViewAction.SubmitClicked)
-                        })
-                }
+                        .height((if (isShowAddField) maxSize else minSize))
+                        .padding(top = AppTheme.offsets.medium),
+                    onValueChange = { newCode -> onAction(SignInViewAction.AddCode(newCode)) },
+                    value = state.code,
+                    hint = stringResource(R.string.enter_code)
+                )
+                Spacer(modifier = Modifier.height(mediumHeight))
+                AppButton(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = AppTheme.offsets.large),
+                    label = stringResource(R.string.button_enter),
+                    loading = state.signInLoading,
+                    enabled = true,
+                    onClick = {
+                        onAction(SignInViewAction.SubmitClicked)
+                    })
             }
         }
     }
 }
-

@@ -80,26 +80,27 @@ class MainActivity : ComponentActivity() {
             deviceIdProvider.deviceId
             val navController = rememberNavController()
             AppTheme {
-                AppNavGraph(
-                    navController = navController,
-                    signInContent = {
-                        SignInScreen(
-                            vm = koinViewModel(),
-                            navController = navController,
-                            context = applicationContext
-                        )
-                    },
-                    aboutContent = { AboutContent(navController = navController) },
-                    profileContent = {
-                        ProfileScreen(
-                            vm = koinViewModel(),
-                            navController = navController,
-                            context = applicationContext
-                        )
-                    })
-                if (storage.accessToken != null) {
-                    navController.navigate(NavigationItem.Profile.route)
-                }
+                AppNavGraph(startScreen = (if (storage.accessToken != null) {
+                    NavigationItem.Profile.route
+                } else {
+                    NavigationItem.SignIn.route
+                }).toString(), navController = navController, signInContent = {
+                    SignInScreen(
+                        vm = koinViewModel(),
+                        navController = navController,
+                        context = applicationContext
+                    )
+                }, aboutContent = {
+                    AboutContent(
+                        navController = navController, context = applicationContext
+                    )
+                }, profileContent = {
+                    ProfileScreen(
+                        vm = koinViewModel(),
+                        navController = navController,
+                        context = applicationContext
+                    )
+                })
             }
         }
         keepSplashScreenUntilAllComplete()

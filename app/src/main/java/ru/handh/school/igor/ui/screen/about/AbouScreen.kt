@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.screen.about
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,14 +27,18 @@ import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private val DefaultContainerHeight = 56.dp
-private val version = 1.13
-private val build = 42
+private val build = "42"
 private val iconSize = 82.dp
-private val bottomPadding = 40.dp
-private val weightOfBox = 1f
 
 @Composable
-fun AboutContent(navController: NavHostController) {
+fun AboutContent(
+    navController: NavHostController,
+    context: Context
+) {
+    val version = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+    val textStyle = AppTheme.textStyles.smallLightText
+    val textModifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
+
     Column {
         Text(
             modifier = Modifier
@@ -49,7 +54,7 @@ fun AboutContent(navController: NavHostController) {
                 .background(AppTheme.colors.background)
                 .padding(AppTheme.offsets.medium)
                 .fillMaxWidth()
-                .weight(weightOfBox)
+                .weight(1f)
         ) {
             Row {
                 Image(
@@ -65,13 +70,13 @@ fun AboutContent(navController: NavHostController) {
                     )
                     Text(
                         text = stringResource(R.string.version, version),
-                        style = AppTheme.textStyles.smallLightText,
-                        modifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
+                        style = textStyle,
+                        modifier = textModifier
                     )
                     Text(
                         text = stringResource(R.string.build, build),
-                        style = AppTheme.textStyles.smallLightText,
-                        modifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
+                        style = textStyle,
+                        modifier = textModifier
                     )
                 }
             }
@@ -81,7 +86,7 @@ fun AboutContent(navController: NavHostController) {
                 .background(AppTheme.colors.background)
                 .padding(AppTheme.offsets.medium)
                 .align(Alignment.End)
-                .padding(bottom = bottomPadding)
+                .padding(bottom = AppTheme.offsets.large)
         ) {
             Button(modifier = Modifier
                 .fillMaxWidth()
@@ -89,13 +94,16 @@ fun AboutContent(navController: NavHostController) {
                 content = { Text(text = stringResource(R.string.out)) },
                 shape = (AppTheme.roundings.large),
                 colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
-                onClick = { navController.popBackStack()
+                onClick = {
+                    navController.popBackStack()
                 })
         }
     }
 }
 
+
 @Preview
 @Composable
 fun Preview() {
+    //AboutContent()
 }

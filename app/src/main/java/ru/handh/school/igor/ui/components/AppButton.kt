@@ -34,30 +34,27 @@ fun AppButton(
     onClick: () -> Unit = {},
     enabled: Boolean = true
 ) {
+    val buttonModifier = modifier
+        .then(if (enabled) Modifier.clickable { onClick() } else Modifier.alpha(alpha))
+        .clip(AppTheme.roundings.large)
+        .background(AppTheme.colors.primary)
+        .height(DefaultContainerHeight)
+        .padding(horizontal = AppTheme.offsets.medium)
+
+    val textStyle = AppTheme.textStyles.mediumMediumText.copy(color = AppTheme.colors.textOnControl)
+
     Box(
-        modifier = modifier
-            .then(if (enabled) Modifier.clickable { onClick() } else Modifier.alpha(alpha))
-            .clip(AppTheme.roundings.large)
-            .background(AppTheme.colors.primary)
-            .height(DefaultContainerHeight)
-            .padding(horizontal = AppTheme.offsets.medium),
-        contentAlignment = Alignment.Center
+        modifier = buttonModifier, contentAlignment = Alignment.Center
     ) {
-        if (loading && enabled) {
+        if (loading) {
             CircularProgressIndicator(
-                modifier = Modifier
-                    .size(DefaultProgressIndicatorSize),
+                modifier = Modifier.size(DefaultProgressIndicatorSize),
                 color = AppTheme.colors.textOnControl,
                 strokeWidth = DefaultProgressIndicatorStrokeWidth
             )
         } else {
             BasicText(
-                text = label,
-                style = AppTheme.textStyles.mediumMediumText.copy(
-                    color = AppTheme.colors.textOnControl
-                ),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                text = label, style = textStyle, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -67,8 +64,7 @@ fun AppButton(
 @Composable
 private fun Preview1() {
     AppButton(
-        modifier = Modifier.fillMaxWidth(),
-        label = "Foobar"
+        modifier = Modifier.fillMaxWidth(), label = "Foobar"
     )
 }
 
@@ -84,8 +80,7 @@ private fun Preview2() {
 @Composable
 private fun Preview3() {
     AppButton(
-        modifier = Modifier
-            .width(200.dp),
+        modifier = Modifier.width(200.dp),
         label = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     )
 }
@@ -94,7 +89,6 @@ private fun Preview3() {
 @Composable
 private fun Preview4() {
     AppButton(
-        label = "Foobar",
-        enabled = false
+        label = "Foobar", enabled = false
     )
 }
