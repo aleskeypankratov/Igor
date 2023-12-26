@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,17 +35,22 @@ fun AppTextField(
     var isFocused by remember { mutableStateOf(false) }
 
     Box(modifier = modifier
+        .clip(AppTheme.roundings.large)
         .height(DefaultContainerHeight)
+        .background(AppTheme.colors.textOnControl)
         .onFocusChanged { focusState ->
             isFocused = focusState.isFocused
         }
         .border(
-            width = DefaultBorderWidth, color = if (isFocused) {
+            shape = AppTheme.roundings.large,
+            width = DefaultBorderWidth,
+            color = if (isFocused) {
                 AppTheme.colors.primary
             } else {
                 AppTheme.colors.unfocus
-            }, shape = AppTheme.roundings.large
-        ), contentAlignment = Alignment.CenterStart) {
+            }
+        ),
+        contentAlignment = Alignment.CenterStart) {
 
         BasicTextField(
             modifier = modifier.padding(horizontal = AppTheme.offsets.medium),
@@ -58,7 +65,6 @@ fun AppTextField(
             ),
             maxLines = 1
         )
-
         BasicText(
             modifier = Modifier
                 .padding(horizontal = AppTheme.offsets.medium)

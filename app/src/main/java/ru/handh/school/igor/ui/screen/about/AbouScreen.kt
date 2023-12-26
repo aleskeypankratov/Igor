@@ -27,7 +27,7 @@ import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private val DefaultContainerHeight = 56.dp
-private val build = "42"
+private const val build = "42"
 private val iconSize = 82.dp
 
 @Composable
@@ -39,7 +39,9 @@ fun AboutContent(
     val textStyle = AppTheme.textStyles.smallLightText
     val textModifier = Modifier.padding(horizontal = AppTheme.offsets.medium)
 
-    Column {
+    Column(
+        Modifier.background(AppTheme.colors.textOnControl)
+    ) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,7 +71,9 @@ fun AboutContent(
                         modifier = Modifier.padding(AppTheme.offsets.medium, AppTheme.offsets.tiny)
                     )
                     Text(
-                        text = stringResource(R.string.version, version),
+                        text = stringResource(
+                            R.string.version,version
+                        ),
                         style = textStyle,
                         modifier = textModifier
                     )

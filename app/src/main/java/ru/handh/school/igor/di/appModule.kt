@@ -5,6 +5,7 @@ import org.koin.dsl.module
 import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.domain.usecase.GetProfileUseCase
 import ru.handh.school.igor.domain.usecase.GetSessionUseCase
 import ru.handh.school.igor.domain.usecase.SignInUseCase
 import ru.handh.school.igor.domain.usecase.SignOutUseCase
@@ -29,6 +30,9 @@ val appModule = module {
     }
     single {
         SignInUseCase(get(), get())
+    }
+    single {
+        GetProfileUseCase(get())
     }
     viewModel {
         SignInViewModel(get(), get())

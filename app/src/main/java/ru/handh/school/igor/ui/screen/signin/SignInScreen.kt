@@ -2,6 +2,8 @@ package ru.handh.school.igor.ui.screen.signin
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
@@ -31,7 +34,7 @@ import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private val mediumHeight = 24.dp
-private val maxSize = 70.dp
+private val maxSize = 72.dp
 private val minSize = 0.dp
 private val minWeight = 0.25f
 private val maxWeight = 1f
@@ -59,7 +62,9 @@ fun SignInScreen(
             }
 
             is ResultSignIn.GotSession -> {
-                navController.navigate(NavigationItem.Profile.route)
+                navController.navigate(NavigationItem.Profile.route) {
+                    launchSingleTop = true
+                }
             }
 
             is ResultSignIn.UnknownError -> {
@@ -96,45 +101,61 @@ fun SignInContent(
     isShowAddField: Boolean = false,
 ) {
     Scaffold { containerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(containerPadding)
-                .padding(AppTheme.offsets.medium)
-        ) {
-            Spacer(modifier = Modifier.weight(minWeight))
-            Column(modifier = Modifier.weight(maxWeight)) {
-                BasicText(
-                    text = stringResource(R.string.enter), style = AppTheme.textStyles.maxMediumText
-                )
-                Spacer(modifier = Modifier.height(mediumHeight))
-                AppTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
-                    hint = stringResource(R.string.email),
-                    value = state.email,
-                )
-                AppTextField(
-                    modifier = Modifier
+        Box(modifier = Modifier.background(AppTheme.colors.background)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(containerPadding)
+                    .padding(AppTheme.offsets.medium)
+            ) {
+                Spacer(modifier = Modifier.weight(minWeight))
+                Column(modifier = Modifier.weight(maxWeight)) {
+                    BasicText(
+                        text = stringResource(R.string.enter),
+                        style = AppTheme.textStyles.maxMediumText
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(mediumHeight)
+                            .background(AppTheme.colors.textOnControl)
+                    )
+                    AppTextField(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        onValueChange = { newEmail -> onAction(SignInViewAction.UpdateEmail(newEmail)) },
+                        hint = stringResource(R.string.email),
+                        value = state.email,
+                    )
+                    AppTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height((if (isShowAddField) maxSize else minSize))
+                            .padding(top = AppTheme.offsets.medium),
+                        onValueChange = { newCode -> onAction(SignInViewAction.AddCode(newCode)) },
+                        value = state.code,
+                        hint = stringResource(R.string.enter_code)
+                    )
+                    Spacer(modifier = Modifier.height(mediumHeight))
+                    AppButton(modifier = Modifier
                         .fillMaxWidth()
-                        .height((if (isShowAddField) maxSize else minSize))
-                        .padding(top = AppTheme.offsets.medium),
-                    onValueChange = { newCode -> onAction(SignInViewAction.AddCode(newCode)) },
-                    value = state.code,
-                    hint = stringResource(R.string.enter_code)
-                )
-                Spacer(modifier = Modifier.height(mediumHeight))
-                AppButton(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = AppTheme.offsets.large),
-                    label = stringResource(R.string.button_enter),
-                    loading = state.signInLoading,
-                    enabled = true,
-                    onClick = {
-                        onAction(SignInViewAction.SubmitClicked)
-                    })
+                        .padding(bottom = AppTheme.offsets.large),
+                        label = stringResource(R.string.button_enter),
+                        loading = state.signInLoading,
+                        enabled = true,
+                        onClick = {
+                            onAction(SignInViewAction.SubmitClicked)
+                        })
+                }
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun SignInContentPreview() {
+    SignInContent(
+        state = InitialSignInState, isShowAddField = true
+    )
 }

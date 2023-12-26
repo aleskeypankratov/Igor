@@ -49,7 +49,6 @@ class IgorRepositoryImp(
             }
             level = LogLevel.ALL
         }
-        //expectSuccess = true
         install(DefaultRequest) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             accept(ContentType.Application.Json)
@@ -112,7 +111,7 @@ class IgorRepositoryImp(
     }
 
     override suspend fun getProfile() {
-        TODO("Not yet implemented")
+        client.get(ApiRoutes.PROFILE)
     }
 
     override suspend fun getProjects() {

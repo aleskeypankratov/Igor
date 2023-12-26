@@ -23,7 +23,7 @@ import ru.handh.school.igor.ui.theme.AppTheme
 private val DefaultContainerHeight = 56.dp
 private val DefaultProgressIndicatorSize = 18.dp
 private val DefaultProgressIndicatorStrokeWidth = 2.dp
-private val alpha = 0.5f
+private const val alpha = 0.5f
 
 
 @Composable

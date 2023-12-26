@@ -34,29 +34,25 @@ fun ProfileScreen(
 
     LaunchedEffect(state.result) {
         when (state.result) {
+            is ResultProfile.GotProfile -> {}
             is ResultProfile.Default -> {}
-            is ResultProfile.RequestError -> {
-            }
-
+            is ResultProfile.RequestError -> {}
             is ResultProfile.ServerError -> {
                 Toast.makeText(
                     context, "Server didn't respond", Toast.LENGTH_LONG
                 ).show()
             }
-
             is ResultProfile.UnknownError -> {
                 Toast.makeText(
                     context, "Error's occurred", Toast.LENGTH_LONG
                 ).show()
             }
-
             is ResultProfile.LogOut -> {
                 navController.navigate(NavigationItem.SignIn.route)
             }
         }
     }
 }
-
 
 @Composable
 fun ProfileContent(
@@ -84,7 +80,6 @@ fun ProfileContent(
             shape = (AppTheme.roundings.large),
             onClick = {
                 onAction(ProfileAction.SubmitClicked)
-
             })
     }
 }
