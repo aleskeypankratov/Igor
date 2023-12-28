@@ -109,15 +109,27 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT)
+        client.post(ApiRoutes.SIGNOUT){
+            headers{
+                append("Authorization", keyValueStorage.accessToken?:"")
+            }
+        }
     }
 
     override suspend fun getProfile(): getProfileResponse {
-        return client.get(ApiRoutes.PROFILE).body<getProfileResponse>()
+        return client.get(ApiRoutes.PROFILE){
+            headers{
+                append("Authorization", keyValueStorage.accessToken?:"")
+            }
+        }.body<getProfileResponse>()
     }
 
     override suspend fun getProjects(): getProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS).body<getProjectsResponse>()
+        return client.get(ApiRoutes.PROJECTS){
+            headers{
+                append("Authorization", keyValueStorage.accessToken?:"")
+            }
+        }.body<getProjectsResponse>()
     }
 
     override suspend fun getNotification() {
