@@ -1,0 +1,9 @@
+package ru.handh.school.igor.domain.model.getProfileResponse
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Profile(
+    val name: String,
+    val surname: String
+)

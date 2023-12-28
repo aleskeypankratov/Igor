@@ -15,10 +15,12 @@ import org.koin.androidx.compose.koinViewModel
 import ru.handh.school.igor.R
 import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.domain.model.ProfileInfo
 import ru.handh.school.igor.ui.navigation.AppNavGraph
 import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.screen.about.AboutContent
 import ru.handh.school.igor.ui.screen.profile.ProfileScreen
+import ru.handh.school.igor.ui.screen.project.ProjectContent
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -81,26 +83,32 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             AppTheme {
                 AppNavGraph(startScreen = (if (storage.accessToken != null) {
-                    NavigationItem.Profile.route
+                    NavigationItem.Project.route
                 } else {
                     NavigationItem.SignIn.route
-                }).toString(), navController = navController, signInContent = {
-                    SignInScreen(
-                        vm = koinViewModel(),
-                        navController = navController,
-                        context = applicationContext
-                    )
-                }, aboutContent = {
-                    AboutContent(
-                        navController = navController, context = applicationContext
-                    )
-                }, profileContent = {
-                    ProfileScreen(
-                        vm = koinViewModel(),
-                        navController = navController,
-                        context = applicationContext
-                    )
-                })
+                }).toString(),
+                    navController = navController,
+                    signInContent = {
+                        SignInScreen(
+                            vm = koinViewModel(),
+                            navController = navController,
+                            context = applicationContext
+                        )
+                    }, aboutContent = {
+                        AboutContent(
+                            navController = navController, context = applicationContext
+                        )
+                    }, profileContent = {
+                        ProfileScreen(
+                            vm = koinViewModel(),
+                            navController = navController,
+                            context = applicationContext,
+                            profileInfo = ProfileInfo("Смирнов", "Андрей")
+                        )
+                    },
+                    projectContent = {
+                        ProjectContent(navController = navController)
+                    })
             }
         }
         keepSplashScreenUntilAllComplete()

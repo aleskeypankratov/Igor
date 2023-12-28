@@ -11,6 +11,7 @@ fun AppNavGraph(
     navController: NavHostController,
     signInContent: @Composable () -> Unit,
     aboutContent: @Composable () -> Unit,
+    projectContent: @Composable () -> Unit,
     profileContent: @Composable () -> Unit
 ) {
     NavHost(
@@ -24,6 +25,9 @@ fun AppNavGraph(
         }
         composable(route = NavigationItem.Profile.route) {
             profileContent()
+        }
+        composable(route = NavigationItem.Project.route) {
+            projectContent()
         }
     }
 }

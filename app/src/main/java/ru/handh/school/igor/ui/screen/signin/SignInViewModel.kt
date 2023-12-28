@@ -24,26 +24,34 @@ class SignInViewModel(
         viewModelScope.launch {
             val email = state.value.email
             if (!isPasswordGot) {
-                reduceState { it.copy(signInLoading = true) }
-                val signInResult = signInUseCase.signIn(email)
-                reduceState { it.copy(result = signInResult, signInLoading = false) }
-                if (signInResult is ResultSignIn.LoggedIn) {
-                    isPasswordGot = true
-                }
+
+                reduceState { it.copy(result = ResultSignIn.LoggedIn(), signInLoading = false) }
+                isPasswordGot = true
+
+//                reduceState { it.copy(signInLoading = true) }
+//                val signInResult = signInUseCase.signIn(email)
+//                reduceState { it.copy(result = signInResult, signInLoading = false) }
+//                if (signInResult is ResultSignIn.LoggedIn) {
+//                    isPasswordGot = true
+//                }
             } else {
-                val code = state.value.code
-                val getSession = getSessionUseCase.getSession(code)
-                if (getSession is ResultSignIn.GotSession) {
-                    reduceState { it.copy(result = getSession) }
-                }
+                reduceState { it.copy(result = ResultSignIn.GotSession())}
+
+//                val code = state.value.code
+//                val getSession = getSessionUseCase.getSession(code)
+//                if (getSession is ResultSignIn.GotSession) {
+//                    reduceState { it.copy(result = getSession) }
+//                }
             }
         }
     }
+
     private fun onUpdateEmail(email: String) {
         reduceState {
             it.copy(email = email)
         }
     }
+
     private fun onAddCode(code: String) {
         reduceState {
             it.copy(code = code)

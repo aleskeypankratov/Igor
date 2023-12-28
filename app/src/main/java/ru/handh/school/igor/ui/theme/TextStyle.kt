@@ -12,6 +12,9 @@ data class AppTextStyles(
     val normalMediumText: TextStyle,
     val maxMediumText: TextStyle,
     val smallLightText: TextStyle,
+    val titleText: TextStyle,
+    val miniMediumText: TextStyle,
+    val normalRegularText: TextStyle,
 )
 
 val defaultTextStyles = AppTextStyles(
@@ -23,6 +26,11 @@ val defaultTextStyles = AppTextStyles(
     mediumMediumText = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_medium)),
         fontSize = 16.sp,
+        lineHeight = 20.sp
+    ),
+    miniMediumText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+        fontSize = 20.sp,
         lineHeight = 20.sp
     ),
     normalMediumText = TextStyle(
@@ -40,4 +48,14 @@ val defaultTextStyles = AppTextStyles(
         fontSize = 14.sp,
         lineHeight = 20.sp
     ),
+    titleText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+        fontSize = 22.sp,
+        lineHeight = 28.sp
+    ),
+    normalRegularText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+        fontSize = 20.sp,
+        lineHeight = 20.sp
+    )
 )

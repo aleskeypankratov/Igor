@@ -26,6 +26,8 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostSignInRequest
+import ru.handh.school.igor.domain.model.getProfileResponse.getProfileResponse
+import ru.handh.school.igor.domain.model.getProjectsResponse.getProjectsResponse
 import ru.handh.school.igor.domain.model.getSessionResponse.GetSessionResponse
 
 class IgorRepositoryImp(
@@ -110,12 +112,12 @@ class IgorRepositoryImp(
         client.post(ApiRoutes.SIGNOUT)
     }
 
-    override suspend fun getProfile() {
-        client.get(ApiRoutes.PROFILE)
+    override suspend fun getProfile(): getProfileResponse {
+        return client.get(ApiRoutes.PROFILE).body<getProfileResponse>()
     }
 
-    override suspend fun getProjects() {
-        TODO("Not yet implemented")
+    override suspend fun getProjects(): getProjectsResponse {
+        return client.get(ApiRoutes.PROJECTS).body<getProjectsResponse>()
     }
 
     override suspend fun getNotification() {

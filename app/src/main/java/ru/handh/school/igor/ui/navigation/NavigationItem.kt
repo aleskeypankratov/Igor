@@ -6,4 +6,5 @@ sealed class NavigationItem(
     data object SignIn : NavigationItem("SignInContent")
     data object About : NavigationItem("AboutContent")
     data object Profile : NavigationItem("ProfileScreen")
+    data object Project : NavigationItem("ProjectScreen")
 }
