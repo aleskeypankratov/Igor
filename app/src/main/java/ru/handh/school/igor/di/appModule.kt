@@ -32,7 +32,7 @@ val appModule = module {
         SignInUseCase(get(), get())
     }
     single {
-        GetProfileUseCase(get())
+        GetProfileUseCase(get(), get())
     }
     viewModel {
         SignInViewModel(get(), get())
