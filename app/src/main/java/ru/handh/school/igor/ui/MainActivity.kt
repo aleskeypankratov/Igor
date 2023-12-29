@@ -102,7 +102,6 @@ class MainActivity : ComponentActivity() {
                         ProfileScreen(
                             vm = koinViewModel(),
                             navController = navController,
-                            context = applicationContext,
                             profileInfo = ProfileInfo("Смирнов", "Андрей")
                         )
                     },

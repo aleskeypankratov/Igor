@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import ru.handh.school.igor.domain.model.ProfileInfo
 import ru.handh.school.igor.ui.theme.AppTheme
 
+val defalutSizeImage = 55.dp
+
 @Composable
 fun ProfileInformation(
     inputInfo: ProfileInfo
@@ -22,8 +24,8 @@ fun ProfileInformation(
     Row(modifier = Modifier.fillMaxWidth()) {
         Image(
             modifier = Modifier
-                .padding(12.dp)
-                .size(55.dp),
+                .padding(AppTheme.offsets.small)
+                .size(defalutSizeImage),
             painter = painterResource(id = inputInfo.avatar),
             contentDescription = null
         )

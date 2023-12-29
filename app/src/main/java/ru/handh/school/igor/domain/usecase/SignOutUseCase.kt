@@ -2,6 +2,7 @@ package ru.handh.school.igor.domain.usecase
 
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
+import io.ktor.http.HttpStatusCode
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
 import ru.handh.school.igor.domain.usecase.result.ResultProfile
@@ -16,10 +17,16 @@ class SignOutUseCase(
                 keyValueStorage.refreshToken = null
                 keyValueStorage.accessToken = null
             }
-                //Log.v("token", "${keyValueStorage.refreshToken} ${keyValueStorage.accessToken}")
+            //Log.v("token", "${keyValueStorage.refreshToken} ${keyValueStorage.accessToken}")
             ResultProfile.LogOut()
         } catch (e: ClientRequestException) {
-            ResultProfile.RequestError()
+            if (e.response.status == HttpStatusCode.Unauthorized) {
+                repository.refresh()
+                repository.signOut()
+                ResultProfile.LogOut()
+            } else {
+                ResultProfile.RequestError()
+            }
         } catch (e: ServerResponseException) {
             ResultProfile.ServerError()
         } catch (e: Exception) {

@@ -16,7 +16,6 @@ import io.ktor.client.request.accept
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
@@ -79,16 +78,21 @@ class IgorRepositoryImp(
         }.body<GetSessionResponse>()
     }
 
-    override suspend fun refresh(refreshToken: String) {
+    override suspend fun refresh() {
 
         val clientBearer = HttpClient(CIO) {
             install(Auth) {
                 bearer {
                     refreshTokens {
                         val token = client.post {
-                            markAsRefreshTokenRequest()
-                            url(ApiRoutes.REFRESH)
-                            parameter("refreshToken", keyValueStorage.refreshToken)
+                            url(ApiRoutes.REFRESH) {
+                                headers {
+                                    append(
+                                        "Authorization",
+                                        "Bearer ${keyValueStorage.accessToken!!}"
+                                    )
+                                }
+                            }
                         }.body<GetSessionResponse>()
                         BearerTokens(
                             accessToken = token.data.session.accessToken,
@@ -109,25 +113,25 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT){
-            headers{
-                append("Authorization", keyValueStorage.accessToken?:"")
+        client.post(ApiRoutes.SIGNOUT) {
+            headers {
+                append("Authorization", "Bearer ${keyValueStorage.accessToken!!}")
             }
         }
     }
 
     override suspend fun getProfile(): getProfileResponse {
-        return client.get(ApiRoutes.PROFILE){
-            headers{
-                append("Authorization", keyValueStorage.accessToken?:"")
+        return client.get(ApiRoutes.PROFILE) {
+            headers {
+                append("Authorization", "Bearer ${keyValueStorage.accessToken!!}")
             }
         }.body<getProfileResponse>()
     }
 
     override suspend fun getProjects(): getProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS){
-            headers{
-                append("Authorization", keyValueStorage.accessToken?:"")
+        return client.get(ApiRoutes.PROJECTS) {
+            headers {
+                append("Authorization", "Bearer ${keyValueStorage.accessToken!!}")
             }
         }.body<getProjectsResponse>()
     }

@@ -5,7 +5,7 @@ import ru.handh.school.igor.R
 
 @Serializable
 data class ProfileInfo(
-    val surname: String,
-    val name: String,
+    var surname: String,
+    var name: String,
     val avatar: Int = R.drawable.base_avatar
 )

@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.navigation.NavigationItem
@@ -33,23 +32,24 @@ fun ProjectContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                actions = {
-                    IconButton(onClick = {
-                        navController.navigate(NavigationItem.Profile.route)
-                    }) {
-                        Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
-                    }
-                },
                 title = {
                     Text(
                         text = stringResource(R.string.projects),
                         style = AppTheme.textStyles.titleText,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 55.dp)
+                            .padding(start = AppTheme.offsets.large)
                             .wrapContentWidth(Alignment.CenterHorizontally)
                     )
                 },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(NavigationItem.Profile.route)
+                        }) {
+                        Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
+                    }
+                }
             )
         }
     )
@@ -59,9 +59,7 @@ fun ProjectContent(
                 .padding(containerPadding)
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
-        ) {
-
-        }
+        ) {}
     }
 }
 
@@ -69,5 +67,5 @@ fun ProjectContent(
 @Preview
 @Composable
 fun Preview() {
-   // ProjectContent()
+    //ProjectContent()
 }
