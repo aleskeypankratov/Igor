@@ -15,8 +15,8 @@ class GetSessionUseCase(
     suspend fun getSession(code: String): ResultSignIn<Unit> {
         return try {
             val response = repository.getSession(keyValueStorage.deviceId ?: "", code, lifeTime)
-            keyValueStorage.accessToken = response.data.session.accessToken
-            keyValueStorage.refreshToken = response.data.session.refreshToken
+            keyValueStorage.accessToken = response.data?.session?.accessToken
+            keyValueStorage.refreshToken = response.data?.session?.refreshToken
             //Log.v("token", "${keyValueStorage.accessToken} ${keyValueStorage.refreshToken}")
             ResultSignIn.GotSession()
         } catch (e: ClientRequestException) {

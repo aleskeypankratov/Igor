@@ -28,48 +28,46 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.theme.AppTheme
+import ru.handh.school.igor.utils.versionCode
+import ru.handh.school.igor.utils.versionName
 
-private const val build = "42"
 private val iconSize = 82.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutContent(
-    navController: NavHostController,
-    context: Context
+    navController: NavHostController, context: Context
 ) {
-    val version = context.packageManager.getPackageInfo(context.packageName, 0).versionName
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
-                    }
-                },
-                title = {
-                    Text(
-                        text = stringResource(R.string.about),
-                        style = AppTheme.textStyles.titleText,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 60.dp)
-                            .wrapContentWidth(Alignment.CenterHorizontally)
-                    )
-                },
-            )
-        }
-    )
-    { containerPadding ->
+
+    val version = context.versionName
+    val build = context.versionCode
+        Scaffold(topBar = {
+        TopAppBar(
+            navigationIcon = {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                }
+            },
+            title = {
+                Text(
+                    text = stringResource(R.string.about),
+                    style = AppTheme.textStyles.titleText,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 60.dp)
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                )
+            },
+        )
+    }) { containerPadding ->
         Column(
             modifier = Modifier
                 .padding(containerPadding)
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
-        )
-        {
+        ) {
             Row(modifier = Modifier.padding(AppTheme.offsets.medium)) {
                 Image(
                     modifier = Modifier.size(iconSize),
@@ -78,8 +76,7 @@ fun AboutContent(
                 )
                 Column(
                     modifier = Modifier.padding(
-                        AppTheme.offsets.medium,
-                        AppTheme.offsets.tiny
+                        AppTheme.offsets.medium, AppTheme.offsets.tiny
                     )
                 ) {
                     Text(
@@ -88,13 +85,10 @@ fun AboutContent(
                         modifier = Modifier.padding(bottom = AppTheme.offsets.tiny)
                     )
                     Text(
-                        text = stringResource(
-                            R.string.version, version
-                        ),
-                        style = AppTheme.textStyles.smallLightText
+                        text = (stringResource(R.string.version, version)), style = AppTheme.textStyles.smallLightText
                     )
                     Text(
-                        text = stringResource(R.string.build, build),
+                        text = (stringResource(R.string.build, build)),
                         style = AppTheme.textStyles.smallLightText
                     )
                 }

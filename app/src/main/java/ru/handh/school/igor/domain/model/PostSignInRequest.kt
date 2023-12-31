@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PostSignInRequest(
 
-    @SerialName("Email") var email: String
+    @SerialName("Email") var email: String?
 )

@@ -9,25 +9,29 @@ import androidx.navigation.compose.composable
 fun AppNavGraph(
     startScreen: String,
     navController: NavHostController,
-    signInContent: @Composable () -> Unit,
-    aboutContent: @Composable () -> Unit,
-    projectContent: @Composable () -> Unit,
-    profileContent: @Composable () -> Unit
+    content: ComposableContent
 ) {
     NavHost(
         navController = navController, startDestination = startScreen
     ) {
         composable(route = NavigationItem.SignIn.route) {
-            signInContent()
+            content.signInContent()
         }
         composable(route = NavigationItem.About.route) {
-            aboutContent()
+            content.aboutContent()
         }
         composable(route = NavigationItem.Profile.route) {
-            profileContent()
+            content.profileContent()
         }
         composable(route = NavigationItem.Project.route) {
-            projectContent()
+            content.projectContent()
         }
     }
 }
+
+data class ComposableContent(
+    val signInContent: @Composable () -> Unit,
+    val aboutContent: @Composable () -> Unit,
+    val projectContent: @Composable () -> Unit,
+    val profileContent: @Composable () -> Unit
+)

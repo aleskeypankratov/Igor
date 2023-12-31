@@ -35,9 +35,7 @@ private var DefaultContainerHeight = 56.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileContent(
-    state: ProfileState,
     navController: NavHostController,
-    onAction: (ProfileAction) -> Unit = {},
     info: ProfileInfo
 ) {
     Scaffold(
@@ -85,7 +83,7 @@ fun ProfileContent(
                     colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
                     shape = (AppTheme.roundings.large),
                     onClick = {
-                        onAction(ProfileAction.SubmitClicked)
+                        navController.navigate(NavigationItem.SignIn.route)
                     })
             }
         }

@@ -3,7 +3,7 @@ package ru.handh.school.igor.data
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
@@ -25,15 +25,15 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostSignInRequest
-import ru.handh.school.igor.domain.model.getProfileResponse.getProfileResponse
-import ru.handh.school.igor.domain.model.getProjectsResponse.getProjectsResponse
+import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
+import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
 import ru.handh.school.igor.domain.model.getSessionResponse.GetSessionResponse
 
 class IgorRepositoryImp(
     private val keyValueStorage: KeyValueStorage
 ) : IgorRepository {
 
-    private val client = HttpClient(CIO) {
+    private val client = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
                 prettyPrint = true
@@ -41,6 +41,24 @@ class IgorRepositoryImp(
                 ignoreUnknownKeys = true
                 encodeDefaults = false
             })
+        }
+        install(Auth) {
+            bearer {
+                loadTokens {
+                    BearerTokens(
+                        keyValueStorage.accessToken ?: "", keyValueStorage.refreshToken ?: ""
+                    )
+                }
+                refreshTokens {
+                    val token = client.post {
+                        url(ApiRoutes.REFRESH)
+                    }.body<GetSessionResponse>()
+                    BearerTokens(
+                        accessToken = token.data?.session?.accessToken?:"",
+                        refreshToken = token.data?.session?.refreshToken?:""
+                    )
+                }
+            }
         }
         install(Logging) {
             logger = object : Logger {
@@ -80,60 +98,18 @@ class IgorRepositoryImp(
 
     override suspend fun refresh() {
 
-        val clientBearer = HttpClient(CIO) {
-            install(Auth) {
-                bearer {
-                    refreshTokens {
-                        val token = client.post {
-                            url(ApiRoutes.REFRESH) {
-                                headers {
-                                    append(
-                                        "Authorization",
-                                        "Bearer ${keyValueStorage.accessToken!!}"
-                                    )
-                                }
-                            }
-                        }.body<GetSessionResponse>()
-                        BearerTokens(
-                            accessToken = token.data.session.accessToken,
-                            refreshToken = token.data.session.refreshToken
-                        )
-                    }
-                }
-            }
-            install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        Log.v("Logger Ktor =>", message)
-                    }
-                }
-                level = LogLevel.ALL
-            }
-        }
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT) {
-            headers {
-                append("Authorization", "Bearer ${keyValueStorage.accessToken!!}")
-            }
-        }
+        client.post(ApiRoutes.SIGNOUT)
     }
 
-    override suspend fun getProfile(): getProfileResponse {
-        return client.get(ApiRoutes.PROFILE) {
-            headers {
-                append("Authorization", "Bearer ${keyValueStorage.accessToken!!}")
-            }
-        }.body<getProfileResponse>()
+    override suspend fun getProfile(): GetProfileResponse {
+        return client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
     }
 
-    override suspend fun getProjects(): getProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS) {
-            headers {
-                append("Authorization", "Bearer ${keyValueStorage.accessToken!!}")
-            }
-        }.body<getProjectsResponse>()
+    override suspend fun getProjects(): GetProjectsResponse {
+        return client.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
     }
 
     override suspend fun getNotification() {

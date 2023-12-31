@@ -17,6 +17,7 @@ import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.KeyValueStorage
 import ru.handh.school.igor.domain.model.ProfileInfo
 import ru.handh.school.igor.ui.navigation.AppNavGraph
+import ru.handh.school.igor.ui.navigation.ComposableContent
 import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.screen.about.AboutContent
 import ru.handh.school.igor.ui.screen.profile.ProfileScreen
@@ -79,16 +80,16 @@ class MainActivity : ComponentActivity() {
      */
     private fun setupRootComponent() {
         setContent {
-            deviceIdProvider.deviceId
             val navController = rememberNavController()
             AppTheme {
-                AppNavGraph(startScreen = (if (storage.accessToken != null) {
-                    NavigationItem.Project.route
-                } else {
-                    NavigationItem.SignIn.route
-                }).toString(),
+                AppNavGraph(
+                    startScreen = (if (storage.accessToken != null) {
+                        NavigationItem.Project.route
+                    } else {
+                        NavigationItem.SignIn.route
+                    }).toString(),
                     navController = navController,
-                    signInContent = {
+                    content = ComposableContent(signInContent = {
                         SignInScreen(
                             vm = koinViewModel(),
                             navController = navController,
@@ -104,10 +105,10 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             profileInfo = ProfileInfo("Смирнов", "Андрей")
                         )
-                    },
-                    projectContent = {
+                    }, projectContent = {
                         ProjectContent(navController = navController)
                     })
+                )
             }
         }
         keepSplashScreenUntilAllComplete()

@@ -6,10 +6,12 @@ import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
 import ru.handh.school.igor.domain.usecase.GetProfileUseCase
+import ru.handh.school.igor.domain.usecase.GetProjectUseCase
 import ru.handh.school.igor.domain.usecase.GetSessionUseCase
 import ru.handh.school.igor.domain.usecase.SignInUseCase
 import ru.handh.school.igor.domain.usecase.SignOutUseCase
 import ru.handh.school.igor.ui.screen.profile.ProfileViewModel
+import ru.handh.school.igor.ui.screen.project.ProjectViewModel
 import ru.handh.school.igor.ui.screen.signin.SignInViewModel
 
 val appModule = module {
@@ -29,6 +31,9 @@ val appModule = module {
         SignOutUseCase(get(), get())
     }
     single {
+        GetProjectUseCase(get())
+    }
+    single {
         SignInUseCase(get(), get())
     }
     single {
@@ -39,5 +44,8 @@ val appModule = module {
     }
     viewModel {
         ProfileViewModel(get())
+    }
+    viewModel {
+        ProjectViewModel(get())
     }
 }
