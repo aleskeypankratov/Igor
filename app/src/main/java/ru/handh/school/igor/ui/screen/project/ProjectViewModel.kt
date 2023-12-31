@@ -7,7 +7,7 @@ import ru.handh.school.igor.ui.base.BaseViewModel
 
 class ProjectViewModel(
     getProjectUseCase: GetProjectUseCase
-) : BaseViewModel<ProjectState, ProjectViewAction>(InitialProfileState) {
+) : BaseViewModel<ProjectState, ProjectViewAction>(InitialProjectState) {
 
     override fun onAction(action: ProjectViewAction) = when (action) {
         is ProjectViewAction.ProjectClicked -> onProjectClicked()
@@ -15,7 +15,6 @@ class ProjectViewModel(
 
     private fun onProjectClicked() {
         viewModelScope.launch {
-            getProjectUseCase.getProject()
         }
     }
 }

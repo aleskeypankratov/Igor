@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("kotlin-kapt")
 }
 
 android {
@@ -12,12 +13,15 @@ android {
         applicationId = "ru.handh.school.igor"
         minSdk = 21
         targetSdk = 34
-        versionCode = 1
+        versionCode = 42
         versionName = "1.13"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        kapt {
+            arguments {arg("room.schemaLocation", "$projectDir/schemas")}
         }
     }
 
@@ -63,6 +67,10 @@ dependencies {
     implementation("io.insert-koin:koin-core:3.4.3")
     implementation("io.insert-koin:koin-android:3.4.3")
     implementation("io.insert-koin:koin-androidx-compose:3.4.6")
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.6")

@@ -1,11 +1,11 @@
 package ru.handh.school.igor.ui.screen.project
 
-import ru.handh.school.igor.domain.usecase.result.ResultProfile
+import ru.handh.school.igor.domain.usecase.result.ResultProject
 
-val InitialProfileState = ProjectState(
-    result = ResultProfile.Default()
+val InitialProjectState = ProjectState(
+    result = ResultProject.Default()
 )
 
 data class ProjectState(
-    val result: ResultProfile<Unit>
+    val result: ResultProject<Unit>
 )
