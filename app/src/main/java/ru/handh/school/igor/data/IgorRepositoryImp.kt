@@ -89,6 +89,7 @@ class IgorRepositoryImp(
         id: String, incomingCode: String, lifeTime: Int
     ): GetSessionResponse {
         return client.get(ApiRoutes.SESSION) {
+            attributes.put(Auth.AuthCircuitBreaker, Unit)
             headers {
                 append("X-Device-Id", id)
                 append("X-OTP", incomingCode)
@@ -101,15 +102,21 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT)
+        client.post(ApiRoutes.SIGNOUT) {
+            attributes.put(Auth.AuthCircuitBreaker, Unit)
+        }
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        return client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
+        return client.get(ApiRoutes.PROFILE){
+            attributes.put(Auth.AuthCircuitBreaker, Unit)
+        }.body<GetProfileResponse>()
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
+        return client.get(ApiRoutes.PROJECTS){
+            attributes.put(Auth.AuthCircuitBreaker, Unit)
+        }.body<GetProjectsResponse>()
     }
 
     override suspend fun getNotification() {

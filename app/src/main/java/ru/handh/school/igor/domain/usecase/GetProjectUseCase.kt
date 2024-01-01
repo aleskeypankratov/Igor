@@ -10,7 +10,7 @@ class GetProjectUseCase(
 ) {
     suspend fun getProject(): ResultProject<Unit> {
         return try {
-            val response = repository.getProjects()
+            repository.getProjects()
             ResultProject.GotProject()
         } catch (e: ClientRequestException) {
             ResultProject.RequestError()

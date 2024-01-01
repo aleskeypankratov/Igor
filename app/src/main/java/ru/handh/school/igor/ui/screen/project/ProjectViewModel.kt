@@ -6,7 +6,7 @@ import ru.handh.school.igor.domain.usecase.GetProjectUseCase
 import ru.handh.school.igor.ui.base.BaseViewModel
 
 class ProjectViewModel(
-    getProjectUseCase: GetProjectUseCase
+    private val getProjectUseCase: GetProjectUseCase
 ) : BaseViewModel<ProjectState, ProjectViewAction>(InitialProjectState) {
 
     override fun onAction(action: ProjectViewAction) = when (action) {
@@ -15,6 +15,8 @@ class ProjectViewModel(
 
     private fun onProjectClicked() {
         viewModelScope.launch {
+            val response = getProjectUseCase.getProject()
+            reduceState { it.copy(result = response)}
         }
     }
 }

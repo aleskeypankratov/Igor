@@ -7,5 +7,5 @@ val InitialProjectState = ProjectState(
 )
 
 data class ProjectState(
-    val result: ResultProject<Unit>
+    var result: ResultProject<Unit>
 )

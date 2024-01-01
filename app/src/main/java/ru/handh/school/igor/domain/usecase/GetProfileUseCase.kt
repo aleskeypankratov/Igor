@@ -11,7 +11,7 @@ class GetProfileUseCase(
 ) {
     suspend fun getProfile(): ResultProfile<Unit> {
         return try {
-            val response = repository.getProfile()
+            repository.getProfile()
             ResultProfile.GotProfile()
         } catch (e: ClientRequestException) {
             ResultProfile.RequestError()

@@ -15,12 +15,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
+import ru.handh.school.igor.domain.usecase.result.ResultProject
 import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -28,7 +31,12 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @Composable
 fun ProjectContent(
     navController: NavHostController,
-) {
+    vm: ProjectViewModel
+)
+
+{
+    val state by vm.state.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -54,12 +62,20 @@ fun ProjectContent(
         }
     )
     { containerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(containerPadding)
-                .fillMaxSize()
-                .background(AppTheme.colors.background)
-        ) {}
+        when (state.result) {
+            is ResultProject.Default ->
+                Column(
+                    modifier = Modifier
+                        .padding(containerPadding)
+                        .fillMaxSize()
+                        .background(AppTheme.colors.background)
+                ) {}
+            is ResultProject.GotProject -> TODO()
+            is ResultProject.RequestError -> TODO()
+            is ResultProject.ServerError -> TODO()
+            is ResultProject.UnknownError -> TODO()
+        }
+
     }
 }
 

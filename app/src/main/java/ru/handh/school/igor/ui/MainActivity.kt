@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
                             profileInfo = ProfileInfo("Смирнов", "Андрей")
                         )
                     }, projectContent = {
-                        ProjectContent(navController = navController)
+                        ProjectContent(navController = navController, vm = koinViewModel())
                     })
                 )
             }
