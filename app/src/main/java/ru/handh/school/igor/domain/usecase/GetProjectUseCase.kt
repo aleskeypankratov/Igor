@@ -13,7 +13,7 @@ class GetProjectUseCase(
             repository.getProjects()
             ResultProject.GotProject()
         } catch (e: ClientRequestException) {
-            ResultProject.RequestError()
+            ResultProject.Loading()
         } catch (e: ServerResponseException) {
             ResultProject.ServerError()
         } catch (e: Exception) {

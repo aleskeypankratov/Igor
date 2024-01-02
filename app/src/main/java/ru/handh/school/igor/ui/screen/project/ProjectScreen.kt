@@ -20,7 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
 import ru.handh.school.igor.domain.usecase.result.ResultProject
@@ -30,48 +30,47 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProjectContent(
-    navController: NavHostController,
-    vm: ProjectViewModel
-)
-
-{
+    navController: NavHostController, vm: ProjectViewModel
+) {
     val state by vm.state.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.projects),
-                        style = AppTheme.textStyles.titleText,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = AppTheme.offsets.large)
-                            .wrapContentWidth(Alignment.CenterHorizontally)
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navController.navigate(NavigationItem.Profile.route)
-                        }) {
-                        Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
-                    }
-                }
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(
+                text = stringResource(R.string.projects),
+                style = AppTheme.textStyles.titleText,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = AppTheme.offsets.large)
+                    .wrapContentWidth(Alignment.CenterHorizontally)
             )
-        }
-    )
-    { containerPadding ->
+        }, actions = {
+            IconButton(onClick = {
+                navController.navigate(NavigationItem.Profile.route)
+            }) {
+                Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
+            }
+        })
+    }) { containerPadding ->
         when (state.result) {
-            is ResultProject.Default ->
+            is ResultProject.Default -> {
+
                 Column(
-                    modifier = Modifier
-                        .padding(containerPadding)
-                        .fillMaxSize()
-                        .background(AppTheme.colors.background)
-                ) {}
-            is ResultProject.GotProject -> TODO()
-            is ResultProject.RequestError -> TODO()
+                modifier = Modifier
+                    .padding(containerPadding)
+                    .fillMaxSize()
+                    .background(AppTheme.colors.background)
+            ) {
+                    repeat(5) {
+                        SingleProject(name = "as", text = "ff", modifier = Modifier.padding(16.dp))}
+                }
+           }
+
+
+            is ResultProject.GotProject -> {
+            }
+
+            is ResultProject.Loading -> TODO()
             is ResultProject.ServerError -> TODO()
             is ResultProject.UnknownError -> TODO()
         }
@@ -79,9 +78,3 @@ fun ProjectContent(
     }
 }
 
-
-@Preview
-@Composable
-fun Preview() {
-    //ProjectContent()
-}
