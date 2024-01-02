@@ -44,6 +44,6 @@ fun ProfileInformation(
 
 @Preview
 @Composable
-fun preview() {
+fun Preview() {
     ProfileInformation(ProfileInfo("Смирнов", "Андрей"))
 }

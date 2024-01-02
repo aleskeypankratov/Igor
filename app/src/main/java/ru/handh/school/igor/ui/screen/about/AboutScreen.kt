@@ -81,7 +81,7 @@ fun AboutContent(
                 ) {
                     Text(
                         text = stringResource(R.string.name),
-                        style = AppTheme.textStyles.mediumMediumText,
+                        style = AppTheme.textStyles.smallMediumText,
                         modifier = Modifier.padding(bottom = AppTheme.offsets.tiny)
                     )
                     Text(

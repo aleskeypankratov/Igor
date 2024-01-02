@@ -7,8 +7,8 @@ import androidx.compose.ui.unit.sp
 import ru.handh.school.igor.R
 
 data class AppTextStyles(
+    val tinyMediumText: TextStyle,
     val smallMediumText: TextStyle,
-    val mediumMediumText: TextStyle,
     val normalMediumText: TextStyle,
     val maxMediumText: TextStyle,
     val smallLightText: TextStyle,
@@ -17,12 +17,14 @@ data class AppTextStyles(
     val normalRegularText: TextStyle,
     val mediumRegularText: TextStyle,
     val smallRegularText: TextStyle,
+    val projectErrorTitle: TextStyle,
+    val projectErrorText: TextStyle,
 )
 
 val defaultTextStyles = AppTextStyles(
-    smallMediumText = TextStyle(
+    tinyMediumText = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 14.sp, lineHeight = 22.sp
-    ), mediumMediumText = TextStyle(
+    ), smallMediumText = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 16.sp, lineHeight = 20.sp
     ), miniMediumText = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_medium)), fontSize = 20.sp, lineHeight = 20.sp
@@ -37,8 +39,18 @@ val defaultTextStyles = AppTextStyles(
     ), normalRegularText = TextStyle(
         fontFamily = FontFamily(Font(R.font.roboto_regular)), fontSize = 22.sp, lineHeight = 28.sp
     ), mediumRegularText = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_regular)), fontSize = 16.sp, lineHeight = 24.sp, letterSpacing = 0.5f.sp
+        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5f.sp
     ), smallRegularText = TextStyle(
-        fontFamily = FontFamily(Font(R.font.roboto_regular)), fontSize = 14.sp, lineHeight = 20.sp, letterSpacing = 0.25f.sp
+        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.25f.sp
+    ), projectErrorTitle = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_regular)), fontSize = 24.sp, lineHeight = 34.sp
+    ), projectErrorText = TextStyle(
+        fontFamily = FontFamily(Font(R.font.roboto_regular)), fontSize = 16.sp, lineHeight = 16.sp
     )
 )

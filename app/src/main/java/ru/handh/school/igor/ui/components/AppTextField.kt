@@ -56,7 +56,7 @@ fun AppTextField(
             modifier = modifier.padding(horizontal = AppTheme.offsets.medium),
             value = value,
             onValueChange = onValueChange,
-            textStyle = AppTheme.textStyles.mediumMediumText.copy(
+            textStyle = AppTheme.textStyles.smallMediumText.copy(
                 if (isFocused) {
                     AppTheme.colors.primaryBrand
                 } else {
@@ -70,7 +70,7 @@ fun AppTextField(
                 .padding(horizontal = AppTheme.offsets.medium)
                 .alpha(if (value.isEmpty()) 1f else 0f),
             text = hint,
-            style = AppTheme.textStyles.mediumMediumText.copy(color = AppTheme.colors.unfocus),
+            style = AppTheme.textStyles.smallMediumText.copy(color = AppTheme.colors.unfocus),
             maxLines = 1
         )
     }

@@ -41,7 +41,7 @@ fun AppButton(
         .height(DefaultContainerHeight)
         .padding(horizontal = AppTheme.offsets.medium)
 
-    val textStyle = AppTheme.textStyles.mediumMediumText.copy(color = AppTheme.colors.textOnControl)
+    val textStyle = AppTheme.textStyles.smallMediumText.copy(color = AppTheme.colors.textOnControl)
 
     Box(
         modifier = buttonModifier, contentAlignment = Alignment.Center

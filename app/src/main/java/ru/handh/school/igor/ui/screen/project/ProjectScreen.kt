@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,25 +54,32 @@ fun ProjectContent(
             }
         })
     }) { containerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(containerPadding)
+                .fillMaxSize()
+                .background(AppTheme.colors.background)
+        ) {}
         when (state.result) {
             is ResultProject.Default -> {
-
-                Column(
-                modifier = Modifier
-                    .padding(containerPadding)
-                    .fillMaxSize()
-                    .background(AppTheme.colors.background)
-            ) {
-                    repeat(5) {
-                        SingleProject(name = "as", text = "ff", modifier = Modifier.padding(16.dp))}
-                }
-           }
-
-
-            is ResultProject.GotProject -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(48.dp),
+                    color = AppTheme.colors.textOnControl,
+                    strokeWidth = 48.dp
+                )
             }
-
-            is ResultProject.Loading -> TODO()
+            is ResultProject.GotProject -> {
+                repeat(5) {
+                    SingleProject(name = "as", text = "ff", modifier = Modifier.padding(16.dp))
+                }
+            }
+            is ResultProject.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(48.dp),
+                    color = AppTheme.colors.textOnControl,
+                    strokeWidth = 48.dp
+                )
+            }
             is ResultProject.ServerError -> TODO()
             is ResultProject.UnknownError -> TODO()
         }

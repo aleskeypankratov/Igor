@@ -52,11 +52,10 @@ fun SingleProject(
 }
 
 fun generateRandomColor(): Color {
-    val random = Random
     return Color(
-        red = random.nextFloat(),
-        green = random.nextFloat(),
-        blue = random.nextFloat(),
+        Random.nextFloat(),
+        Random.nextFloat(),
+        Random.nextFloat(),
     )
 }
 

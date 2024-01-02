@@ -3,6 +3,7 @@ package ru.handh.school.igor.ui.screen.project
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.handh.school.igor.domain.usecase.GetProjectUseCase
+import ru.handh.school.igor.domain.usecase.result.ResultProject
 import ru.handh.school.igor.ui.base.BaseViewModel
 
 class ProjectViewModel(
@@ -15,6 +16,7 @@ class ProjectViewModel(
 
     private fun onProjectClicked() {
         viewModelScope.launch {
+            reduceState { it.copy(result = ResultProject.Loading()) }
             val response = getProjectUseCase.getProject()
             reduceState { it.copy(result = response)}
         }
