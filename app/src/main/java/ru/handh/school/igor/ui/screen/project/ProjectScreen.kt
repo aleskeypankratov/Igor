@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,9 +33,14 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProjectContent(
-    navController: NavHostController, vm: ProjectViewModel
+    navController: NavHostController, 
+    vm: ProjectViewModel, 
 ) {
     val state by vm.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        vm.onAction(ProjectViewAction.ProjectClicked)
+    }
 
     Scaffold(topBar = {
         TopAppBar(title = {
@@ -59,31 +65,30 @@ fun ProjectContent(
                 .padding(containerPadding)
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
-        ) {}
-        when (state.result) {
-            is ResultProject.Default -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(48.dp),
-                    color = AppTheme.colors.textOnControl,
-                    strokeWidth = 48.dp
-                )
-            }
-            is ResultProject.GotProject -> {
-                repeat(5) {
-                    SingleProject(name = "as", text = "ff", modifier = Modifier.padding(16.dp))
-                }
-            }
-            is ResultProject.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(48.dp),
-                    color = AppTheme.colors.textOnControl,
-                    strokeWidth = 48.dp
-                )
-            }
-            is ResultProject.ServerError -> TODO()
-            is ResultProject.UnknownError -> TODO()
-        }
+        ) {
 
+            when (state.result) {
+                is ResultProject.Default -> {
+                }
+                is ResultProject.GotProject -> {
+                    repeat(5) {
+                        SingleProject(name = "as", text = "ff", modifier = Modifier.padding(16.dp))
+                    }
+                }
+
+                is ResultProject.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(48.dp),
+                        color = AppTheme.colors.textOnControl,
+                        strokeWidth = 48.dp
+                    )
+                }
+
+                is ResultProject.ServerError ->
+                    ProjectError(error = "")
+                is ResultProject.UnknownError -> TODO()
+            }
+        }
     }
 }
 

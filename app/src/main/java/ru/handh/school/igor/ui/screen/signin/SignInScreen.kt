@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 import ru.handh.school.igor.ui.navigation.NavigationItem
@@ -39,7 +38,7 @@ fun SignInScreen(
             }
 
             is ResultSignIn.GotSession -> {
-                navController.navigate(NavigationItem.Profile.route) {
+                navController.navigate(NavigationItem.Project.route) {
                     launchSingleTop = true
                 }
             }

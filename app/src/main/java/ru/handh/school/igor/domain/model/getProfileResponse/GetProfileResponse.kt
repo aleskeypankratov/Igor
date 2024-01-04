@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetProfileResponse(
-    val `data`: Data?
+    val `data`: Data? = null
 )

@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Data(
     val hasMore: Boolean?,
-    val projects: List<String>?
+    val projects: Map<String, String>?
 )

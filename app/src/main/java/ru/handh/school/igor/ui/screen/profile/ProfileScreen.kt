@@ -12,7 +12,8 @@ fun ProfileScreen(
 ) {
     ProfileContent(
         navController = navController,
-        profileInfo
+        vm = vm,
+        info = profileInfo
     )
 }
 

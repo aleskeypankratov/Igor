@@ -1,5 +1,6 @@
 package ru.handh.school.igor.domain.usecase
 
+import android.util.Log
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import ru.handh.school.igor.data.IgorRepositoryImp
@@ -17,7 +18,7 @@ class GetSessionUseCase(
             val response = repository.getSession(keyValueStorage.deviceId ?: "", code, lifeTime)
             keyValueStorage.accessToken = response.data?.session?.accessToken
             keyValueStorage.refreshToken = response.data?.session?.refreshToken
-            //Log.v("token", "${keyValueStorage.accessToken} ${keyValueStorage.refreshToken}")
+            Log.v("token", "${keyValueStorage.accessToken} ${keyValueStorage.refreshToken}")
             ResultSignIn.GotSession()
         } catch (e: ClientRequestException) {
             ResultSignIn.RequestError()

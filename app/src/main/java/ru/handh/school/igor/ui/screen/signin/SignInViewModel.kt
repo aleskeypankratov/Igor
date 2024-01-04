@@ -9,8 +9,7 @@ import ru.handh.school.igor.ui.base.BaseViewModel
 
 //
 class SignInViewModel(
-    private val signInUseCase: SignInUseCase,
-    private val getSessionUseCase: GetSessionUseCase
+    private val signInUseCase: SignInUseCase, private val getSessionUseCase: GetSessionUseCase
 ) : BaseViewModel<SignInState, SignInViewAction>(InitialSignInState) {
     private var isPasswordGot = false
 
@@ -23,25 +22,32 @@ class SignInViewModel(
     private fun onSubmitClicked() {
         viewModelScope.launch {
             val email = state.value.email
+
+//            if (!isPasswordGot) {
+//                reduceState { it.copy(result = ResultSignIn.LoggedIn(), signInLoading = false) }
+//                isPasswordGot = true
+//
+//        } else {
+//                reduceState {
+//                    it.copy(result = ResultSignIn.GotSession())
+//                }
+//            }
+
             if (!isPasswordGot) {
-
-                reduceState { it.copy(result = ResultSignIn.LoggedIn(), signInLoading = false) }
-                isPasswordGot = true
-
-/*                reduceState { it.copy(signInLoading = true) }
+                reduceState { it.copy(signInLoading = true) }
                 val signInResult = signInUseCase.signIn(email)
                 reduceState { it.copy(result = signInResult, signInLoading = false) }
                 if (signInResult is ResultSignIn.LoggedIn) {
                     isPasswordGot = true
-                }*/
-            } else {
-                reduceState { it.copy(result = ResultSignIn.GotSession())}
+                }
 
-/*                val code = state.value.code
+            } else {
+                reduceState { it.copy(result = ResultSignIn.GotSession()) }
+                val code = state.value.code
                 val getSession = getSessionUseCase.getSession(code)
                 if (getSession is ResultSignIn.GotSession) {
                     reduceState { it.copy(result = getSession) }
-                }*/
+                }
             }
         }
     }

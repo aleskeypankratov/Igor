@@ -80,6 +80,7 @@ class MainActivity : ComponentActivity() {
      */
     private fun setupRootComponent() {
         setContent {
+            deviceIdProvider.deviceId
             val navController = rememberNavController()
             AppTheme {
                 AppNavGraph(

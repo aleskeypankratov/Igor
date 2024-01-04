@@ -18,7 +18,6 @@ import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -50,12 +49,12 @@ class IgorRepositoryImp(
                     )
                 }
                 refreshTokens {
-                    val token = client.post {
-                        url(ApiRoutes.REFRESH)
+                    val token = client.post(ApiRoutes.REFRESH) {
+                        attributes.put(Auth.AuthCircuitBreaker, Unit)
                     }.body<GetSessionResponse>()
                     BearerTokens(
-                        accessToken = token.data?.session?.accessToken?:"",
-                        refreshToken = token.data?.session?.refreshToken?:""
+                        accessToken = token.data?.session?.accessToken ?: "",
+                        refreshToken = token.data?.session?.refreshToken ?: ""
                     )
                 }
             }
@@ -108,13 +107,13 @@ class IgorRepositoryImp(
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        return client.get(ApiRoutes.PROFILE){
+        return client.get(ApiRoutes.PROFILE) {
             attributes.put(Auth.AuthCircuitBreaker, Unit)
         }.body<GetProfileResponse>()
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS){
+        return client.get(ApiRoutes.PROJECTS) {
             attributes.put(Auth.AuthCircuitBreaker, Unit)
         }.body<GetProjectsResponse>()
     }

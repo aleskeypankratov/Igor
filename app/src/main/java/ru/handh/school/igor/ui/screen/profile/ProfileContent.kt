@@ -35,7 +35,8 @@ private var DefaultContainerHeight = 56.dp
 @Composable
 fun ProfileContent(
     navController: NavHostController,
-    info: ProfileInfo
+    info: ProfileInfo,
+    vm: ProfileViewModel
 ) {
     Scaffold(
         topBar = {
@@ -82,7 +83,8 @@ fun ProfileContent(
                     colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
                     shape = (AppTheme.roundings.large),
                     onClick = {
-                        navController.navigate(NavigationItem.SignIn.route)
+                        vm.onAction(ProfileViewAction.ExitClicked)
+                        //navController.navigate(NavigationItem.SignIn.route)
                     })
             }
         }
