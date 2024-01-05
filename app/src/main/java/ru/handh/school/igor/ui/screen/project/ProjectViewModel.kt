@@ -18,9 +18,7 @@ class ProjectViewModel(
         viewModelScope.launch {
             reduceState { it.copy(result = ResultProject.Loading()) }
             val response = getProjectUseCase.getProject()
-            val projectsList = response.data
-
-            reduceState { it.copy(result = response, projects = emptyMap()) }
+            reduceState { it.copy(result = response)}
         }
     }
 }

@@ -96,10 +96,6 @@ class IgorRepositoryImp(
         }.body<GetSessionResponse>()
     }
 
-    override suspend fun refresh() {
-
-    }
-
     override suspend fun signOut() {
         client.post(ApiRoutes.SIGNOUT) {
             attributes.put(Auth.AuthCircuitBreaker, Unit)

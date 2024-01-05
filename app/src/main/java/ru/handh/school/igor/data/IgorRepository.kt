@@ -10,7 +10,6 @@ interface IgorRepository {
 
     suspend fun signIn(id: String, emailRequest: PostSignInRequest): HttpResponse
     suspend fun getSession(id: String, incomingCode: String, lifeTime: Int): GetSessionResponse
-    suspend fun refresh()
     suspend fun signOut()
     suspend fun getProfile(): GetProfileResponse
     suspend fun getProjects(): GetProjectsResponse

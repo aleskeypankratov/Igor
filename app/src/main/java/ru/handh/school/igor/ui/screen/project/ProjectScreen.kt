@@ -70,9 +70,10 @@ fun ProjectContent(
             when (state.result) {
                 is ResultProject.Default -> {
                 }
-                is ResultProject.GotProject -> {
-                    repeat(5) {
-                        SingleProject(name = "as", text = "ff", modifier = Modifier.padding(16.dp))
+                is ResultProject.GotProject-> {
+                    val projects = (state.result as ResultProject.GotProject).response.data?.projects
+                    projects?.forEach { (name, text) ->
+                        SingleProject(name = name, text = text, modifier = Modifier.padding(16.dp))
                     }
                 }
 
