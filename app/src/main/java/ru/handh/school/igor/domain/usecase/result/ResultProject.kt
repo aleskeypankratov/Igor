@@ -8,5 +8,6 @@ sealed class ResultProject<T> {
     class Loading<T> : ResultProject<T>()
     class ServerError<T> : ResultProject<T>()
     class Default<T> : ResultProject<T>()
+    class RequestError<T> : ResultProject<T>()
 
 }

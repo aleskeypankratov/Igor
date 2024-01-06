@@ -12,13 +12,20 @@ class ProjectViewModel(
 
     override fun onAction(action: ProjectViewAction) = when (action) {
         is ProjectViewAction.ProjectClicked -> onProjectClicked()
+        is ProjectViewAction.GetProfile -> onProfileRequest()
     }
 
     private fun onProjectClicked() {
         viewModelScope.launch {
             reduceState { it.copy(result = ResultProject.Loading()) }
             val response = getProjectUseCase.getProject()
-            reduceState { it.copy(result = response)}
+            reduceState { it.copy(result = response) }
+        }
+    }
+
+    private fun onProfileRequest() {
+        viewModelScope.launch {
+
         }
     }
 }

@@ -72,8 +72,8 @@ fun ProjectContent(
                 }
                 is ResultProject.GotProject-> {
                     val projects = (state.result as ResultProject.GotProject).response.data?.projects
-                    projects?.forEach { (name, text) ->
-                        SingleProject(name = name, text = text, modifier = Modifier.padding(16.dp))
+                    if ((projects != null) && (projects.size > 1)) {
+                        SingleProject(name = projects[0], text = projects[1], modifier = Modifier.padding(16.dp))
                     }
                 }
 
@@ -88,6 +88,7 @@ fun ProjectContent(
                 is ResultProject.ServerError ->
                     ProjectError(error = "")
                 is ResultProject.UnknownError -> TODO()
+                is ResultProject.RequestError -> TODO()
             }
         }
     }

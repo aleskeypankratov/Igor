@@ -5,10 +5,10 @@ import ru.handh.school.igor.domain.usecase.result.ResultProject
 
 val InitialProjectState = ProjectState(
     result = ResultProject.Default(),
-    projects = emptyMap()
+    projects = listOf()
 )
 
 data class ProjectState(
     var result: ResultProject<GetProjectsResponse>,
-    var projects: Map<String, String>
+    var projects: List<String>
 )
