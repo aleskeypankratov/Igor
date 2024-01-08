@@ -34,7 +34,35 @@ class IgorRepositoryImp(
     private val keyValueStorage: KeyValueStorage
 ) : IgorRepository {
 
+
     private val client = HttpClient(OkHttp) {
+        install(ContentNegotiation) {
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+                encodeDefaults = true
+                allowStructuredMapKeys = true
+                useArrayPolymorphism = true
+                allowSpecialFloatingPointValues = true
+                useAlternativeNames = true
+            })
+        }
+        install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    Log.v("Logger Ktor =>", message)
+                }
+            }
+            level = LogLevel.ALL
+        }
+        install(DefaultRequest) {
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+        }
+    }
+
+    private val clientAuth = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
                 prettyPrint = true
@@ -63,8 +91,7 @@ class IgorRepositoryImp(
             bearer {
                 loadTokens {
                     BearerTokens(
-                        accessToken = keyValueStorage.accessToken ?: "",
-                        refreshToken = keyValueStorage.refreshToken ?: ""
+                        accessToken = keyValueStorage.accessToken ?: "", refreshToken = keyValueStorage.refreshToken ?: ""
                     )
                 }
                 refreshTokens {
@@ -81,11 +108,11 @@ class IgorRepositoryImp(
         }
     }
 
+
     override suspend fun signIn(
         id: String, emailRequest: PostSignInRequest
     ): HttpResponse {
         return client.post(ApiRoutes.SIGNIN) {
-            attributes.put(Auth.AuthCircuitBreaker, Unit)
             headers {
                 append("X-Device-Id", id)
             }
@@ -105,15 +132,15 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT)
+        clientAuth.post(ApiRoutes.SIGNOUT)
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        return client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
+        return clientAuth.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
+        return clientAuth.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
     }
 
     override suspend fun getNotification() {
