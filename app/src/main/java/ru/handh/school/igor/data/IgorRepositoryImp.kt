@@ -1,5 +1,6 @@
 package ru.handh.school.igor.data
 
+
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -23,6 +24,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import ru.handh.school.igor.domain.model.PostRefreshRequest
 import ru.handh.school.igor.domain.model.PostSignInRequest
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
@@ -41,24 +43,6 @@ class IgorRepositoryImp(
                 encodeDefaults = false
             })
         }
-        install(Auth) {
-            bearer {
-                loadTokens {
-                    BearerTokens(
-                        keyValueStorage.accessToken ?: "", keyValueStorage.refreshToken ?: ""
-                    )
-                }
-                refreshTokens {
-                    val token = client.post(ApiRoutes.REFRESH) {
-                        attributes.put(Auth.AuthCircuitBreaker, Unit)
-                    }.body<GetSessionResponse>()
-                    BearerTokens(
-                        accessToken = token.data?.session?.accessToken ?: "",
-                        refreshToken = token.data?.session?.refreshToken ?: ""
-                    )
-                }
-            }
-        }
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
@@ -71,12 +55,32 @@ class IgorRepositoryImp(
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             accept(ContentType.Application.Json)
         }
+        install(Auth) {
+            bearer {
+                loadTokens {
+                    BearerTokens(
+                        keyValueStorage.accessToken ?: "", keyValueStorage.refreshToken ?: ""
+                    )
+                }
+                refreshTokens {
+                    val token = client.post(ApiRoutes.REFRESH) {
+                        markAsRefreshTokenRequest()
+                        setBody(PostRefreshRequest(keyValueStorage.refreshToken))
+                    }.body<GetSessionResponse>()
+                    BearerTokens(
+                        refreshToken = token.data?.session?.refreshToken ?: "",
+                        accessToken = token.data?.session?.accessToken ?: "",
+                    )
+                }
+            }
+        }
     }
 
     override suspend fun signIn(
         id: String, emailRequest: PostSignInRequest
     ): HttpResponse {
         return client.post(ApiRoutes.SIGNIN) {
+            attributes.put(Auth.AuthCircuitBreaker, Unit)
             headers {
                 append("X-Device-Id", id)
             }
@@ -97,21 +101,17 @@ class IgorRepositoryImp(
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT) {
-            attributes.put(Auth.AuthCircuitBreaker, Unit)
-        }
+        client.post(ApiRoutes.SIGNOUT) { attributes.put(Auth.AuthCircuitBreaker, Unit) }
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        return client.get(ApiRoutes.PROFILE) {
-            attributes.put(Auth.AuthCircuitBreaker, Unit)
-        }.body<GetProfileResponse>()
+        return client.get(ApiRoutes.PROFILE) { attributes.put(Auth.AuthCircuitBreaker, Unit) }
+            .body<GetProfileResponse>()
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS) {
-            attributes.put(Auth.AuthCircuitBreaker, Unit)
-        }.body<GetProjectsResponse>()
+        return client.get(ApiRoutes.PROJECTS) { attributes.put(Auth.AuthCircuitBreaker, Unit) }
+            .body<GetProjectsResponse>()
     }
 
     override suspend fun getNotification() {

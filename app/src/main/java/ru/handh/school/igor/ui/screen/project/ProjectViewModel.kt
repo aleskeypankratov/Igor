@@ -15,6 +15,7 @@ class ProjectViewModel(
         is ProjectViewAction.GetProfile -> onProfileRequest()
     }
 
+
     private fun onProjectClicked() {
         viewModelScope.launch {
             reduceState { it.copy(result = ResultProject.Loading()) }

@@ -37,13 +37,13 @@ val appModule = module {
         SignInUseCase(get(), get())
     }
     single {
-        GetProfileUseCase(get(), get())
+        GetProfileUseCase(get())
     }
     viewModel {
         SignInViewModel(get(), get())
     }
     viewModel {
-        ProfileViewModel(get())
+        ProfileViewModel(get(), get())
     }
     viewModel {
         ProjectViewModel(get())

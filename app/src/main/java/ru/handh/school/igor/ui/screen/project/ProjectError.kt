@@ -12,10 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.handh.school.igor.R
 import ru.handh.school.igor.ui.theme.AppTheme
 
+val defaultHeight = 56.dp
+val smallHeight = 24.dp
 
 @Composable
 fun ProjectError(error: String) {
@@ -24,14 +28,14 @@ fun ProjectError(error: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Что-то пошло не так", style = AppTheme.textStyles.projectErrorTitle)
-        Spacer(modifier = Modifier.height(24.dp))
+        Text(text = stringResource(R.string.error), style = AppTheme.textStyles.projectErrorTitle)
+        Spacer(modifier = Modifier.height(smallHeight))
         Text(text = error, style = AppTheme.textStyles.projectErrorText)
-        Spacer(modifier = Modifier.height(56.dp))
+        Spacer(modifier = Modifier.height(defaultHeight))
         Button(modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
-            content = { Text(text = "Повторить") },
+            .height(defaultHeight),
+            content = { Text(text = stringResource(R.string.repeat)) },
             colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
             shape = (AppTheme.roundings.large),
             onClick = {})

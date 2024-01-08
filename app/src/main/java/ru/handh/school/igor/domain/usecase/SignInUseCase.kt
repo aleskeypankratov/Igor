@@ -15,14 +15,13 @@ class SignInUseCase(
     suspend fun signIn(email: String): ResultSignIn<Unit> {
         return try {
             if(validEmail(email)) {
-                repository.signIn(keyValueStorage.deviceId?:"", PostSignInRequest(email))
+                repository.signIn(keyValueStorage.deviceId!!, PostSignInRequest(email))
                 ResultSignIn.LoggedIn()
             } else {
-                ResultSignIn.RequestError()
+                ResultSignIn.UnknownError()
             }
         } catch (e: ClientRequestException) {
             ResultSignIn.RequestError()
-
         } catch (e: ServerResponseException) {
             ResultSignIn.RequestError()
         } catch (e: Exception) {

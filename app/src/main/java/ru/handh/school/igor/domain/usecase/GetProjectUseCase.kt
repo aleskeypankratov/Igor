@@ -5,7 +5,6 @@ import io.ktor.client.plugins.ServerResponseException
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
 import ru.handh.school.igor.domain.usecase.result.ResultProject
-import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 
 class GetProjectUseCase(
     private val repository: IgorRepositoryImp
@@ -13,9 +12,9 @@ class GetProjectUseCase(
     suspend fun getProject(): ResultProject<GetProjectsResponse> {
         return try {
             val response = repository.getProjects()
-            ResultProject.GotProject(response)
+            ResultProject.GotProject(response.data?.projects)
         } catch (e: ServerResponseException) {
-            ResultProject.ServerError()
+            ResultProject.ServerError(e.toString())
         } catch (e: ClientRequestException) {
             ResultProject.RequestError()
         } catch (e: Exception) {

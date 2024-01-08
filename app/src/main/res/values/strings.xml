@@ -11,4 +11,6 @@
     <string name="projects">Проекты</string>
     <string name="version">Версия %1$s</string>
     <string name="build">Номер сборки %1$s</string>
+    <string name="repeat">Повторить</string>
+    <string name="error">Что-то пошло не так</string>
 </resources>
