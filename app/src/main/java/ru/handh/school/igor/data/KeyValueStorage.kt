@@ -12,10 +12,8 @@ class KeyValueStorage(
     context: Context
 ) {
     private val prefs = context.getSharedPreferences(
-        SharedPreferencesDefaultName,
-        Context.MODE_PRIVATE
+        SharedPreferencesDefaultName, Context.MODE_PRIVATE
     )
-
     var accessToken: String?
         get() = getString(KeyAccessToken)
         set(value) {
@@ -34,12 +32,9 @@ class KeyValueStorage(
             putString(KeyDeviceId, value)
         }
 
-    private fun getString(key: String) =
-        prefs.getString(key, null)
+    private fun getString(key: String) = prefs.getString(key, null)
 
     private fun putString(key: String, value: String?) {
-        prefs.edit()
-            .putString(key, value)
-            .apply()
+        prefs.edit().putString(key, value).apply()
     }
 }

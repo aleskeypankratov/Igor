@@ -20,16 +20,23 @@ import androidx.compose.ui.unit.dp
 import ru.handh.school.igor.ui.theme.AppTheme
 import kotlin.random.Random
 
+val defaultIconSize = 40.dp
 
 @Composable
 fun SingleProject(
     name: String, text: String, modifier: Modifier
 ) {
-    val firstLetter = name.firstOrNull()?.uppercase().toString()
+    val firstLetter = name[0].uppercase()
 
-    Row(verticalAlignment = Alignment.Top, modifier = modifier.fillMaxWidth()) {
-        Box(modifier = Modifier.padding(end = 16.dp)) {
-            iconProject(firstLetter, modifier = Modifier.size(40.dp))
+    Row(
+        verticalAlignment = Alignment.Top,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Box(modifier = Modifier.padding(end = AppTheme.offsets.medium)) {
+            IconProject(
+                letter = firstLetter,
+                modifier = Modifier.size(defaultIconSize)
+            )
         }
         Column {
             Text(
@@ -38,7 +45,6 @@ fun SingleProject(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = AppTheme.colors.projectName
-
             )
             Text(
                 text = text,
@@ -51,16 +57,8 @@ fun SingleProject(
     }
 }
 
-fun generateRandomColor(): Color {
-    return Color(
-        Random.nextFloat(),
-        Random.nextFloat(),
-        Random.nextFloat(),
-    )
-}
-
 @Composable
-fun iconProject(
+fun IconProject(
     letter: String, modifier: Modifier
 ) {
     Box(
@@ -70,11 +68,19 @@ fun iconProject(
             .background(color = generateRandomColor())
     ) {
         Text(
-            text = letter, style = AppTheme.textStyles.normalMediumText
+            text = letter,
+            style = AppTheme.textStyles.normalMediumText
         )
     }
 }
 
+fun generateRandomColor(): Color {
+    return Color(
+        Random.nextFloat(),
+        Random.nextFloat(),
+        Random.nextFloat(),
+    )
+}
 
 @Preview
 @Composable

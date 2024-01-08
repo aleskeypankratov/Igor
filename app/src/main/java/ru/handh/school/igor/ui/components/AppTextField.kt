@@ -63,7 +63,7 @@ fun AppTextField(
                     AppTheme.colors.unfocus
                 }
             ),
-            maxLines = 1
+            singleLine = true
         )
         BasicText(
             modifier = Modifier

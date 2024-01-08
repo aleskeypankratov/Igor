@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.handh.school.igor.ui.theme.AppTheme
 
+val defaultCircleSize = 16.dp
 
 @Composable
 fun SingleTask(
@@ -27,14 +28,14 @@ fun SingleTask(
         "2" -> Color.Yellow
         "3" -> Color.Green
         else -> {
-            Color.Black
+            Color.Green
         }
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
-                .size(16.dp)
+                .size(defaultCircleSize)
                 .clip(CircleShape)
                 .background(color = color)
         )
@@ -43,7 +44,7 @@ fun SingleTask(
             style = AppTheme.textStyles.mediumRegularText,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(AppTheme.offsets.medium)
         )
     }
 }

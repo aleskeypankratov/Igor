@@ -33,6 +33,7 @@ import ru.handh.school.igor.utils.versionName
 
 private val iconSize = 82.dp
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutContent(
@@ -41,13 +42,14 @@ fun AboutContent(
 
     val version = context.versionName
     val build = context.versionCode
-        Scaffold(topBar = {
+    Scaffold(topBar = {
         TopAppBar(
             navigationIcon = {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = null
+                    )
                 }
             },
             title = {
@@ -56,7 +58,7 @@ fun AboutContent(
                     style = AppTheme.textStyles.titleText,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end = 60.dp)
+                        .padding(end = AppTheme.offsets.big)
                         .wrapContentWidth(Alignment.CenterHorizontally)
                 )
             },
@@ -85,7 +87,8 @@ fun AboutContent(
                         modifier = Modifier.padding(bottom = AppTheme.offsets.tiny)
                     )
                     Text(
-                        text = (stringResource(R.string.version, version)), style = AppTheme.textStyles.smallLightText
+                        text = (stringResource(R.string.version, version)),
+                        style = AppTheme.textStyles.smallLightText
                     )
                     Text(
                         text = (stringResource(R.string.build, build)),
@@ -100,6 +103,6 @@ fun AboutContent(
 
 @Preview
 @Composable
-fun Preview() {
+fun PreviewAboutContent() {
     //AboutContent()
 }

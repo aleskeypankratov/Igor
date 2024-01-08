@@ -1,6 +1,5 @@
 package ru.handh.school.igor.domain.usecase
 
-import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.data.KeyValueStorage
@@ -11,15 +10,10 @@ class SignOutUseCase(
 ) {
     suspend fun signOut(): ResultProfile<Unit> {
         return try {
-            val response = repository.signOut()
-            if (response.equals(ResultProfile.LogOut<Unit>())) {
-                keyValueStorage.refreshToken = null
-                keyValueStorage.accessToken = null
-            }
-            //Log.v("token", "${keyValueStorage.refreshToken} ${keyValueStorage.accessToken}")
+            repository.signOut()
+            keyValueStorage.refreshToken = null
+            keyValueStorage.accessToken = null
             ResultProfile.LogOut()
-        } catch (e: ClientRequestException) {
-            ResultProfile.RequestError()
         } catch (e: ServerResponseException) {
             ResultProfile.ServerError()
         } catch (e: Exception) {

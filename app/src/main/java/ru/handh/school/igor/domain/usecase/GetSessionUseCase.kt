@@ -18,12 +18,12 @@ class GetSessionUseCase(
             val response = repository.getSession(keyValueStorage.deviceId ?: "", code, lifeTime)
             keyValueStorage.accessToken = response.data?.session?.accessToken
             keyValueStorage.refreshToken = response.data?.session?.refreshToken
-            Log.v("token", "${keyValueStorage.accessToken} ${keyValueStorage.refreshToken}")
+            Log.d("token","${keyValueStorage.accessToken} \n ${keyValueStorage.refreshToken}")
             ResultSignIn.GotSession()
         } catch (e: ClientRequestException) {
-            ResultSignIn.RequestError()
+            ResultSignIn.InvalidCode()
         } catch (e: ServerResponseException) {
-            ResultSignIn.RequestError()
+            ResultSignIn.ServerError()
         } catch (e: Exception) {
             ResultSignIn.UnknownError()
         }

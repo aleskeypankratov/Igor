@@ -28,7 +28,10 @@ fun ProjectError(error: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = stringResource(R.string.error), style = AppTheme.textStyles.projectErrorTitle)
+        Text(
+            text = stringResource(R.string.error),
+            style = AppTheme.textStyles.projectErrorTitle
+        )
         Spacer(modifier = Modifier.height(smallHeight))
         Text(text = error, style = AppTheme.textStyles.projectErrorText)
         Spacer(modifier = Modifier.height(defaultHeight))

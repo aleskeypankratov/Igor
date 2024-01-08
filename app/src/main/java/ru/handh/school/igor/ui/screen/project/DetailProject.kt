@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import ru.handh.school.igor.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +31,7 @@ fun DetailProject(name: String, description: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentWidth()
-                    .padding(end = 55.dp)
+                    .padding(end = AppTheme.offsets.big)
             )
         }, navigationIcon = {
             IconButton(onClick = {
@@ -47,7 +46,7 @@ fun DetailProject(name: String, description: String) {
                 .padding(containerPadding)
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
-                .padding(16.dp)
+                .padding(AppTheme.offsets.medium)
         ) {
             Column {
                 Text(text = description, maxLines = 2, overflow = TextOverflow.Ellipsis)

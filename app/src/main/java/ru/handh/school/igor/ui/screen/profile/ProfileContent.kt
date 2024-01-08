@@ -35,74 +35,67 @@ private var DefaultContainerHeight = 56.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileContent(
-    navController: NavHostController,
-    info: ProfileInfo,
-    vm: ProfileViewModel
+    navController: NavHostController, info: ProfileInfo, vm: ProfileViewModel
 ) {
 
     LaunchedEffect(Unit) {
         vm.onAction(ProfileViewAction.GetProfile)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.profile),
-                        style = AppTheme.textStyles.titleText,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentWidth()
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {
-                        navController.navigate(NavigationItem.About.route)
-                    }) {
-                        Icon(imageVector = Icons.Filled.Info, contentDescription = null)
-                    }
-                }
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(
+                text = stringResource(R.string.profile),
+                style = AppTheme.textStyles.titleText,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth()
             )
-        },
-        bottomBar = {
-            BottomAppBar(
-                containerColor = AppTheme.colors.background
-            ) {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            bottom = AppTheme.offsets.large,
-                            start = AppTheme.offsets.medium,
-                            end = AppTheme.offsets.medium
-                        )
-                        .height(DefaultContainerHeight),
-                    content = { Text(text = stringResource(R.string.out)) },
-                    colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
-                    shape = (AppTheme.roundings.large),
-                    onClick = {
-                        vm.onAction(ProfileViewAction.ExitClicked)
-                        //navController.navigate(NavigationItem.SignIn.route)
-                    })
+        }, navigationIcon = {
+            IconButton(onClick = {
+                navController.popBackStack()
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = null
+                )
             }
+        }, actions = {
+            IconButton(onClick = {
+                navController.navigate(NavigationItem.About.route)
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = null
+                )
+            }
+        })
+    }, bottomBar = {
+        BottomAppBar(
+            containerColor = AppTheme.colors.background
+        ) {
+            Button(modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    bottom = AppTheme.offsets.large,
+                    start = AppTheme.offsets.medium,
+                    end = AppTheme.offsets.medium
+                )
+                .height(DefaultContainerHeight),
+                content = { Text(text = stringResource(R.string.out)) },
+                colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
+                shape = (AppTheme.roundings.large),
+                onClick = {
+                    vm.onAction(ProfileViewAction.ExitClicked)
+                })
         }
-    )
-    { containerPadding ->
+    }) { containerPadding ->
         Column(
             modifier = Modifier
                 .padding(containerPadding)
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
-        )
-        {
+        ) {
             ProfileInformation(info)
         }
     }

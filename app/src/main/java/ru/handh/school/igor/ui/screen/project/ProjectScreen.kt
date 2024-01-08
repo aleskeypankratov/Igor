@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
@@ -86,7 +85,7 @@ fun ProjectContent(
                             .fillMaxSize()
                             .background(AppTheme.colors.background)
                     ) {
-                        item(2) {
+                        item(1) {
                             SingleProject(
                                 modifier = Modifier.padding(AppTheme.offsets.medium),
                                 name = "11111111",
@@ -119,9 +118,7 @@ fun ProjectContent(
 
             is ResultProject.Loading -> {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(48.dp),
-                    color = AppTheme.colors.textOnControl,
-                    strokeWidth = 48.dp
+                    modifier = Modifier, color = AppTheme.colors.textOnControl, strokeWidth = 48.dp
                 )
             }
 

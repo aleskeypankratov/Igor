@@ -98,7 +98,8 @@ class MainActivity : ComponentActivity() {
                         )
                     }, aboutContent = {
                         AboutContent(
-                            navController = navController, context = applicationContext
+                            navController = navController,
+                            context = applicationContext
                         )
                     }, profileContent = {
                         ProfileScreen(

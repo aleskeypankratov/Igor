@@ -55,7 +55,7 @@ fun SignInScreen(
                 isShowAddField = false
             }
 
-            is ResultSignIn.RequestError -> {
+            is ResultSignIn.InvalidEmail -> {
                 Toast.makeText(
                     context, "Enter valid email", Toast.LENGTH_LONG
                 ).show()
@@ -64,6 +64,12 @@ fun SignInScreen(
             is ResultSignIn.ServerError -> {
                 Toast.makeText(
                     context, "Server didn't respond", Toast.LENGTH_LONG
+                ).show()
+            }
+
+            is ResultSignIn.InvalidCode -> {
+                Toast.makeText(
+                    context, "Enter valid code", Toast.LENGTH_LONG
                 ).show()
             }
         }

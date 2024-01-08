@@ -28,7 +28,7 @@ import ru.handh.school.igor.domain.model.PostRefreshRequest
 import ru.handh.school.igor.domain.model.PostSignInRequest
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
-import ru.handh.school.igor.domain.model.getSessionResponse.GetSessionResponse
+import ru.handh.school.igor.domain.model.getSessionResponse.GetTokenResponse
 
 class IgorRepositoryImp(
     private val keyValueStorage: KeyValueStorage
@@ -40,7 +40,11 @@ class IgorRepositoryImp(
                 prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
-                encodeDefaults = false
+                encodeDefaults = true
+                allowStructuredMapKeys = true
+                useArrayPolymorphism = true
+                allowSpecialFloatingPointValues = true
+                useAlternativeNames = true
             })
         }
         install(Logging) {
@@ -59,14 +63,15 @@ class IgorRepositoryImp(
             bearer {
                 loadTokens {
                     BearerTokens(
-                        keyValueStorage.accessToken ?: "", keyValueStorage.refreshToken ?: ""
+                        accessToken = keyValueStorage.accessToken ?: "",
+                        refreshToken = keyValueStorage.refreshToken ?: ""
                     )
                 }
                 refreshTokens {
                     val token = client.post(ApiRoutes.REFRESH) {
                         markAsRefreshTokenRequest()
                         setBody(PostRefreshRequest(keyValueStorage.refreshToken))
-                    }.body<GetSessionResponse>()
+                    }.body<GetTokenResponse>()
                     BearerTokens(
                         refreshToken = token.data?.session?.refreshToken ?: "",
                         accessToken = token.data?.session?.accessToken ?: "",
@@ -90,28 +95,25 @@ class IgorRepositoryImp(
 
     override suspend fun getSession(
         id: String, incomingCode: String, lifeTime: Int
-    ): GetSessionResponse {
+    ): GetTokenResponse {
         return client.get(ApiRoutes.SESSION) {
-            attributes.put(Auth.AuthCircuitBreaker, Unit)
             headers {
                 append("X-Device-Id", id)
                 append("X-OTP", incomingCode)
             }
-        }.body<GetSessionResponse>()
+        }.body<GetTokenResponse>()
     }
 
     override suspend fun signOut() {
-        client.post(ApiRoutes.SIGNOUT) { attributes.put(Auth.AuthCircuitBreaker, Unit) }
+        client.post(ApiRoutes.SIGNOUT)
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        return client.get(ApiRoutes.PROFILE) { attributes.put(Auth.AuthCircuitBreaker, Unit) }
-            .body<GetProfileResponse>()
+        return client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
-        return client.get(ApiRoutes.PROJECTS) { attributes.put(Auth.AuthCircuitBreaker, Unit) }
-            .body<GetProjectsResponse>()
+        return client.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
     }
 
     override suspend fun getNotification() {
