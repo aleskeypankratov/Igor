@@ -2,32 +2,31 @@ package ru.handh.school.igor.ui.screen.project
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.handh.school.igor.domain.usecase.GetProfileUseCase
 import ru.handh.school.igor.domain.usecase.GetProjectUseCase
 import ru.handh.school.igor.domain.usecase.result.ResultProject
 import ru.handh.school.igor.ui.base.BaseViewModel
 
 class ProjectViewModel(
     private val getProjectUseCase: GetProjectUseCase,
-    private val getProfileUseCase: GetProfileUseCase,
-
 ) : BaseViewModel<ProjectState, ProjectViewAction>(InitialProjectState) {
 
     override fun onAction(action: ProjectViewAction) = when (action) {
-        is ProjectViewAction.ProjectClicked -> onProjectClicked()
-        is ProjectViewAction.GetProfile -> onProfileRequest()
+        is ProjectViewAction.GetProject -> onProjectClicked()
     }
+
     private fun onProjectClicked() {
         viewModelScope.launch {
             reduceState { it.copy(result = ResultProject.Loading()) }
-            val response = getProjectUseCase.getProject()
-            reduceState { it.copy() }
-        }
-    }
+            when (val response = getProjectUseCase.getProject()) {
+                is ResultProject.GotProject -> reduceState {
+                    it.copy(
+                        projects = response.data?.data?.projects!!,
+                        result = response
+                    )
+                }
 
-    private fun onProfileRequest() {
-        viewModelScope.launch {
-            val response = getProfileUseCase.getProfile()
+                else -> reduceState { it.copy(result = response) }
+            }
         }
     }
 }

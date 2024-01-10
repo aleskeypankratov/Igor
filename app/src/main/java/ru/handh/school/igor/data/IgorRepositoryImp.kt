@@ -38,7 +38,7 @@ class IgorRepositoryImp(
     private val client = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
-                prettyPrint = true
+                //prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
                 encodeDefaults = true
@@ -65,7 +65,7 @@ class IgorRepositoryImp(
     private val clientAuth = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
-                prettyPrint = true
+                //prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
                 encodeDefaults = true
@@ -91,17 +91,19 @@ class IgorRepositoryImp(
             bearer {
                 loadTokens {
                     BearerTokens(
-                        accessToken = keyValueStorage.accessToken ?: "", refreshToken = keyValueStorage.refreshToken ?: ""
+                        accessToken = keyValueStorage.accessToken ?: "",
+                        refreshToken = keyValueStorage.refreshToken ?: ""
                     )
                 }
                 refreshTokens {
                     val token = client.post(ApiRoutes.REFRESH) {
                         markAsRefreshTokenRequest()
                         setBody(PostRefreshRequest(keyValueStorage.refreshToken))
+                        attributes.put(Auth.AuthCircuitBreaker, Unit)
                     }.body<GetTokenResponse>()
                     BearerTokens(
-                        refreshToken = token.data?.session?.refreshToken ?: "",
                         accessToken = token.data?.session?.accessToken ?: "",
+                        refreshToken = token.data?.session?.refreshToken ?: "",
                     )
                 }
             }

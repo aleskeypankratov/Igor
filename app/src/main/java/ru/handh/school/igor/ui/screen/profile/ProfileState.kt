@@ -1,11 +1,14 @@
 package ru.handh.school.igor.ui.screen.profile
 
+import ru.handh.school.igor.domain.model.ProfileInfo
 import ru.handh.school.igor.domain.usecase.result.ResultProfile
 
 val InitialProfileState = ProfileState(
-    result = ResultProfile.Default()
+    result = ResultProfile.Default(),
+    profile = ProfileInfo("","")
 )
 
 data class ProfileState(
-    val result: ResultProfile<Unit>
+    val result: ResultProfile<Unit>,
+    var profile: ProfileInfo
 )

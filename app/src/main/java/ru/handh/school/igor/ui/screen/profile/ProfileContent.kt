@@ -1,5 +1,7 @@
 package ru.handh.school.igor.ui.screen.profile
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,25 +23,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
-import ru.handh.school.igor.domain.model.ProfileInfo
 import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 
 private var DefaultContainerHeight = 56.dp
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileContent(
-    navController: NavHostController, info: ProfileInfo, vm: ProfileViewModel
+    navController: NavHostController, vm: ProfileViewModel
 ) {
-
+    val state by vm.state.collectAsState()
     LaunchedEffect(Unit) {
         vm.onAction(ProfileViewAction.GetProfile)
+        Log.v("result", state.profile.toString())
     }
 
     Scaffold(topBar = {
@@ -96,7 +101,9 @@ fun ProfileContent(
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
         ) {
-            ProfileInformation(info)
+            ProfileInformation(
+                state.profile
+            )
         }
     }
 }

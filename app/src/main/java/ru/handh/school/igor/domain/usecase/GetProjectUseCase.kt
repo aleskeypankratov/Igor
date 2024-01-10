@@ -11,9 +11,9 @@ class GetProjectUseCase(
     suspend fun getProject(): ResultProject<GetProjectsResponse> {
         return try {
             val response = repository.getProjects()
-            ResultProject.GotProject(response.data?.projects)
+            ResultProject.GotProject(response)
         } catch (e: ServerResponseException) {
-            ResultProject.ServerError(e.toString())
+            ResultProject.ServerError()
         } catch (e: Exception) {
             ResultProject.UnknownError()
         }

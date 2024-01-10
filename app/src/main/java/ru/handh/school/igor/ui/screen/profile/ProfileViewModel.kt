@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.handh.school.igor.domain.usecase.GetProfileUseCase
 import ru.handh.school.igor.domain.usecase.SignOutUseCase
+import ru.handh.school.igor.domain.usecase.result.ResultProfile
 import ru.handh.school.igor.ui.base.BaseViewModel
 
 class ProfileViewModel(
@@ -23,8 +24,13 @@ class ProfileViewModel(
 
     private fun onGetProfile() {
         viewModelScope.launch {
-            getProfileUseCase.getProfile()
+            when (val result = getProfileUseCase.getProfile()) {
+                is ResultProfile.GotProfile ->
+                    reduceState {
+                        it.copy(profile = result.data!!)
+                }
+                else -> {}
+            }
         }
     }
-
 }

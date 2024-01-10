@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.R
@@ -36,7 +35,7 @@ private val iconSize = 82.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutContent(
+fun AboutScreen(
     navController: NavHostController, context: Context
 ) {
 
@@ -98,11 +97,4 @@ fun AboutContent(
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun PreviewAboutContent() {
-    //AboutContent()
 }

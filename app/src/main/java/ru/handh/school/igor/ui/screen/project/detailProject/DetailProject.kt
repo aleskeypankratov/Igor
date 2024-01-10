@@ -1,4 +1,4 @@
-package ru.handh.school.igor.ui.screen.project
+package ru.handh.school.igor.ui.screen.project.detailProject
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import ru.handh.school.igor.ui.screen.project.SingleTask
 import ru.handh.school.igor.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
