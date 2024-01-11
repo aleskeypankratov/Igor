@@ -1,6 +1,7 @@
 package ru.handh.school.igor.ui.screen.project
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,13 +25,17 @@ val defaultIconSize = 40.dp
 
 @Composable
 fun SingleProject(
-    name: String, text: String, modifier: Modifier
+    name: String,
+    text: String,
+    modifier: Modifier,
+    onAction: (ProjectViewAction) -> Unit = {},
 ) {
     val firstLetter = name[0].uppercase()
 
     Row(
         verticalAlignment = Alignment.Top,
         modifier = modifier.fillMaxWidth()
+            .clickable {onAction(ProjectViewAction.GetDetailProject)}
     ) {
         Box(modifier = Modifier.padding(end = AppTheme.offsets.medium)) {
             IconProject(

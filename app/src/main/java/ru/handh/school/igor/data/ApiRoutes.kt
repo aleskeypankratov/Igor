@@ -16,5 +16,5 @@ object ApiRoutes {
 
     const val PROJECTS = "$BASE_URL/project/api/projects"
 
-    const val NOTIFICATION = "$BASE_URL/project/api/notifications"
+    const val PROJECTDETAIL = "$BASE_URL/project/api/project/"
 }

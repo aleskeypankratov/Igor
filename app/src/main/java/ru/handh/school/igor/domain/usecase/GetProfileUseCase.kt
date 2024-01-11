@@ -9,8 +9,10 @@ class GetProfileUseCase(private val repository: IgorRepositoryImp) {
         return try {
             val profile = repository.getProfile()
             val profileInfo = ProfileInfo(
-                profile.data?.profile?.surname?:"",
-                profile.data?.profile?.name?:"")
+                uid = 1,
+                surname = profile.data?.profile?.surname ?: "",
+                name = profile.data?.profile?.name ?: ""
+            )
             ResultProfile.GotProfile(profileInfo)
         } catch (e: Exception) {
             ResultProfile.UnknownError()

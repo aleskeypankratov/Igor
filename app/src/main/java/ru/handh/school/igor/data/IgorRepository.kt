@@ -1,5 +1,6 @@
 package ru.handh.school.igor.data
 
+import GetProjectDetailResponse
 import io.ktor.client.statement.HttpResponse
 import ru.handh.school.igor.domain.model.PostSignInRequest
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
@@ -13,5 +14,5 @@ interface IgorRepository {
     suspend fun signOut()
     suspend fun getProfile(): GetProfileResponse
     suspend fun getProjects(): GetProjectsResponse
-    suspend fun getNotification()
+    suspend fun getProjectDetail(numberOfProject : Int): GetProjectDetailResponse
 }

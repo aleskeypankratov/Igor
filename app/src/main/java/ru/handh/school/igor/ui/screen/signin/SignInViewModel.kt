@@ -9,7 +9,8 @@ import ru.handh.school.igor.ui.base.BaseViewModel
 
 //
 class SignInViewModel(
-    private val signInUseCase: SignInUseCase, private val getSessionUseCase: GetSessionUseCase
+    private val signInUseCase: SignInUseCase,
+    private val getSessionUseCase: GetSessionUseCase
 ) : BaseViewModel<SignInState, SignInViewAction>(InitialSignInState) {
 
     private var isPasswordGot = false

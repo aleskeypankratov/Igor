@@ -13,7 +13,7 @@ class SignInUseCase(
     suspend fun signIn(email: String): ResultSignIn<Unit> {
         return try {
             if (validEmail(email)) {
-                repository.signIn(keyValueStorage.deviceId ?: "", PostSignInRequest(email))
+                repository.signIn(requireNotNull(keyValueStorage.deviceId), PostSignInRequest(email))
                 ResultSignIn.LoggedIn()
             } else {
                 ResultSignIn.InvalidEmail()

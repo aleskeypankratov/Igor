@@ -11,22 +11,28 @@ class ProjectViewModel(
 ) : BaseViewModel<ProjectState, ProjectViewAction>(InitialProjectState) {
 
     override fun onAction(action: ProjectViewAction) = when (action) {
-        is ProjectViewAction.GetProject -> onProjectClicked()
+        is ProjectViewAction.GetProject -> onGetProject()
+        ProjectViewAction.GetDetailProject -> onProjectClicked()
     }
 
-    private fun onProjectClicked() {
+    private fun onGetProject() {
         viewModelScope.launch {
             reduceState { it.copy(result = ResultProject.Loading()) }
             when (val response = getProjectUseCase.getProject()) {
                 is ResultProject.GotProject -> reduceState {
                     it.copy(
-                        projects = response.data?.data?.projects!!,
+                        projects = response.data?.data?.projects,
                         result = response
                     )
                 }
-
                 else -> reduceState { it.copy(result = response) }
             }
         }
     }
+
+    private fun onProjectClicked() {
+        viewModelScope.launch {
+        }
+    }
+
 }

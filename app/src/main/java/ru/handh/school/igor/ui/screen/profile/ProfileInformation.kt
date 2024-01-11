@@ -50,5 +50,5 @@ fun ProfileInformation(
 @Preview
 @Composable
 fun Preview() {
-    ProfileInformation(ProfileInfo("Смирнов-Милованов", "Андрей"))
+    ProfileInformation(ProfileInfo(surname = "Смирнов-Милованов", name = "Андрей"))
 }

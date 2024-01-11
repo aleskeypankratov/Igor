@@ -5,7 +5,7 @@ import ru.handh.school.igor.domain.usecase.result.ResultProfile
 
 val InitialProfileState = ProfileState(
     result = ResultProfile.Default(),
-    profile = ProfileInfo("","")
+    profile = ProfileInfo(name = "", surname = "")
 )
 
 data class ProfileState(

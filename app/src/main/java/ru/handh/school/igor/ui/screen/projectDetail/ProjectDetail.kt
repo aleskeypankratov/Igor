@@ -1,5 +1,6 @@
-package ru.handh.school.igor.ui.screen.project.detailProject
+package ru.handh.school.igor.ui.screen.projectDetail
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,19 +16,26 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import ru.handh.school.igor.ui.screen.project.SingleTask
+import ru.handh.school.igor.ui.screen.project.ProjectViewModel
 import ru.handh.school.igor.ui.theme.AppTheme
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailProject(name: String, description: String) {
+fun ProjectDetailScreen(
+    vm: ProjectViewModel
+) {
+    val state by vm.state.collectAsState()
+
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = name,
+                text = state.projects.toString(),
                 style = AppTheme.textStyles.titleText,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -50,7 +58,7 @@ fun DetailProject(name: String, description: String) {
                 .padding(AppTheme.offsets.medium)
         ) {
             Column {
-                Text(text = description, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(text = state.projects.toString(), maxLines = 2, overflow = TextOverflow.Ellipsis)
                 SingleTask(name = "Создать проект", priority = "2")
                 SingleTask(name = "Создать проект", priority = "1")
                 SingleTask(name = "Создать проект", priority = "3")
@@ -62,5 +70,5 @@ fun DetailProject(name: String, description: String) {
 @Preview
 @Composable
 fun PreviewDetailProject() {
-    DetailProject("Проект 1", "Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, \"consectetur\", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги \"de Finibus Bonorum et Malorum\"")
+    //ProjectDetailScreen()
 }

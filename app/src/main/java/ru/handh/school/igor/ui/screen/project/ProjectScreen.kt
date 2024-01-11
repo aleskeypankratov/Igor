@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -84,20 +85,25 @@ fun ProjectScreen(
                 }
 
                 is ResultProject.GotProject -> {
+                    val projects = state.projects
                     LazyColumn {
-                        item(1) {
-                            SingleProject(
-                                modifier = Modifier.padding(AppTheme.offsets.medium),
-                                name = "Проект",
-                                text = "Измерить длину"
-                            )
+                        if (projects != null) {
+                            items(projects) { project ->
+                                SingleProject(
+                                    modifier = Modifier.padding(AppTheme.offsets.medium),
+                                    name = project.name ?: "",
+                                    text = project.description ?: ""
+                                )
+                            }
                         }
                     }
                 }
 
                 is ResultProject.Loading -> {
                     CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center).size(48.dp),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(48.dp),
                         color = Color.Blue,
                     )
                 }

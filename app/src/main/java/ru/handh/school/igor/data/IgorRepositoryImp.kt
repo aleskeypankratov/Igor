@@ -1,6 +1,7 @@
 package ru.handh.school.igor.data
 
 
+import GetProjectDetailResponse
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -26,19 +27,23 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostRefreshRequest
 import ru.handh.school.igor.domain.model.PostSignInRequest
+import ru.handh.school.igor.domain.model.ProfileDao
+import ru.handh.school.igor.domain.model.ProfileInfo
+import ru.handh.school.igor.domain.model.getProfileResponse.Data
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
+import ru.handh.school.igor.domain.model.getProfileResponse.Profile
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
 import ru.handh.school.igor.domain.model.getSessionResponse.GetTokenResponse
 
 class IgorRepositoryImp(
-    private val keyValueStorage: KeyValueStorage
+    private val keyValueStorage: KeyValueStorage,
+    private val profileDao: ProfileDao
 ) : IgorRepository {
-
 
     private val client = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
-                //prettyPrint = true
+                prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
                 encodeDefaults = true
@@ -65,7 +70,7 @@ class IgorRepositoryImp(
     private val clientAuth = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
-                //prettyPrint = true
+                prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
                 encodeDefaults = true
@@ -78,7 +83,7 @@ class IgorRepositoryImp(
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
-                    Log.v("Logger Ktor =>", message)
+                    Log.v("Logger KtorAuth =>", message)
                 }
             }
             level = LogLevel.ALL
@@ -91,25 +96,23 @@ class IgorRepositoryImp(
             bearer {
                 loadTokens {
                     BearerTokens(
-                        accessToken = keyValueStorage.accessToken ?: "",
-                        refreshToken = keyValueStorage.refreshToken ?: ""
+                        accessToken = requireNotNull(keyValueStorage.accessToken),
+                        refreshToken = requireNotNull(keyValueStorage.refreshToken)
                     )
                 }
                 refreshTokens {
                     val token = client.post(ApiRoutes.REFRESH) {
                         markAsRefreshTokenRequest()
                         setBody(PostRefreshRequest(keyValueStorage.refreshToken))
-                        attributes.put(Auth.AuthCircuitBreaker, Unit)
                     }.body<GetTokenResponse>()
                     BearerTokens(
-                        accessToken = token.data?.session?.accessToken ?: "",
-                        refreshToken = token.data?.session?.refreshToken ?: "",
+                        accessToken = requireNotNull(token.data?.session?.accessToken),
+                        refreshToken = requireNotNull(token.data?.session?.refreshToken)
                     )
                 }
             }
         }
     }
-
 
     override suspend fun signIn(
         id: String, emailRequest: PostSignInRequest
@@ -135,17 +138,30 @@ class IgorRepositoryImp(
 
     override suspend fun signOut() {
         clientAuth.post(ApiRoutes.SIGNOUT)
+        profileDao.deleteProfile()
+
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        return clientAuth.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
+        val profile = profileDao.getProfile()
+        if (profile != null) {
+            return GetProfileResponse(Data(Profile(name = profile.name, surname = profile.surname)))
+        } else {
+            val response = clientAuth.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
+            profileDao.insertProfile(ProfileInfo(
+                uid = 1,
+                name = requireNotNull(response.data?.profile?.name),
+                surname = requireNotNull(response.data?.profile?.surname)))
+            return response
+        }
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
         return clientAuth.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
     }
 
-    override suspend fun getNotification() {
-        TODO("Not yet implemented")
+    override suspend fun getProjectDetail(numberOfProject: Int): GetProjectDetailResponse {
+        return clientAuth.get(ApiRoutes.PROJECTDETAIL + { numberOfProject })
+            .body<GetProjectDetailResponse>()
     }
 }

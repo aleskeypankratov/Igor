@@ -26,6 +26,9 @@ fun AppNavGraph(
         composable(route = NavigationItem.Project.route) {
             content.projectContent()
         }
+        composable(route = NavigationItem.ProjectDetail.route) {
+            content.projectDetail()
+        }
     }
 }
 
@@ -33,5 +36,6 @@ data class ComposableContent(
     val signInContent: @Composable () -> Unit,
     val aboutContent: @Composable () -> Unit,
     val projectContent: @Composable () -> Unit,
-    val profileContent: @Composable () -> Unit
+    val profileContent: @Composable () -> Unit,
+    val projectDetail: @Composable () -> Unit
 )
