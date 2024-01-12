@@ -1,4 +1,4 @@
-package ru.handh.school.igor.domain.model
+package ru.handh.school.igor.domain.model.db
 
 import androidx.room.Dao
 import androidx.room.Database

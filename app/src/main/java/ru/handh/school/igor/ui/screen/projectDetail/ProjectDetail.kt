@@ -16,11 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import ru.handh.school.igor.ui.screen.project.ProjectViewModel
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -28,14 +27,16 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProjectDetailScreen(
-    vm: ProjectViewModel
+    vm: ProjectViewModel,
+    navController:NavHostController
 ) {
-    val state by vm.state.collectAsState()
+
+    val name = vm.state.value.projects.toString()
 
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = state.projects.toString(),
+                text = name,
                 style = AppTheme.textStyles.titleText,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -44,7 +45,7 @@ fun ProjectDetailScreen(
             )
         }, navigationIcon = {
             IconButton(onClick = {
-                //navController.popBackStack()
+                navController.popBackStack()
             }) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
             }
@@ -58,7 +59,7 @@ fun ProjectDetailScreen(
                 .padding(AppTheme.offsets.medium)
         ) {
             Column {
-                Text(text = state.projects.toString(), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(text = name, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 SingleTask(name = "Создать проект", priority = "2")
                 SingleTask(name = "Создать проект", priority = "1")
                 SingleTask(name = "Создать проект", priority = "3")

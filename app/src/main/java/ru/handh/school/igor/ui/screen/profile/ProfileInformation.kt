@@ -15,14 +15,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.handh.school.igor.domain.model.ProfileInfo
+import ru.handh.school.igor.domain.model.db.ProfileInfo
 import ru.handh.school.igor.ui.theme.AppTheme
 
 val defalutSizeImage = 55.dp
 
 @Composable
 fun ProfileInformation(
-    profileInfo:ProfileInfo
+    profileInfo: ProfileInfo
 ) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Box(

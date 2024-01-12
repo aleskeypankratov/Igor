@@ -8,7 +8,8 @@ import ru.handh.school.igor.domain.model.PostSignInRequest
 import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 
 class SignInUseCase(
-    private val repository: IgorRepositoryImp, private val keyValueStorage: KeyValueStorage
+    private val repository: IgorRepositoryImp,
+    private val keyValueStorage: KeyValueStorage
 ) {
     suspend fun signIn(email: String): ResultSignIn<Unit> {
         return try {

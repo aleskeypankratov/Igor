@@ -1,7 +1,7 @@
 package ru.handh.school.igor.domain.usecase
 
 import ru.handh.school.igor.data.IgorRepositoryImp
-import ru.handh.school.igor.domain.model.ProfileInfo
+import ru.handh.school.igor.domain.model.db.ProfileInfo
 import ru.handh.school.igor.domain.usecase.result.ResultProfile
 
 class GetProfileUseCase(private val repository: IgorRepositoryImp) {

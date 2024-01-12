@@ -90,9 +90,9 @@ fun ProjectScreen(
                         if (projects != null) {
                             items(projects) { project ->
                                 SingleProject(
-                                    modifier = Modifier.padding(AppTheme.offsets.medium),
                                     name = project.name ?: "",
-                                    text = project.description ?: ""
+                                    text = project.description ?: "",
+                                    onAction = {navController.navigate(NavigationItem.ProjectDetail.route)}
                                 )
                             }
                         }

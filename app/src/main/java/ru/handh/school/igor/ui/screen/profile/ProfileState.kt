@@ -1,6 +1,6 @@
 package ru.handh.school.igor.ui.screen.profile
 
-import ru.handh.school.igor.domain.model.ProfileInfo
+import ru.handh.school.igor.domain.model.db.ProfileInfo
 import ru.handh.school.igor.domain.usecase.result.ResultProfile
 
 val InitialProfileState = ProfileState(

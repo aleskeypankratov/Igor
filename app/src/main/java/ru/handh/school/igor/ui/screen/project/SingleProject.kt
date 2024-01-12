@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,14 +28,16 @@ val defaultIconSize = 40.dp
 fun SingleProject(
     name: String,
     text: String,
-    modifier: Modifier,
     onAction: (ProjectViewAction) -> Unit = {},
 ) {
     val firstLetter = name[0].uppercase()
 
     Row(
         verticalAlignment = Alignment.Top,
-        modifier = modifier.fillMaxWidth()
+        modifier = Modifier
+            .padding(AppTheme.offsets.small)
+            .defaultMinSize(minHeight = 60.dp)
+            .fillMaxWidth()
             .clickable {onAction(ProjectViewAction.GetDetailProject)}
     ) {
         Box(modifier = Modifier.padding(end = AppTheme.offsets.medium)) {
@@ -91,7 +94,6 @@ fun generateRandomColor(): Color {
 @Composable
 fun Preview() {
     SingleProject(
-        modifier = Modifier,
         name = "Проект 1",
         text = "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает."
     )

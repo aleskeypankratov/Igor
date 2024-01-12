@@ -20,8 +20,8 @@ import ru.handh.school.igor.ui.navigation.ComposableContent
 import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.screen.about.AboutScreen
 import ru.handh.school.igor.ui.screen.profile.ProfileScreen
-import ru.handh.school.igor.ui.screen.projectDetail.ProjectDetailScreen
 import ru.handh.school.igor.ui.screen.project.ProjectScreen
+import ru.handh.school.igor.ui.screen.projectDetail.ProjectDetailScreen
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -107,9 +107,17 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                         )
                     }, projectContent = {
-                        ProjectScreen(navController = navController, vm = koinViewModel())
-                    }, projectDetail = { (ProjectDetailScreen(vm = koinViewModel()))}
+                        ProjectScreen(
+                            vm = koinViewModel(),
+                            navController = navController
                         )
+                    }, projectDetail = {
+                        (ProjectDetailScreen(
+                            vm = koinViewModel(),
+                            navController = navController
+                        ))
+                    }
+                    )
                 )
             }
         }

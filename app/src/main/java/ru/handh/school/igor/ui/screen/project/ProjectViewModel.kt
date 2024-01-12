@@ -32,6 +32,7 @@ class ProjectViewModel(
 
     private fun onProjectClicked() {
         viewModelScope.launch {
+
         }
     }
 
