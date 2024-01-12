@@ -34,13 +34,13 @@ fun ProfileInformation(
         )
         Column {
             Text(
-                text = profileInfo.surname,
+                text = profileInfo.surname!!,
                 style = AppTheme.textStyles.maxMediumText,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                text = profileInfo.name,
+                text = profileInfo.name!!,
                 style = AppTheme.textStyles.normalRegularText,
             )
         }

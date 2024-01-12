@@ -12,9 +12,11 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.koinViewModel
+import org.koin.java.KoinJavaComponent
 import ru.handh.school.igor.R
 import ru.handh.school.igor.data.DeviceIdProvider
 import ru.handh.school.igor.data.KeyValueStorage
+import ru.handh.school.igor.domain.model.db.ProfileDao
 import ru.handh.school.igor.ui.navigation.AppNavGraph
 import ru.handh.school.igor.ui.navigation.ComposableContent
 import ru.handh.school.igor.ui.navigation.NavigationItem

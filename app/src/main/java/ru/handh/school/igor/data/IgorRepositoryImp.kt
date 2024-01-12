@@ -29,13 +29,16 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostRefreshRequest
 import ru.handh.school.igor.domain.model.PostSignInRequest
+import ru.handh.school.igor.domain.model.db.ProfileDao
+import ru.handh.school.igor.domain.model.db.ProfileInfo
+import ru.handh.school.igor.domain.model.getProfileResponse.Data
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
+import ru.handh.school.igor.domain.model.getProfileResponse.Profile
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
 import ru.handh.school.igor.domain.model.getSessionResponse.GetTokenResponse
 
 class IgorRepositoryImp(
-    private val keyValueStorage: KeyValueStorage,
-    //private val profileDao: ProfileDao
+    private val keyValueStorage: KeyValueStorage, private val profileDao: ProfileDao
 ) : IgorRepository {
 
     private val client = HttpClient(OkHttp) {
@@ -54,7 +57,7 @@ class IgorRepositoryImp(
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
-                    Log.v("Logger KtorAuth =>", message)
+                    Log.v("Logger Ktor =>", message)
                 }
             }
             level = LogLevel.ALL
@@ -107,8 +110,8 @@ class IgorRepositoryImp(
     override suspend fun getSession(
         id: String, incomingCode: String, lifeTime: Int
     ): GetTokenResponse {
+        provider
         return client.get(ApiRoutes.SESSION) {
-            provider
             attributes.put(Auth.AuthCircuitBreaker, Unit)
             headers {
                 append("X-Device-Id", id)
@@ -119,22 +122,24 @@ class IgorRepositoryImp(
 
     override suspend fun signOut() {
         client.post(ApiRoutes.SIGNOUT)
-        //profileDao.deleteProfile()
+        profileDao.deleteProfile()
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        /*        val profile = profileDao.getProfile()
-                if (profile != null) {
-                    return GetProfileResponse(Data(Profile(name = profile.name, surname = profile.surname)))
-                } else {
-                    val response = clientAuth.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
-                    profileDao.insertProfile(ProfileInfo(
-                        uid = 1,
-                        name = requireNotNull(response.data?.profile?.name),
-                        surname = requireNotNull(response.data?.profile?.surname)))
-                    return response
-                }*/
-        return GetProfileResponse()
+        val profile = profileDao.getProfile()
+        return if (profile.name == null) {
+            val response = client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
+            profileDao.insertProfile(
+                ProfileInfo(
+                    uid = 1,
+                    name = requireNotNull(response.data?.profile?.name),
+                    surname = requireNotNull(response.data?.profile?.surname)
+                )
+            )
+            Log.v("db =>", profile.toString())
+            response
+        } else
+            GetProfileResponse(Data(Profile(name = profile.name, surname = profile.surname)))
     }
 
     override suspend fun getProjects(): GetProjectsResponse {
