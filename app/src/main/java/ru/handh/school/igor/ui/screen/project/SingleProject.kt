@@ -23,11 +23,13 @@ import ru.handh.school.igor.ui.theme.AppTheme
 import kotlin.random.Random
 
 val defaultIconSize = 40.dp
+val defaultMinSizeOfProject = 60.dp
 
 @Composable
 fun SingleProject(
     name: String,
     text: String,
+    id: String,
     onAction: (ProjectViewAction) -> Unit = {},
 ) {
     val firstLetter = name[0].uppercase()
@@ -36,9 +38,9 @@ fun SingleProject(
         verticalAlignment = Alignment.Top,
         modifier = Modifier
             .padding(AppTheme.offsets.small)
-            .defaultMinSize(minHeight = 60.dp)
+            .defaultMinSize(minHeight = defaultMinSizeOfProject)
             .fillMaxWidth()
-            .clickable {onAction(ProjectViewAction.GetDetailProject)}
+            .clickable {onAction(ProjectViewAction.GetDetailProject(id))}
     ) {
         Box(modifier = Modifier.padding(end = AppTheme.offsets.medium)) {
             IconProject(
@@ -94,6 +96,7 @@ fun generateRandomColor(): Color {
 @Composable
 fun Preview() {
     SingleProject(
+        id = "",
         name = "Проект 1",
         text = "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает."
     )

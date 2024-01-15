@@ -87,14 +87,14 @@ fun ProjectScreen(
                 is ResultProject.GotProject -> {
                     val projects = state.projects
                     LazyColumn {
-                        if (projects != null) {
-                            items(projects) { project ->
-                                SingleProject(
-                                    name = project.name ?: "",
-                                    text = project.description ?: "",
-                                    onAction = {navController.navigate(NavigationItem.ProjectDetail.route)}
-                                )
-                            }
+                        items(projects) { project ->
+                            SingleProject(
+                                name = project.name?: "",
+                                id = project.id?: "",
+                                text = project.description ?: "",
+                                onAction = {
+                                    navController.navigate(NavigationItem.ProjectDetail.route)}
+                            )
                         }
                     }
                 }
@@ -111,6 +111,10 @@ fun ProjectScreen(
                 is ResultProject.ServerError ->
                     ProjectError(
                         error = (state.result as ResultProject.ServerError).toString()
+                    )
+                is ResultProject.UnknownError ->
+                    ProjectError(
+                        error = (state.result as ResultProject.UnknownError).toString()
                     )
 
                 else -> {}

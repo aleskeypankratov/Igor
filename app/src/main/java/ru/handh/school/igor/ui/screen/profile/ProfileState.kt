@@ -4,11 +4,11 @@ import ru.handh.school.igor.domain.model.db.ProfileInfo
 import ru.handh.school.igor.domain.usecase.result.ResultProfile
 
 val InitialProfileState = ProfileState(
-    result = ResultProfile.Default(),
+    result = ResultProfile.Default,
     profile = ProfileInfo(name = "", surname = "")
 )
 
 data class ProfileState(
-    val result: ResultProfile<Unit>,
+    val result: ResultProfile,
     var profile: ProfileInfo
 )

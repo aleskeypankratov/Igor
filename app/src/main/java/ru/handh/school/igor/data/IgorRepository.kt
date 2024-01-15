@@ -14,5 +14,5 @@ interface IgorRepository {
     suspend fun signOut()
     suspend fun getProfile(): GetProfileResponse
     suspend fun getProjects(): GetProjectsResponse
-    suspend fun getProjectDetail(numberOfProject : Int): GetProjectDetailResponse
+    suspend fun getProjectDetail(id: String): GetProjectDetailResponse
 }

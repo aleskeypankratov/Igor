@@ -5,13 +5,13 @@ import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 val InitialSignInState = SignInState(
     email = "",
     code = "",
-    result = ResultSignIn.Default(),
+    result = ResultSignIn.Default,
     signInLoading = false,
 )
 
 data class SignInState(
     var email: String,
     var code: String,
-    val result: ResultSignIn<Unit>,
+    val result: ResultSignIn,
     val signInLoading: Boolean
 )

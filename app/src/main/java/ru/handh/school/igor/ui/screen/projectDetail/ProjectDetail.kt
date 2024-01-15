@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,12 +32,13 @@ fun ProjectDetailScreen(
     navController:NavHostController
 ) {
 
-    val name = vm.state.value.projects.toString()
+    val state = vm.state.collectAsState()
+    val project = state.value.detailProject
 
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = name,
+                text = project.name!!,
                 style = AppTheme.textStyles.titleText,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -59,7 +61,7 @@ fun ProjectDetailScreen(
                 .padding(AppTheme.offsets.medium)
         ) {
             Column {
-                Text(text = name, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(text = project.description!!, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 SingleTask(name = "Создать проект", priority = "2")
                 SingleTask(name = "Создать проект", priority = "1")
                 SingleTask(name = "Создать проект", priority = "3")

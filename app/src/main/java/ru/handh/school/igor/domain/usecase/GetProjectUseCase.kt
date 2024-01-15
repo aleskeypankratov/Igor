@@ -8,14 +8,14 @@ import ru.handh.school.igor.domain.usecase.result.ResultProject
 class GetProjectUseCase(
     private val repository: IgorRepositoryImp
 ) {
-    suspend fun getProject(): ResultProject<GetProjectsResponse> {
+    suspend fun getProject(): ResultProject {
         return try {
             val response = repository.getProjects()
             ResultProject.GotProject(response)
         } catch (e: ServerResponseException) {
-            ResultProject.ServerError()
+            ResultProject.ServerError(e.toString())
         } catch (e: Exception) {
-            ResultProject.UnknownError()
+            ResultProject.UnknownError(e.toString())
         }
     }
 }

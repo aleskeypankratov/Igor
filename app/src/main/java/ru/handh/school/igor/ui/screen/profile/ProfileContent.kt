@@ -1,7 +1,6 @@
 package ru.handh.school.igor.ui.screen.profile
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,12 +38,13 @@ private var DefaultContainerHeight = 56.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileContent(
-    navController: NavHostController, vm: ProfileViewModel
+    navController: NavHostController,
+    vm: ProfileViewModel
 ) {
     val state by vm.state.collectAsState()
+
     LaunchedEffect(Unit) {
         vm.onAction(ProfileViewAction.GetProfile)
-        Log.v("result", state.profile.toString())
     }
 
     Scaffold(topBar = {
@@ -102,7 +102,7 @@ fun ProfileContent(
                 .background(AppTheme.colors.background)
         ) {
             ProfileInformation(
-                state.profile
+                    state.profile
             )
         }
     }

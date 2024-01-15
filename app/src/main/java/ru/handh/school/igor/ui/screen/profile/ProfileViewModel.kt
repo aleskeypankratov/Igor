@@ -2,6 +2,7 @@ package ru.handh.school.igor.ui.screen.profile
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.handh.school.igor.domain.model.db.ProfileInfo
 import ru.handh.school.igor.domain.usecase.GetProfileUseCase
 import ru.handh.school.igor.domain.usecase.SignOutUseCase
 import ru.handh.school.igor.domain.usecase.result.ResultProfile
@@ -27,9 +28,12 @@ class ProfileViewModel(
             when (val result = getProfileUseCase.getProfile()) {
                 is ResultProfile.GotProfile ->
                     reduceState {
-                        it.copy(profile = result.data!!)
+                        it.copy(profile = requireNotNull(result.profile))
                 }
-                else -> {}
+                else ->
+                    reduceState {
+                        it.copy(profile = ProfileInfo(surname = "Error", uid = 1, name = "Error"))
+                    }
             }
         }
     }

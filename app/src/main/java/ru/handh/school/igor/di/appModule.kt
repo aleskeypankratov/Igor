@@ -64,6 +64,6 @@ val appModule = module {
         ProfileViewModel(get(), get())
     }
     viewModel {
-        ProjectViewModel(get())
+        ProjectViewModel(get(), get())
     }
 }

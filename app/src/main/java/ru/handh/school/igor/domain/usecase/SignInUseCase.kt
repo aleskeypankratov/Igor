@@ -11,18 +11,18 @@ class SignInUseCase(
     private val repository: IgorRepositoryImp,
     private val keyValueStorage: KeyValueStorage
 ) {
-    suspend fun signIn(email: String): ResultSignIn<Unit> {
+    suspend fun signIn(email: String): ResultSignIn {
         return try {
             if (validEmail(email)) {
                 repository.signIn(requireNotNull(keyValueStorage.deviceId), PostSignInRequest(email))
-                ResultSignIn.LoggedIn()
+                ResultSignIn.LoggedIn
             } else {
-                ResultSignIn.InvalidEmail()
+                ResultSignIn.InvalidEmail
             }
         } catch (e: ServerResponseException) {
-            ResultSignIn.ServerError()
+            ResultSignIn.ServerError
         } catch (e: Exception) {
-            ResultSignIn.UnknownError()
+            ResultSignIn.UnknownError
         }
     }
 

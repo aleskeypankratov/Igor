@@ -30,10 +30,7 @@ import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostRefreshRequest
 import ru.handh.school.igor.domain.model.PostSignInRequest
 import ru.handh.school.igor.domain.model.db.ProfileDao
-import ru.handh.school.igor.domain.model.db.ProfileInfo
-import ru.handh.school.igor.domain.model.getProfileResponse.Data
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
-import ru.handh.school.igor.domain.model.getProfileResponse.Profile
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
 import ru.handh.school.igor.domain.model.getSessionResponse.GetTokenResponse
 
@@ -126,28 +123,29 @@ class IgorRepositoryImp(
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        val profile = profileDao.getProfile()
-        return if (profile.name == null) {
-            val response = client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
-            profileDao.insertProfile(
-                ProfileInfo(
-                    uid = 1,
-                    name = requireNotNull(response.data?.profile?.name),
-                    surname = requireNotNull(response.data?.profile?.surname)
-                )
-            )
-            Log.v("db =>", profile.toString())
-            response
-        } else
-            GetProfileResponse(Data(Profile(name = profile.name, surname = profile.surname)))
+        //val profileDb = profileDao.getProfile()
+        //Log.v("db =>", profileDb.toString())
+        //if (profile == null) {
+        val response = client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
+//            profileDao.insertProfile(
+//                ProfileInfo(
+//                    uid = 1,
+//                    name = requireNotNull(response.data?.profile?.name),
+//                    surname = requireNotNull(response.data?.profile?.surname)
+//                )
+//            )
+        return response
     }
+//    else
+//             return GetProfileResponse(Data(Profile(name = profile.name, surname = profile.surname)))
+//    }
 
     override suspend fun getProjects(): GetProjectsResponse {
         return client.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
     }
 
-    override suspend fun getProjectDetail(numberOfProject: Int): GetProjectDetailResponse {
-        return client.get(ApiRoutes.PROJECTDETAIL + { numberOfProject })
+    override suspend fun getProjectDetail(id: String): GetProjectDetailResponse {
+        return client.get(ApiRoutes.PROJECTDETAIL + id)
             .body<GetProjectDetailResponse>()
     }
 }

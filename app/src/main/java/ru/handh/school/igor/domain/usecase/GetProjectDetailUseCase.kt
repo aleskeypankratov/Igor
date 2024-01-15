@@ -1,6 +1,5 @@
 package ru.handh.school.igor.domain.usecase
 
-import GetProjectDetailResponse
 import io.ktor.client.plugins.ServerResponseException
 import ru.handh.school.igor.data.IgorRepositoryImp
 import ru.handh.school.igor.domain.usecase.result.ResultProject
@@ -8,14 +7,14 @@ import ru.handh.school.igor.domain.usecase.result.ResultProject
 class GetProjectDetailUseCase(
     private val repository: IgorRepositoryImp
 ) {
-    suspend fun getProjectDetail(): ResultProject<GetProjectDetailResponse> {
+    suspend fun getProjectDetail(id: String): ResultProject {
         return try {
-            val response = repository.getProjectDetail(1)
-            ResultProject.GotProjectDetail(response)
+            val response = repository.getProjectDetail(id)
+            ResultProject.GotProjectDetail(response.data?.project!!)
         } catch (e: ServerResponseException) {
-            ResultProject.UnknownError()
+            ResultProject.ServerError(e.toString())
         } catch (e: Exception) {
-            ResultProject.UnknownError()
+            ResultProject.UnknownError(e.toString())
         }
     }
 }

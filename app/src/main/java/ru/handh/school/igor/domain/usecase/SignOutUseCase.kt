@@ -8,16 +8,16 @@ import ru.handh.school.igor.domain.usecase.result.ResultProfile
 class SignOutUseCase(
     private val repository: IgorRepositoryImp, private val keyValueStorage: KeyValueStorage
 ) {
-    suspend fun signOut(): ResultProfile<Unit> {
+    suspend fun signOut(): ResultProfile{
         return try {
             repository.signOut()
             keyValueStorage.refreshToken = null
             keyValueStorage.accessToken = null
-            ResultProfile.LogOut()
+            ResultProfile.LogOut
         } catch (e: ServerResponseException) {
-            ResultProfile.ServerError()
+            ResultProfile.ServerError
         } catch (e: Exception) {
-            ResultProfile.UnknownError()
+            ResultProfile.UnknownError
         }
     }
 }
