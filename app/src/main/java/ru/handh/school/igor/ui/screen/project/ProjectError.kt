@@ -23,9 +23,14 @@ val defaultHeight = 56.dp
 val smallHeight = 24.dp
 
 @Composable
-fun ProjectError(error: String) {
+fun ProjectError(
+    error: String,
+    onAction: (ProjectViewAction) -> Unit = {}
+) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(AppTheme.offsets.medium),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(AppTheme.offsets.medium),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -42,7 +47,7 @@ fun ProjectError(error: String) {
             content = { Text(text = stringResource(R.string.repeat)) },
             colors = ButtonDefaults.buttonColors(AppTheme.colors.button),
             shape = (AppTheme.roundings.large),
-            onClick = {})
+            onClick = { onAction(ProjectViewAction.GetProject) })
     }
 }
 

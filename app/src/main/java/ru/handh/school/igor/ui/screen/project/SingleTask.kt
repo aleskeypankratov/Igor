@@ -1,4 +1,4 @@
-package ru.handh.school.igor.ui.screen.projectDetail
+package ru.handh.school.igor.ui.screen.project
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

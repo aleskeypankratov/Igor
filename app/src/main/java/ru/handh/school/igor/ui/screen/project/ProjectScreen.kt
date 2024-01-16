@@ -43,7 +43,7 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @Composable
 fun ProjectScreen(
     navController: NavHostController,
-    vm: ProjectViewModel,
+    vm: ProjectViewModel
 ) {
     val state by vm.state.collectAsState()
     val isRefreshing by remember { mutableStateOf(false) }
@@ -89,11 +89,9 @@ fun ProjectScreen(
                     LazyColumn {
                         items(projects) { project ->
                             SingleProject(
-                                name = project.name?: "",
-                                id = project.id?: "",
-                                text = project.description ?: "",
-                                onAction = {
-                                    navController.navigate(NavigationItem.ProjectDetail.route)}
+                                project = project,
+                                onAction = vm::onAction,
+                                navController = navController
                             )
                         }
                     }
@@ -110,11 +108,14 @@ fun ProjectScreen(
 
                 is ResultProject.ServerError ->
                     ProjectError(
-                        error = (state.result as ResultProject.ServerError).toString()
+                        error = (state.result as ResultProject.ServerError).toString(),
+                        onAction = vm::onAction
                     )
+
                 is ResultProject.UnknownError ->
                     ProjectError(
-                        error = (state.result as ResultProject.UnknownError).toString()
+                        error = (state.result as ResultProject.UnknownError).toString(),
+                        onAction = vm::onAction
                     )
 
                 else -> {}

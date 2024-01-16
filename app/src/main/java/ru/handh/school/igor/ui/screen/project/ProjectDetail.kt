@@ -1,6 +1,7 @@
-package ru.handh.school.igor.ui.screen.projectDetail
+package ru.handh.school.igor.ui.screen.project
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,12 +17,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import ru.handh.school.igor.ui.screen.project.ProjectViewModel
 import ru.handh.school.igor.ui.theme.AppTheme
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -32,13 +32,20 @@ fun ProjectDetailScreen(
     navController:NavHostController
 ) {
 
-    val state = vm.state.collectAsState()
-    val project = state.value.detailProject
+    var name = vm.state.value.detailProject.name
+    var description = vm.state.value.detailProject.description
+
+    LaunchedEffect(Unit) {
+        Log.v("detailComp",vm.state.value.detailProject.toString())
+        name = vm.state.value.detailProject.name!!
+        description = vm.state.value.detailProject.description!!
+        Log.v("detailComp",vm.state.value.detailProject.toString())
+    }
 
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = project.name!!,
+                text = name?:"1",
                 style = AppTheme.textStyles.titleText,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -61,7 +68,7 @@ fun ProjectDetailScreen(
                 .padding(AppTheme.offsets.medium)
         ) {
             Column {
-                Text(text = project.description!!, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(text = description?:"1", maxLines = 2, overflow = TextOverflow.Ellipsis)
                 SingleTask(name = "Создать проект", priority = "2")
                 SingleTask(name = "Создать проект", priority = "1")
                 SingleTask(name = "Создать проект", priority = "3")

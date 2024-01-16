@@ -1,5 +1,6 @@
 package ru.handh.school.igor.ui.screen.project
 
+import Project
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import ru.handh.school.igor.domain.model.getProjectsResponse.Projects
+import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 import kotlin.random.Random
 
@@ -27,12 +31,14 @@ val defaultMinSizeOfProject = 60.dp
 
 @Composable
 fun SingleProject(
-    name: String,
-    text: String,
-    id: String,
+    project: Projects,
+    navController: NavHostController,
     onAction: (ProjectViewAction) -> Unit = {},
 ) {
-    val firstLetter = name[0].uppercase()
+    val name = project.name
+    val description = project.description
+    val id = project.id
+    val firstLetter = name?.get(0)?.uppercase()?:"P"
 
     Row(
         verticalAlignment = Alignment.Top,
@@ -40,7 +46,10 @@ fun SingleProject(
             .padding(AppTheme.offsets.small)
             .defaultMinSize(minHeight = defaultMinSizeOfProject)
             .fillMaxWidth()
-            .clickable {onAction(ProjectViewAction.GetDetailProject(id))}
+            .clickable {
+                onAction(ProjectViewAction.GetDetailProject(id!!))
+                navController.navigate(NavigationItem.ProjectDetail.route)
+            }
     ) {
         Box(modifier = Modifier.padding(end = AppTheme.offsets.medium)) {
             IconProject(
@@ -50,14 +59,14 @@ fun SingleProject(
         }
         Column {
             Text(
-                text = name,
+                text = name?:"",
                 style = AppTheme.textStyles.mediumRegularText,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = AppTheme.colors.projectName
             )
             Text(
-                text = text,
+                text = description?:"",
                 style = AppTheme.textStyles.smallRegularText,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -95,9 +104,4 @@ fun generateRandomColor(): Color {
 @Preview
 @Composable
 fun Preview() {
-    SingleProject(
-        id = "",
-        name = "Проект 1",
-        text = "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает."
-    )
 }

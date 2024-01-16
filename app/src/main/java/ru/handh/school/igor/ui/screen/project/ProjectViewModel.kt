@@ -19,7 +19,7 @@ class ProjectViewModel(
 
     override fun onAction(action: ProjectViewAction) = when (action) {
         is ProjectViewAction.GetProject -> onGetProject()
-        is ProjectViewAction.GetDetailProject -> onProjectClicked(String())
+        is ProjectViewAction.GetDetailProject -> onProjectClicked(action.string)
     }
 
     private fun onGetProject() {
@@ -42,7 +42,6 @@ class ProjectViewModel(
         viewModelScope.launch {
             Log.v("vm project","request id $id")
             when (val response = getProjectDetailUseCase.getProjectDetail(id)) {
-
                 is ResultProject.GotProjectDetail -> reduceState {
                     it.copy(
                         detailProject = response.getProjectDetailResponse
@@ -58,7 +57,7 @@ class ProjectViewModel(
                     }
                 }
             }
-
+            Log.v("detail",state.value.detailProject.toString())
         }
     }
 }

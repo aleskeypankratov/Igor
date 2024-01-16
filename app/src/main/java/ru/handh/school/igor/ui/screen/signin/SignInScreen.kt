@@ -17,7 +17,9 @@ import ru.handh.school.igor.ui.navigation.NavigationItem
 
 @Composable
 fun SignInScreen(
-    vm: SignInViewModel, context: Context, navController: NavHostController
+    vm: SignInViewModel,
+    context: Context,
+    navController: NavHostController
 ) {
     val state by vm.state.collectAsState()
     var isShowAddField by remember { mutableStateOf(false) }

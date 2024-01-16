@@ -102,7 +102,7 @@ fun ProfileContent(
                 .background(AppTheme.colors.background)
         ) {
             ProfileInformation(
-                    state.profile
+                state.profile
             )
         }
     }
