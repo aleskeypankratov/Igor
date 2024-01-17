@@ -3,11 +3,14 @@ package ru.handh.school.igor.ui.screen.project
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,23 +32,18 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @Composable
 fun ProjectDetailScreen(
     vm: ProjectViewModel,
-    navController:NavHostController
+    navController:NavHostController,
+    stateId: String
 ) {
 
-    var name = vm.state.value.detailProject.name
-    var description = vm.state.value.detailProject.description
-
     LaunchedEffect(Unit) {
-        Log.v("detailComp",vm.state.value.detailProject.toString())
-        name = vm.state.value.detailProject.name!!
-        description = vm.state.value.detailProject.description!!
-        Log.v("detailComp",vm.state.value.detailProject.toString())
+        vm.onAction(ProjectViewAction.GetDetailProject(stateId))
     }
 
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = name?:"1",
+                text = vm.state.value.detailProject.name!!,
                 style = AppTheme.textStyles.titleText,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -63,15 +61,13 @@ fun ProjectDetailScreen(
         Column(
             modifier = Modifier
                 .padding(containerPadding)
+                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
                 .background(AppTheme.colors.background)
                 .padding(AppTheme.offsets.medium)
         ) {
             Column {
-                Text(text = description?:"1", maxLines = 2, overflow = TextOverflow.Ellipsis)
-                SingleTask(name = "Создать проект", priority = "2")
-                SingleTask(name = "Создать проект", priority = "1")
-                SingleTask(name = "Создать проект", priority = "3")
+                Text(text = vm.state.value.detailProject.description!!)
             }
         }
     }

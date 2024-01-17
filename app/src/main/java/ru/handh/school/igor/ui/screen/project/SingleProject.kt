@@ -1,6 +1,7 @@
 package ru.handh.school.igor.ui.screen.project
 
 import Project
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.domain.model.getProjectsResponse.Projects
 import ru.handh.school.igor.ui.navigation.NavigationItem
@@ -33,7 +35,9 @@ val defaultMinSizeOfProject = 60.dp
 fun SingleProject(
     project: Projects,
     navController: NavHostController,
-    onAction: (ProjectViewAction) -> Unit = {},
+    vm: ProjectViewModel,
+    stateId: String
+    //onAction: (ProjectViewAction) -> Unit = {},
 ) {
     val name = project.name
     val description = project.description
@@ -47,7 +51,8 @@ fun SingleProject(
             .defaultMinSize(minHeight = defaultMinSizeOfProject)
             .fillMaxWidth()
             .clickable {
-                onAction(ProjectViewAction.GetDetailProject(id!!))
+                vm.setId(id!!)
+                Log.v("SingleProject ID", "vm.state = ${vm.stateId.value} state = $stateId")
                 navController.navigate(NavigationItem.ProjectDetail.route)
             }
     ) {

@@ -43,7 +43,8 @@ import ru.handh.school.igor.ui.theme.AppTheme
 @Composable
 fun ProjectScreen(
     navController: NavHostController,
-    vm: ProjectViewModel
+    vm: ProjectViewModel,
+    stateId: String
 ) {
     val state by vm.state.collectAsState()
     val isRefreshing by remember { mutableStateOf(false) }
@@ -90,7 +91,8 @@ fun ProjectScreen(
                         items(projects) { project ->
                             SingleProject(
                                 project = project,
-                                onAction = vm::onAction,
+                                vm = vm,
+                                stateId = stateId,
                                 navController = navController
                             )
                         }
