@@ -92,6 +92,10 @@ fun ProfileContent(
                 shape = (AppTheme.roundings.large),
                 onClick = {
                     vm.onAction(ProfileViewAction.ExitClicked)
+                    navController.navigate(NavigationItem.SignIn.route) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 })
         }
     }) { containerPadding ->

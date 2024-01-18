@@ -6,10 +6,12 @@ import androidx.room.Query
 
 @Dao
 interface ProfileDao {
-    @Query("SELECT * FROM profile_info")
-    fun getProfile(): ProfileInfo?
+    @Query("SELECT * FROM profile_info WHERE uid = 1")
+    suspend fun getProfile(): ProfileInfo?
+
     @Insert
-    fun insertProfile(profileInfo: ProfileInfo)
-    @Query("DELETE FROM profile_info")
-    fun deleteProfile()
+    suspend fun insertProfile(profileInfo: ProfileInfo)
+
+    @Query("DELETE FROM profile_info WHERE uid = 1")
+    suspend fun deleteProfile()
 }

@@ -1,6 +1,8 @@
 package ru.handh.school.igor.ui.screen.profile
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.handh.school.igor.domain.model.db.ProfileInfo
@@ -20,6 +21,7 @@ import ru.handh.school.igor.ui.theme.AppTheme
 
 val defalutSizeImage = 55.dp
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileInformation(
     profileInfo: ProfileInfo
@@ -34,13 +36,13 @@ fun ProfileInformation(
         )
         Column {
             Text(
-                text = profileInfo.surname!!,
+                text = requireNotNull(profileInfo.surname),
                 style = AppTheme.textStyles.maxMediumText,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.basicMarquee()
             )
             Text(
-                text = profileInfo.name!!,
+                text = requireNotNull(profileInfo.name),
                 style = AppTheme.textStyles.normalRegularText,
             )
         }

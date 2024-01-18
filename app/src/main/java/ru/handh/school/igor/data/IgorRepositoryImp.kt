@@ -29,13 +29,12 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import ru.handh.school.igor.domain.model.PostRefreshRequest
 import ru.handh.school.igor.domain.model.PostSignInRequest
-import ru.handh.school.igor.domain.model.db.ProfileDao
 import ru.handh.school.igor.domain.model.getProfileResponse.GetProfileResponse
 import ru.handh.school.igor.domain.model.getProjectsResponse.GetProjectsResponse
 import ru.handh.school.igor.domain.model.getSessionResponse.GetTokenResponse
 
 class IgorRepositoryImp(
-    private val keyValueStorage: KeyValueStorage, private val profileDao: ProfileDao
+    private val keyValueStorage: KeyValueStorage
 ) : IgorRepository {
 
     private val client = HttpClient(OkHttp) {
@@ -119,26 +118,11 @@ class IgorRepositoryImp(
 
     override suspend fun signOut() {
         client.post(ApiRoutes.SIGNOUT)
-        profileDao.deleteProfile()
     }
 
     override suspend fun getProfile(): GetProfileResponse {
-        //val profileDb = profileDao.getProfile()
-        //Log.v("db =>", profileDb.toString())
-        //if (profile == null) {
-        val response = client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
-//            profileDao.insertProfile(
-//                ProfileInfo(
-//                    uid = 1,
-//                    name = requireNotNull(response.data?.profile?.name),
-//                    surname = requireNotNull(response.data?.profile?.surname)
-//                )
-//            )
-        return response
+        return client.get(ApiRoutes.PROFILE).body<GetProfileResponse>()
     }
-//    else
-//             return GetProfileResponse(Data(Profile(name = profile.name, surname = profile.surname)))
-//    }
 
     override suspend fun getProjects(): GetProjectsResponse {
         return client.get(ApiRoutes.PROJECTS).body<GetProjectsResponse>()
