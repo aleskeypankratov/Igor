@@ -10,11 +10,11 @@ class GetProjectDetailUseCase(
     suspend fun getProjectDetail(id: String): ResultProject {
         return try {
             val response = repository.getProjectDetail(id)
-            ResultProject.GotProjectDetail(response.data?.project!!)
+            ResultProject.GotProjectDetail(requireNotNull(response.data?.project))
         } catch (e: ServerResponseException) {
-            ResultProject.ServerError(e.toString())
+            ResultProject.ServerError(e.message)
         } catch (e: Exception) {
-            ResultProject.UnknownError(e.toString())
+            ResultProject.UnknownError("Что-то не работает")
         }
     }
 }

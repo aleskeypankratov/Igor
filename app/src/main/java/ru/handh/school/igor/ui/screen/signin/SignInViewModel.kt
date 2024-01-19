@@ -7,7 +7,6 @@ import ru.handh.school.igor.domain.usecase.SignInUseCase
 import ru.handh.school.igor.domain.usecase.result.ResultSignIn
 import ru.handh.school.igor.ui.base.BaseViewModel
 
-//
 class SignInViewModel(
     private val signInUseCase: SignInUseCase,
     private val getSessionUseCase: GetSessionUseCase
@@ -32,7 +31,6 @@ class SignInViewModel(
                 if (signInResult is ResultSignIn.LoggedIn) {
                     isPasswordGot = true
                 }
-
             } else {
                 val code = state.value.code
                 val getSession = getSessionUseCase.getSession(code)

@@ -39,6 +39,8 @@ import ru.handh.school.igor.domain.usecase.result.ResultProject
 import ru.handh.school.igor.ui.navigation.NavigationItem
 import ru.handh.school.igor.ui.theme.AppTheme
 
+val defaultCircularProgressIndicatorSize = 48.dp
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun ProjectScreen(
@@ -82,9 +84,6 @@ fun ProjectScreen(
                 .background(AppTheme.colors.background)
         ) {
             when (state.result) {
-                is ResultProject.Default -> {
-                }
-
                 is ResultProject.GotProject -> {
                     val projects = state.projects
                     LazyColumn {
@@ -103,30 +102,29 @@ fun ProjectScreen(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .size(48.dp),
+                            .size(defaultCircularProgressIndicatorSize),
                         color = Color.Blue,
                     )
                 }
 
                 is ResultProject.ServerError ->
                     ProjectError(
-                        error = (state.result as ResultProject.ServerError).toString(),
+                        error = (state.result as ResultProject.ServerError).error,
                         onAction = vm::onAction
                     )
 
                 is ResultProject.UnknownError ->
                     ProjectError(
-                        error = (state.result as ResultProject.UnknownError).toString(),
+                        error = (state.result as ResultProject.UnknownError).error,
                         onAction = vm::onAction
                     )
 
                 else -> {}
             }
             PullRefreshIndicator(
-                isRefreshing, swipeRefreshState, modifier = Modifier
-                    .align(
-                        Alignment.TopCenter
-                    )
+                modifier = Modifier.align(Alignment.TopCenter),
+                refreshing = isRefreshing,
+                state = swipeRefreshState
             )
         }
     }

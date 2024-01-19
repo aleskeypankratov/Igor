@@ -1,6 +1,5 @@
 package ru.handh.school.igor.ui.screen.profile
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.handh.school.igor.domain.model.db.ProfileDao
@@ -28,11 +27,8 @@ class ProfileViewModel(
     }
 
     private fun onGetProfile() {
-
-
         viewModelScope.launch {
             val profileDb = profileDao.getProfile()
-            Log.v("db =>", profileDb.toString())
             if (profileDb == null) {
                 when (val result = getProfileUseCase.getProfile()) {
                     is ResultProfile.GotProfile -> reduceState {

@@ -19,8 +19,6 @@ import ru.handh.school.igor.ui.screen.project.ProjectScreen
 import ru.handh.school.igor.ui.screen.project.ProjectViewModel
 import ru.handh.school.igor.ui.screen.signin.SignInScreen
 
-
-
 @Composable
 fun AppNavGraph(
     navController: NavHostController,

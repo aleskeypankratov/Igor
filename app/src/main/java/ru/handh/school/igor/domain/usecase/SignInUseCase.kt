@@ -13,7 +13,7 @@ class SignInUseCase(
 ) {
     suspend fun signIn(email: String): ResultSignIn {
         return try {
-            if (validEmail(email)) {
+            if (isEmailValid(email)) {
                 repository.signIn(requireNotNull(keyValueStorage.deviceId), PostSignInRequest(email))
                 ResultSignIn.LoggedIn
             } else {
@@ -26,7 +26,7 @@ class SignInUseCase(
         }
     }
 
-    private fun validEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    private fun isEmailValid(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }

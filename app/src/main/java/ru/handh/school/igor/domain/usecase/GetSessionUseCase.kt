@@ -1,6 +1,5 @@
 package ru.handh.school.igor.domain.usecase
 
-import android.util.Log
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import ru.handh.school.igor.data.IgorRepositoryImp
@@ -15,10 +14,10 @@ class GetSessionUseCase(
     private var lifeTime: Int = 300_000
     suspend fun getSession(code: String): ResultSignIn {
         return try {
-            val response = repository.getSession(requireNotNull(keyValueStorage.deviceId), code, lifeTime)
+            val response =
+                repository.getSession(requireNotNull(keyValueStorage.deviceId), code, lifeTime)
             keyValueStorage.accessToken = response.data?.session?.accessToken
             keyValueStorage.refreshToken = response.data?.session?.refreshToken
-            Log.d("token","${keyValueStorage.accessToken} \n ${keyValueStorage.refreshToken}")
             ResultSignIn.GotSession
         } catch (e: ClientRequestException) {
             ResultSignIn.InvalidCode

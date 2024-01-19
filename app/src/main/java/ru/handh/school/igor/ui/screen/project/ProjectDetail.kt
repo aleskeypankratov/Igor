@@ -1,9 +1,7 @@
 package ru.handh.school.igor.ui.screen.project
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,8 +20,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.ui.theme.AppTheme
 
@@ -43,7 +39,7 @@ fun ProjectDetailScreen(
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = vm.state.value.detailProject.name!!,
+                text = requireNotNull(vm.state.value.detailProject.name),
                 style = AppTheme.textStyles.titleText,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,14 +63,8 @@ fun ProjectDetailScreen(
                 .padding(AppTheme.offsets.medium)
         ) {
             Column {
-                Text(text = vm.state.value.detailProject.description!!)
+                Text(text = requireNotNull(vm.state.value.detailProject.description))
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewDetailProject() {
-    //ProjectDetailScreen()
 }

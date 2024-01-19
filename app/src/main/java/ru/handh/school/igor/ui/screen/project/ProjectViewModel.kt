@@ -1,7 +1,5 @@
 package ru.handh.school.igor.ui.screen.project
 
-import Project
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +13,6 @@ class ProjectViewModel(
     private val getProjectUseCase: GetProjectUseCase,
     private val getProjectDetailUseCase: GetProjectDetailUseCase,
 ) : BaseViewModel<ProjectState, ProjectViewAction>(InitialProjectState) {
-
 
     private val _stateId = MutableStateFlow("")
     val stateId = _stateId.asStateFlow()
@@ -37,7 +34,7 @@ class ProjectViewModel(
             when (val response = getProjectUseCase.getProject()) {
                 is ResultProject.GotProject -> reduceState {
                     it.copy(
-                        projects = response.getProjectsResponse.data?.projects!!,
+                        projects = requireNotNull(response.getProjectsResponse.data?.projects),
                         result = response
                     )
                 }
@@ -51,19 +48,11 @@ class ProjectViewModel(
         viewModelScope.launch {
             when (val response = getProjectDetailUseCase.getProjectDetail(id)) {
                 is ResultProject.GotProjectDetail -> reduceState {
-                    it.copy(
-                        detailProject = response.getProjectDetailResponse
-                    )
+                    it.copy(detailProject = response.getProjectDetailResponse)
                 }
-                else -> {
-                    reduceState {
-                        it.copy(
-                            detailProject = Project("Error", "Error", "11")
-                        )
-                    }
-                }
+
+                else -> {}
             }
-            Log.v("vm", state.value.detailProject.toString())
         }
     }
 }

@@ -61,7 +61,7 @@ val appModule = module {
         SignInViewModel(get(), get())
     }
     viewModel {
-        ProfileViewModel(get(), get(),get())
+        ProfileViewModel(get(), get(), get())
     }
     viewModel {
         ProjectViewModel(get(), get())

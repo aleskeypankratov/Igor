@@ -1,7 +1,5 @@
 package ru.handh.school.igor.ui.screen.project
 
-import Project
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,9 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import ru.handh.school.igor.domain.model.getProjectsResponse.Projects
 import ru.handh.school.igor.ui.navigation.NavigationItem
@@ -37,12 +33,11 @@ fun SingleProject(
     navController: NavHostController,
     vm: ProjectViewModel,
     stateId: String
-    //onAction: (ProjectViewAction) -> Unit = {},
 ) {
     val name = project.name
     val description = project.description
     val id = project.id
-    val firstLetter = name?.get(0)?.uppercase()?:"P"
+    val firstLetter = name?.get(0)?.uppercase() ?: "P"
 
     Row(
         verticalAlignment = Alignment.Top,
@@ -51,8 +46,7 @@ fun SingleProject(
             .defaultMinSize(minHeight = defaultMinSizeOfProject)
             .fillMaxWidth()
             .clickable {
-                vm.setId(id!!)
-                Log.v("SingleProject ID", "vm.state = ${vm.stateId.value} state = $stateId")
+                vm.setId(requireNotNull(id))
                 navController.navigate(NavigationItem.ProjectDetail.route)
             }
     ) {
@@ -64,14 +58,14 @@ fun SingleProject(
         }
         Column {
             Text(
-                text = name?:"",
+                text = name ?: "",
                 style = AppTheme.textStyles.mediumRegularText,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = AppTheme.colors.projectName
             )
             Text(
-                text = description?:"",
+                text = description ?: "",
                 style = AppTheme.textStyles.smallRegularText,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -104,9 +98,4 @@ fun generateRandomColor(): Color {
         Random.nextFloat(),
         Random.nextFloat(),
     )
-}
-
-@Preview
-@Composable
-fun Preview() {
 }
